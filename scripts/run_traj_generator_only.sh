@@ -1,4 +1,4 @@
-python3 train.py \
+python3 train_generator_only.py \
   --dataset_name 'zara1' \
   --delim tab \
   --d_type 'local' \
@@ -27,8 +27,7 @@ python3 train.py \
   --num_iterations 20000 \
   --num_epochs 500 \
   --pooling_type 'pool_net' \
-  --clipping_threshold_g 1.5 \
   --best_k 10 \
   --gpu_num 0 \
-  --checkpoint_name gan_test \
+  --checkpoint_name gan_test_generator_only_remove_disc \
   --restore_from_checkpoint 1
