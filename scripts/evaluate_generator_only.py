@@ -1,6 +1,7 @@
 import argparse
 import os
 import torch
+import pickle
 
 from attrdict import AttrDict
 
@@ -56,6 +57,7 @@ def evaluate_helper(error, seq_start_end):
 
 
 def evaluate(args, loader, generator, num_samples):
+    trajs = []
     ade_outer, fde_outer = [], []
     total_traj = 0
     with torch.no_grad():
@@ -74,6 +76,7 @@ def evaluate(args, loader, generator, num_samples):
                 pred_traj_fake = relative_to_abs(
                     pred_traj_fake_rel, obs_traj[-1]
                 )
+                trajs.append([pred_traj_fake, pred_traj_gt])
                 ade.append(displacement_error(
                     pred_traj_fake, pred_traj_gt, mode='raw'
                 ))
@@ -88,7 +91,7 @@ def evaluate(args, loader, generator, num_samples):
             fde_outer.append(fde_sum)
         ade = sum(ade_outer) / (total_traj * args.pred_len)
         fde = sum(fde_outer) / (total_traj)
-        return ade, fde
+        return ade, fde, trajs
 
 
 def main(args):
@@ -107,9 +110,13 @@ def main(args):
         _args = AttrDict(checkpoint['args'])
         path = get_dset_path(_args.dataset_name, args.dset_type)
         _, loader = data_loader(_args, path)
-        ade, fde = evaluate(_args, loader, generator, args.num_samples)
+        ade, fde, trajs = evaluate(_args, loader, generator, args.num_samples)
         print('Dataset: {}, Pred Len: {}, ADE: {:.2f}, FDE: {:.2f}'.format(
             _args.dataset_name, _args.pred_len, ade, fde))
+        with open(_args.dataset_name + "_" + args.dset_type + "_trajs.pkl", 'wb') as f:
+            pickle.dump(trajs, f)
+        print ("trajs dumped at ", _args.dataset_name + "_" + args.dset_type + "_trajs.pkl")
+
 
 
 if __name__ == '__main__':
