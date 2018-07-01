@@ -138,7 +138,7 @@ class Encoder(nn.Module):
         self.conv3 = Conv1d(int(h_dim/2), int(h_dim/2), 3, padding=0,dropout=0)
 
         self.spatial_embedding = nn.Linear(2, embedding_dim)
-        self.hidden2pos = nn.Linear(h_dim, 2)
+        self.hidden2pos = nn.Linear(h_dim*2, 2)
         self.relu = nn.ReLU()
 
     def init_hidden(self, batch):
@@ -180,7 +180,14 @@ class Encoder(nn.Module):
             state = self.relu(self.conv3(state))
             # state = state+ state2
             # print (state.shape)
-            rel_pos = self.hidden2pos(state.view(-1, self.h_dim))
+            state = state.view(-1, self.h_dim)
+            new_l = torch.zeros(batch, self.h_dim).cuda()
+            for _, (start, end) in enumerate(seq_start_end):
+                start = start.item()
+                end = end.item()
+                new_l[start:end] = torch.max(state[start:end], 0)[0]
+            state = torch.cat((state,new_l), 1)
+            rel_pos = self.hidden2pos(state)
             curr_pos = rel_pos + last_pos
 
             embedding_input = rel_pos
