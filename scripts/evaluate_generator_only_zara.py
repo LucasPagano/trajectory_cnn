@@ -109,6 +109,7 @@ def main(args):
         checkpoint = torch.load(path)
         generator = get_generator(checkpoint)
         _args = AttrDict(checkpoint['args'])
+        _args.dataset_name = 'zara1'
         path = get_dset_path(_args.dataset_name, args.dset_type)
         _, loader = data_loader(_args, path)
         ade, fde, trajs = evaluate(_args, loader, generator, args.num_samples)
