@@ -1,5 +1,5 @@
 python3 train_generator_only.py \
-  --dataset_name 'zara1' \
+  --dataset_name 'eth' \
   --delim tab \
   --d_type 'local' \
   --pred_len 8 \
@@ -29,5 +29,5 @@ python3 train_generator_only.py \
   --pooling_type 'pool_net' \
   --best_k 10 \
   --gpu_num 0 \
-  --checkpoint_name gan_test_generator_only_remove_disc_z1 \
-  --restore_from_checkpoint 1
+  --checkpoint_name gan_test_generator_only_remove_disc_eth \
+  --restore_from_checkpoint 0
