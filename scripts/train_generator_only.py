@@ -12,10 +12,10 @@ import torch.nn as nn
 import torch.optim as optim
 
 from sgan.data.loader import data_loader
-from sgan.losses import gan_g_loss, gan_d_loss, l2_loss
+from sgan.losses import l2_loss
 from sgan.losses import displacement_error, final_displacement_error
 
-from sgan.model_generator_only import TrajectoryGenerator, TrajectoryDiscriminator
+from sgan.model_generator_only import TrajectoryGenerator
 from sgan.utils import int_tuple, bool_flag, get_total_norm
 from sgan.utils import relative_to_abs, get_dset_path
 
@@ -29,7 +29,7 @@ logger = logging.getLogger(__name__)
 # Dataset options
 parser.add_argument('--dataset_name', default='zara1', type=str)
 parser.add_argument('--delim', default=' ')
-parser.add_argument('--loader_num_workers', default=4, type=int)
+parser.add_argument('--loader_num_workers', default=6, type=int)
 parser.add_argument('--obs_len', default=8, type=int)
 parser.add_argument('--pred_len', default=8, type=int)
 parser.add_argument('--skip', default=1, type=int)
@@ -43,40 +43,16 @@ parser.add_argument('--num_epochs', default=200, type=int)
 parser.add_argument('--embedding_dim', default=64, type=int)
 parser.add_argument('--num_layers', default=1, type=int)
 parser.add_argument('--dropout', default=0, type=float)
-parser.add_argument('--batch_norm', default=0, type=bool_flag)
-parser.add_argument('--mlp_dim', default=1024, type=int)
+# parser.add_argument('--batch_norm', default=0, type=bool_flag)
+# parser.add_argument('--mlp_dim', default=1024, type=int)
 
 # Generator Options
 parser.add_argument('--encoder_h_dim_g', default=64, type=int)
-parser.add_argument('--decoder_h_dim_g', default=128, type=int)
-parser.add_argument('--noise_dim', default=None, type=int_tuple)
-parser.add_argument('--noise_type', default='gaussian')
-parser.add_argument('--noise_mix_type', default='ped')
-parser.add_argument('--clipping_threshold_g', default=0, type=float)
+
 parser.add_argument('--g_learning_rate', default=5e-4, type=float)
-parser.add_argument('--g_steps', default=1, type=int)
-
-# Pooling Options
-parser.add_argument('--pooling_type', default='pool_net')
-parser.add_argument('--pool_every_timestep', default=1, type=bool_flag)
-
-# Pool Net Option
-parser.add_argument('--bottleneck_dim', default=1024, type=int)
-
-# Social Pooling Options
-parser.add_argument('--neighborhood_size', default=2.0, type=float)
-parser.add_argument('--grid_size', default=8, type=int)
-
-# Discriminator Options
-parser.add_argument('--d_type', default='local', type=str)
-parser.add_argument('--encoder_h_dim_d', default=64, type=int)
-parser.add_argument('--d_learning_rate', default=5e-4, type=float)
-parser.add_argument('--d_steps', default=2, type=int)
-parser.add_argument('--clipping_threshold_d', default=0, type=float)
 
 # Loss Options
 parser.add_argument('--l2_loss_weight', default=0, type=float)
-parser.add_argument('--best_k', default=1, type=int)
 
 # Output
 parser.add_argument('--output_dir', default=os.getcwd())
@@ -89,7 +65,6 @@ parser.add_argument('--num_samples_check', default=5000, type=int)
 
 # Misc
 parser.add_argument('--use_gpu', default=1, type=int)
-parser.add_argument('--timing', default=0, type=int)
 parser.add_argument('--gpu_num', default="0", type=str)
 
 
@@ -120,9 +95,8 @@ def main(args):
     logger.info("Initializing val dataset")
     _, val_loader = data_loader(args, val_path)
 
-    iterations_per_epoch = len(train_dset) / args.batch_size / args.d_steps
-    if args.num_epochs:
-        args.num_iterations = int(iterations_per_epoch * args.num_epochs)
+    iterations_per_epoch = len(train_dset) / args.batch_size
+    args.num_iterations = int(iterations_per_epoch * args.num_epochs)
 
     logger.info(
         'There are {} iterations per epoch'.format(iterations_per_epoch)
@@ -133,26 +107,13 @@ def main(args):
         pred_len=args.pred_len,
         embedding_dim=args.embedding_dim,
         encoder_h_dim=args.encoder_h_dim_g,
-        decoder_h_dim=args.decoder_h_dim_g,
-        mlp_dim=args.mlp_dim,
         num_layers=args.num_layers,
-        noise_dim=(0,),
-        noise_type=args.noise_type,
-        noise_mix_type=args.noise_mix_type,
-        pooling_type=None,
-        pool_every_timestep=args.pool_every_timestep,
-        dropout=args.dropout,
-        bottleneck_dim=args.bottleneck_dim,
-        neighborhood_size=args.neighborhood_size,
-        grid_size=args.grid_size,
-        batch_norm=args.batch_norm)
+        dropout=args.dropout)
 
     generator.apply(init_weights)
     generator.type(float_dtype).train()
     logger.info('Here is the generator:')
     logger.info(generator)
-
-    g_loss_fn = gan_g_loss
 
     optimizer_g = optim.Adam(generator.parameters(), lr=args.g_learning_rate)
 
@@ -178,14 +139,12 @@ def main(args):
         checkpoint = {
             'args': args.__dict__,
             'G_losses': defaultdict(list),
-            'D_losses': defaultdict(list),
             'losses_ts': [],
             'metrics_val': defaultdict(list),
             'metrics_train': defaultdict(list),
             'sample_ts': [],
             'restore_ts': [],
             'norm_g': [],
-            'norm_d': [],
             'counters': {
                 't': None,
                 'epoch': None,
@@ -200,39 +159,16 @@ def main(args):
     t0 = None
     while t < args.num_iterations:
         gc.collect()
-        g_steps_left = args.g_steps
+        
         epoch += 1
         logger.info('Starting epoch {}'.format(epoch))
         for batch in train_loader:
-            if args.timing == 1:
-                torch.cuda.synchronize()
-                t1 = time.time()
             
-            if g_steps_left > 0:
-                step_type = 'g'
-                losses_g = generator_step(args, batch, generator,
-                                          g_loss_fn,
-                                          optimizer_g)
-                checkpoint['norm_g'].append(
-                    get_total_norm(generator.parameters())
-                )
-                g_steps_left -= 1
-
-            if args.timing == 1:
-                torch.cuda.synchronize()
-                t2 = time.time()
-                logger.info('{} step took {}'.format(step_type, t2 - t1))
-
-            # Skip the rest if we are not at the end of an iteration
-            if g_steps_left > 0:
-                continue
-
-            if args.timing == 1:
-                if t0 is not None:
-                    logger.info('Interation {} took {}'.format(
-                        t - 1, time.time() - t0
-                    ))
-                t0 = time.time()
+            losses_g = generator_step(args, batch, generator,
+                                      optimizer_g)
+            checkpoint['norm_g'].append(
+                get_total_norm(generator.parameters())
+            )
 
             # Maybe save loss
             if t % args.print_every == 0:
@@ -311,7 +247,6 @@ def main(args):
                 logger.info('Done.')
 
             t += 1
-            g_steps_left = args.g_steps
             if t >= args.num_iterations:
                 break
 
@@ -319,7 +254,7 @@ def main(args):
 
 
 def generator_step(
-    args, batch, generator, g_loss_fn, optimizer_g
+    args, batch, generator, optimizer_g
 ):
     batch = [tensor.cuda() for tensor in batch]
     (obs_traj, pred_traj_gt, obs_traj_rel, pred_traj_gt_rel, non_linear_ped,
@@ -330,18 +265,17 @@ def generator_step(
 
     loss_mask = loss_mask[:, args.obs_len:]
 
-    for _ in range(args.best_k):
-        generator_out = generator(obs_traj, obs_traj_rel, seq_start_end)
 
-        pred_traj_fake_rel = generator_out
-        pred_traj_fake = relative_to_abs(pred_traj_fake_rel, obs_traj[-1])
+    pred_traj_fake_rel = generator(obs_traj, obs_traj_rel, seq_start_end)
 
-        if args.l2_loss_weight > 0:
-            g_l2_loss_rel.append(args.l2_loss_weight * l2_loss(
-                pred_traj_fake_rel,
-                pred_traj_gt_rel,
-                loss_mask,
-                mode='raw'))
+    pred_traj_fake = relative_to_abs(pred_traj_fake_rel, obs_traj[-1])
+
+    if args.l2_loss_weight > 0:
+        g_l2_loss_rel.append(args.l2_loss_weight * l2_loss(
+            pred_traj_fake_rel,
+            pred_traj_gt_rel,
+            loss_mask,
+            mode='raw'))
 
     g_l2_loss_sum_rel = torch.zeros(1).to(pred_traj_gt)
     if args.l2_loss_weight > 0:
@@ -357,10 +291,6 @@ def generator_step(
 
     optimizer_g.zero_grad()
     loss.backward()
-    if args.clipping_threshold_g > 0:
-        nn.utils.clip_grad_norm_(
-            generator.parameters(), args.clipping_threshold_g
-        )
     optimizer_g.step()
 
     return losses
@@ -482,5 +412,4 @@ def cal_fde(
 
 if __name__ == '__main__':
     args = parser.parse_args()
-    torch.cuda.empty_cache()
     main(args)
