@@ -2,7 +2,7 @@ import torch
 import torch.nn as nn
 
 import torch.nn.functional as F
-
+import math
 
 def Conv1d(in_channels, out_channels, kernel_size, padding, dropout=0):
     m = nn.Conv1d(in_channels, out_channels, kernel_size, padding=padding)
@@ -27,11 +27,11 @@ class Encoder(nn.Module):
         self.dropout = dropout
         self.convs = nn.ModuleList()
         #self.kernel_size = kernel_size # TODO
-        self.pad = self.kernel_size - 1
+        # self.pad = self.kernel_size - 1
         if (num_layers == 3):
-            self.convs.append(Conv1d(embedding_dim, embedding_dim, 3,  padding=2,dropout= 0)) # out = 8-3+1 = 6
-            self.convs.append(Conv1d(embedding_dim, embedding_dim, 3,  padding=2,dropout= 0)) # out = 6-3+1 = 4
-            self.convs.append(Conv1d(embedding_dim, embedding_dim, 3,  padding=2,dropout= 0)) # out = 4-3+1 = 2
+            self.convs.append(Conv1d(embedding_dim, embedding_dim, 3,  padding=1,dropout= 0)) # out = 8-3+1 = 6
+            self.convs.append(Conv1d(embedding_dim, embedding_dim, 3,  padding=1,dropout= 0)) # out = 6-3+1 = 4
+            self.convs.append(Conv1d(embedding_dim, embedding_dim, 3,  padding=1,dropout= 0)) # out = 4-3+1 = 2
         self.spatial_embedding = nn.Linear(2, embedding_dim)
         self.hidden2pos = nn.Linear(embedding_dim*8, 2)
         self.relu = nn.ReLU()
@@ -62,7 +62,7 @@ class Encoder(nn.Module):
                 else:
                     state = self.relu(conv(state))
 
-            rel_pos = self.hidden2pos(state.view(-1, self.h_dim))
+            rel_pos = self.hidden2pos(state.view(batch, -1))
             curr_pos = rel_pos + last_pos
             rel_pos_embedding = self.spatial_embedding(rel_pos)
             

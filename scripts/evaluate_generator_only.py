@@ -23,19 +23,8 @@ def get_generator(checkpoint):
         pred_len=args.pred_len,
         embedding_dim=args.embedding_dim,
         encoder_h_dim=args.encoder_h_dim_g,
-        decoder_h_dim=args.decoder_h_dim_g,
-        mlp_dim=args.mlp_dim,
         num_layers=args.num_layers,
-        noise_dim=(0,),
-        noise_type=args.noise_type,
-        noise_mix_type=args.noise_mix_type,
-        pooling_type=None,
-        pool_every_timestep=args.pool_every_timestep,
-        dropout=args.dropout,
-        bottleneck_dim=args.bottleneck_dim,
-        neighborhood_size=args.neighborhood_size,
-        grid_size=args.grid_size,
-        batch_norm=args.batch_norm)
+        dropout=args.dropout)
     generator.load_state_dict(checkpoint['g_state'])
     generator.cuda()
     generator.train()
@@ -114,7 +103,7 @@ def main(args):
         ade, fde, trajs = evaluate(_args, loader, generator, args.num_samples)
         print('Dataset: {}, Pred Len: {}, ADE: {:.2f}, FDE: {:.2f}'.format(
             _args.dataset_name, _args.pred_len, ade, fde))
-        with open(_args.dataset_name + "_" + args.dset_type + "_trajs.pkl", 'wb') as f:
+        with open("trajs_dumped/" + _args.dataset_name + "_" + args.dset_type + "_trajs.pkl", 'wb') as f:
             pickle.dump(trajs, f)
         print ("trajs dumped at ", _args.dataset_name + "_" + args.dset_type + "_trajs.pkl")
 
