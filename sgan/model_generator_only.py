@@ -33,7 +33,7 @@ class Encoder(nn.Module):
             self.convs.append(Conv1d(embedding_dim, embedding_dim, 3,  padding=1,dropout= 0)) # out = 6-3+1 = 4
             self.convs.append(Conv1d(embedding_dim, embedding_dim, 3,  padding=1,dropout= 0)) # out = 4-3+1 = 2
         self.spatial_embedding = nn.Linear(2, embedding_dim)
-        self.hidden2pos = nn.Linear(embedding_dim*8, 2)
+        self.hidden2pos = nn.Linear(embedding_dim*8, 2*8) #TODO change with seq_len
         self.relu = nn.ReLU()
 
     def forward(self, obs_traj, last_pos, last_pos_rel, seq_start_end, seq_len):
@@ -53,28 +53,29 @@ class Encoder(nn.Module):
              -1, batch, self.embedding_dim
         ).permute(1,2,0)
 
-        pred_traj_fake_rel = []
-        for _ in range(seq_len):
+        # pred_traj_fake_rel = []
+        # for _ in range(seq_len):
 
-            for i, conv in enumerate(self.convs):
-                if (i == 0):
-                    state = self.relu(conv(obs_traj_embedding))
-                else:
-                    state = self.relu(conv(state))
+        for i, conv in enumerate(self.convs):
+            if (i == 0):
+                state = self.relu(conv(obs_traj_embedding))
+            else:
+                state = self.relu(conv(state))
 
-            rel_pos = self.hidden2pos(state.view(batch, -1))
-            curr_pos = rel_pos + last_pos
-            rel_pos_embedding = self.spatial_embedding(rel_pos)
+        rel_pos = self.hidden2pos(state.view(batch, -1))
+        rel_pos = rel_pos.reshape(batch, 8, 2).permute(1,0,2)
+            # curr_pos = rel_pos + last_pos
+            # rel_pos_embedding = self.spatial_embedding(rel_pos)
             
-            obs_traj_embedding = obs_traj_embedding.permute(2,0,1)
-            obs_traj_embedding = torch.cat((obs_traj_embedding[1:], rel_pos_embedding.reshape(1, batch, self.embedding_dim)))
-            obs_traj_embedding = obs_traj_embedding.permute(1,2,0)
+            # obs_traj_embedding = obs_traj_embedding.permute(2,0,1)
+            # obs_traj_embedding = torch.cat((obs_traj_embedding[1:], rel_pos_embedding.reshape(1, batch, self.embedding_dim)))
+            # obs_traj_embedding = obs_traj_embedding.permute(1,2,0)
 
-            pred_traj_fake_rel.append(rel_pos.view(batch, -1))
-            last_pos = curr_pos
+        # pred_traj_fake_rel.append(rel_pos.view(batch, -1))
+        #     last_pos = curr_pos
 
-        pred_traj_fake_rel = torch.stack(pred_traj_fake_rel, dim=0)
-        return pred_traj_fake_rel
+        # pred_traj_fake_rel = torch.stack(pred_traj_fake_rel, dim=0)
+        return rel_pos
 
 # TODO batch_norm
 class TrajectoryGenerator(nn.Module):

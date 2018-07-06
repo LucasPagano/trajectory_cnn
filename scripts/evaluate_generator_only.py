@@ -25,7 +25,7 @@ def get_generator(checkpoint):
         encoder_h_dim=args.encoder_h_dim_g,
         num_layers=args.num_layers,
         dropout=args.dropout)
-    generator.load_state_dict(checkpoint['g_state'])
+    generator.load_state_dict(checkpoint['g_best_state'])
     generator.cuda()
     generator.train()
     return generator
