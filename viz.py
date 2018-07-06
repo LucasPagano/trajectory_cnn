@@ -1,5 +1,5 @@
 import pickle
-with open(r"zara1_test_trajs.pkl", "rb") as input_file:
+with open(r"hotel_test_trajs.pkl", "rb") as input_file:
     data = pickle.load(input_file)
 
 
@@ -21,6 +21,6 @@ def plot_person(start, end):
     plt.plot(x_g,y_g,color='g', linestyle='solid', marker='o')
     plt.plot([x[-1], x_p[0]],[y[-1], y_p[0]],color='c', linestyle='solid', marker='o')
     plt.plot([x[-1], x_g[0]],[y[-1], y_g[0]],color='c', linestyle='solid', marker='o')
-    plt.xlim(-1, 15)
-    plt.ylim(-1, 15)
+    plt.xlim(-15, 15)
+    plt.ylim(-15, 15)
     plt.show()

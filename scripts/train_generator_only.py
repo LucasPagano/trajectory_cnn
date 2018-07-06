@@ -164,7 +164,7 @@ def main(args):
         for batch in train_loader:
             
             losses_g = generator_step(args, batch, generator,
-                                      optimizer_g)
+                                      optimizer_g, epoch)
             checkpoint['norm_g'].append(
                 get_total_norm(generator.parameters())
             )
@@ -189,11 +189,11 @@ def main(args):
                 # Check stats on the validation set
                 logger.info('Checking stats on val ...')
                 metrics_val = check_accuracy(
-                    args, val_loader, generator
+                    args, val_loader, generator, epoch
                 )
                 logger.info('Checking stats on train ...')
                 metrics_train = check_accuracy(
-                    args, train_loader, generator, limit=True
+                    args, train_loader, generator, epoch, limit=True
                 )
 
                 for k, v in sorted(metrics_val.items()):
@@ -253,7 +253,7 @@ def main(args):
 
 
 def generator_step(
-    args, batch, generator, optimizer_g
+    args, batch, generator, optimizer_g, epoch
 ):
     batch = [tensor.cuda() for tensor in batch]
     (obs_traj, pred_traj_gt, obs_traj_rel, pred_traj_gt_rel, non_linear_ped,
@@ -265,7 +265,7 @@ def generator_step(
     loss_mask = loss_mask[:, args.obs_len:]
 
 
-    pred_traj_fake_rel = generator(obs_traj, obs_traj_rel, seq_start_end)
+    pred_traj_fake_rel = generator(obs_traj, obs_traj_rel, seq_start_end, epoch)
 
     pred_traj_fake = relative_to_abs(pred_traj_fake_rel, obs_traj[-1])
 
@@ -296,7 +296,7 @@ def generator_step(
 
 
 def check_accuracy(
-    args, loader, generator, limit=False
+    args, loader, generator, epoch, limit=False
 ):
     d_losses = []
     metrics = {}
@@ -315,7 +315,7 @@ def check_accuracy(
             loss_mask = loss_mask[:, args.obs_len:]
 
             pred_traj_fake_rel = generator(
-                obs_traj, obs_traj_rel, seq_start_end
+                obs_traj, obs_traj_rel, seq_start_end, epoch
             )
             pred_traj_fake = relative_to_abs(pred_traj_fake_rel, obs_traj[-1])
 

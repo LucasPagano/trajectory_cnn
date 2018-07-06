@@ -25,7 +25,7 @@ def get_generator(checkpoint):
         encoder_h_dim=args.encoder_h_dim_g,
         num_layers=args.num_layers,
         dropout=args.dropout)
-    generator.load_state_dict(checkpoint['g_best_state'])
+    generator.load_state_dict(checkpoint['g_state'])
     generator.cuda()
     generator.train()
     return generator
@@ -60,7 +60,7 @@ def evaluate(args, loader, generator, num_samples):
 
             for _ in range(num_samples):
                 pred_traj_fake_rel = generator(
-                    obs_traj, obs_traj_rel, seq_start_end
+                    obs_traj, obs_traj_rel, seq_start_end, 100
                 )
                 pred_traj_fake = relative_to_abs(
                     pred_traj_fake_rel, obs_traj[-1]

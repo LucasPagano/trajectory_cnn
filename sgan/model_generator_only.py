@@ -4,6 +4,91 @@ import torch.nn as nn
 import torch.nn.functional as F
 import math
 
+
+def make_mlp(dim_list, activation='relu', batch_norm=True, dropout=0):
+    layers = []
+    for dim_in, dim_out in zip(dim_list[:-1], dim_list[1:]):
+        layers.append(nn.Linear(dim_in, dim_out))
+        if batch_norm:
+            layers.append(nn.BatchNorm1d(dim_out))
+        if activation == 'relu':
+            layers.append(nn.ReLU())
+        elif activation == 'leakyrelu':
+            layers.append(nn.LeakyReLU())
+        if dropout > 0:
+            layers.append(nn.Dropout(p=dropout))
+    return nn.Sequential(*layers)
+
+
+class PoolHiddenNet(nn.Module):
+    """Pooling module as proposed in our paper"""
+    def __init__(
+        self, embedding_dim=64, h_dim=64, mlp_dim=1024, bottleneck_dim=1024,
+        activation='relu', batch_norm=True, dropout=0.0
+    ):
+        super(PoolHiddenNet, self).__init__()
+
+        self.mlp_dim = 1024
+        self.h_dim = h_dim
+        self.bottleneck_dim = bottleneck_dim
+        self.embedding_dim = embedding_dim
+
+        mlp_pre_dim = embedding_dim + h_dim
+        mlp_pre_pool_dims = [mlp_pre_dim, 512, bottleneck_dim]
+
+        self.spatial_embedding = nn.Linear(2, embedding_dim)
+        self.mlp_pre_pool = make_mlp(
+            mlp_pre_pool_dims,
+            activation=activation,
+            batch_norm=batch_norm,
+            dropout=dropout)
+
+    def repeat(self, tensor, num_reps):
+        """
+        Inputs:
+        -tensor: 2D tensor of any shape
+        -num_reps: Number of times to repeat each row
+        Outpus:
+        -repeat_tensor: Repeat each row such that: R1, R1, R2, R2
+        """
+        col_len = tensor.size(1)
+        tensor = tensor.unsqueeze(dim=1).repeat(1, num_reps, 1)
+        tensor = tensor.view(-1, col_len)
+        return tensor
+
+    def forward(self, h_states, seq_start_end, end_pos):
+        """
+        Inputs:
+        - h_states: Tensor of shape (num_layers, batch, h_dim)
+        - seq_start_end: A list of tuples which delimit sequences within batch
+        - end_pos: Tensor of shape (batch, 2)
+        Output:
+        - pool_h: Tensor of shape (batch, bottleneck_dim)
+        """
+        pool_h = []
+        for _, (start, end) in enumerate(seq_start_end):
+            start = start.item()
+            end = end.item()
+            num_ped = end - start
+            curr_hidden = h_states.view(-1, self.h_dim)[start:end]
+            curr_end_pos = end_pos[start:end]
+            # Repeat -> H1, H2, H1, H2
+            curr_hidden_1 = curr_hidden.repeat(num_ped, 1)
+            # Repeat position -> P1, P2, P1, P2
+            curr_end_pos_1 = curr_end_pos.repeat(num_ped, 1)
+            # Repeat position -> P1, P1, P2, P2
+            curr_end_pos_2 = self.repeat(curr_end_pos, num_ped)
+            curr_rel_pos = curr_end_pos_1 - curr_end_pos_2
+            curr_rel_embedding = self.spatial_embedding(curr_rel_pos)
+            mlp_h_input = torch.cat([curr_rel_embedding, curr_hidden_1], dim=1)
+            curr_pool_h = self.mlp_pre_pool(mlp_h_input)
+            curr_pool_h = curr_pool_h.view(num_ped, num_ped, -1).max(1)[0]
+            pool_h.append(curr_pool_h)
+        pool_h = torch.cat(pool_h, dim=0)
+        return pool_h
+
+
+
 def Conv1d(in_channels, out_channels, kernel_size, padding, dropout=0):
     m = nn.Conv1d(in_channels, out_channels, kernel_size, padding=padding)
     std = math.sqrt((4 * (1.0 - dropout)) / (kernel_size * in_channels))
@@ -28,15 +113,21 @@ class Encoder(nn.Module):
         self.convs = nn.ModuleList()
         #self.kernel_size = kernel_size # TODO
         # self.pad = self.kernel_size - 1
-        if (num_layers == 3):
-            self.convs.append(Conv1d(embedding_dim, embedding_dim, 3,  padding=1,dropout= 0)) # out = 8-3+1 = 6
-            self.convs.append(Conv1d(embedding_dim, embedding_dim, 3,  padding=1,dropout= 0)) # out = 6-3+1 = 4
-            self.convs.append(Conv1d(embedding_dim, embedding_dim, 3,  padding=1,dropout= 0)) # out = 4-3+1 = 2
+        if (num_layers >= 2):
+            for i in range(num_layers):
+            	self.convs.append(Conv1d(embedding_dim, embedding_dim, 3,  padding=1,dropout= 0)) # out = 8-3+1 = 6
         self.spatial_embedding = nn.Linear(2, embedding_dim)
-        self.hidden2pos = nn.Linear(embedding_dim*8, 2*8) #TODO change with seq_len
+        self.hidden2pos = nn.Linear(embedding_dim*8 + 32, 2*8) #TODO change with seq_len
         self.relu = nn.ReLU()
+        self.pool_net = PoolHiddenNet(
+                embedding_dim=self.embedding_dim,
+                h_dim=embedding_dim*8,
+                mlp_dim=64,
+                bottleneck_dim=32,
+                activation='relu'
+            )
 
-    def forward(self, obs_traj, last_pos, last_pos_rel, seq_start_end, seq_len):
+    def forward(self, obs_traj, last_pos, last_pos_rel, seq_start_end, seq_len, epoch):
         """
         Inputs:
         - obs_traj: Tensor of shape (obs_len, batch, 2)
@@ -47,6 +138,7 @@ class Encoder(nn.Module):
         - pred_traj: tensor of shape (self.seq_len, batch, 2)
         """
         # Encode observed Trajectory
+        end_pos = obs_traj[-1, :, :]
         batch = obs_traj.size(1)
         obs_traj_embedding = self.spatial_embedding(obs_traj.view(-1, 2))
         obs_traj_embedding = obs_traj_embedding.view(
@@ -61,8 +153,14 @@ class Encoder(nn.Module):
                 state = self.relu(conv(obs_traj_embedding))
             else:
                 state = self.relu(conv(state))
-
-        rel_pos = self.hidden2pos(state.view(batch, -1))
+        state = state.view(batch, -1)
+        if (epoch > 49):
+        	pool_h = self.pool_net(state, seq_start_end, end_pos)
+        else:
+        	pool_h =  torch.zeros(batch, 32).cuda()
+        mlp_decoder_context_input = torch.cat(
+                [state, pool_h], dim=1)
+        rel_pos = self.hidden2pos(mlp_decoder_context_input)
         rel_pos = rel_pos.reshape(batch, 8, 2).permute(1,0,2)
             # curr_pos = rel_pos + last_pos
             # rel_pos_embedding = self.spatial_embedding(rel_pos)
@@ -100,7 +198,7 @@ class TrajectoryGenerator(nn.Module):
         input_dim = encoder_h_dim
 
  
-    def forward(self, obs_traj, obs_traj_rel, seq_start_end, user_noise=None):
+    def forward(self, obs_traj, obs_traj_rel, seq_start_end, epoch = 50, user_noise=None):
         """
         Inputs:
         - obs_traj: Tensor of shape (obs_len, batch, 2)
@@ -114,7 +212,7 @@ class TrajectoryGenerator(nn.Module):
         last_pos_rel = obs_traj_rel[-1]
         encoder_out = self.encoder(obs_traj_rel, last_pos,
             last_pos_rel,
-            seq_start_end, self.pred_len)
+            seq_start_end, self.pred_len, epoch)
         pred_traj_fake_rel = encoder_out
         return pred_traj_fake_rel
 
