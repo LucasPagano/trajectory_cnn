@@ -15,6 +15,8 @@ parser.add_argument('--model_path', type=str)
 parser.add_argument('--num_samples', default=20, type=int)
 parser.add_argument('--dset_type', default='test', type=str)
 
+import time
+import numpy as np
 
 def get_generator(checkpoint):
     args = AttrDict(checkpoint['args'])
@@ -25,7 +27,7 @@ def get_generator(checkpoint):
         encoder_h_dim=args.encoder_h_dim_g,
         num_layers=args.num_layers,
         dropout=args.dropout)
-    generator.load_state_dict(checkpoint['g_state'])
+    generator.load_state_dict(checkpoint['g_best_state'])
     generator.cuda()
     generator.train()
     return generator
@@ -49,6 +51,7 @@ def evaluate(args, loader, generator, num_samples):
     trajs = []
     ade_outer, fde_outer = [], []
     total_traj = 0
+    times = []
     with torch.no_grad():
         for batch in loader:
             batch = [tensor.cuda() for tensor in batch]
@@ -59,9 +62,12 @@ def evaluate(args, loader, generator, num_samples):
             total_traj += pred_traj_gt.size(1)
 
             for _ in range(num_samples):
+                start = time.time()
                 pred_traj_fake_rel = generator(
-                    obs_traj, obs_traj_rel, seq_start_end, 100
+                    obs_traj, obs_traj_rel, seq_start_end
                 )
+                end = time.time()
+                times.append(end-start)
                 pred_traj_fake = relative_to_abs(
                     pred_traj_fake_rel, obs_traj[-1]
                 )
@@ -81,7 +87,7 @@ def evaluate(args, loader, generator, num_samples):
             fde_outer.append(fde_sum)
         ade = sum(ade_outer) / (total_traj * args.pred_len)
         fde = sum(fde_outer) / (total_traj)
-        return ade, fde, trajs
+        return ade, fde, trajs, times
 
 
 def main(args):
@@ -100,7 +106,9 @@ def main(args):
         _args = AttrDict(checkpoint['args'])
         path = get_dset_path(_args.dataset_name, args.dset_type)
         _, loader = data_loader(_args, path)
-        ade, fde, trajs = evaluate(_args, loader, generator, args.num_samples)
+        ade, fde, trajs, times = evaluate(_args, loader, generator, args.num_samples)
+        
+        print (np.mean(times))
         print('Dataset: {}, Pred Len: {}, ADE: {:.2f}, FDE: {:.2f}'.format(
             _args.dataset_name, _args.pred_len, ade, fde))
         with open("trajs_dumped/" + _args.dataset_name + "_" + args.dset_type + "_trajs.pkl", 'wb') as f:

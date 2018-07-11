@@ -1,0 +1,2462 @@
+[INFO: train_generator_only.py:   92]: Initializing train dataset
+[INFO: train_generator_only.py:   94]: Initializing val dataset
+[INFO: train_generator_only.py:  101]: There are 66.0 iterations per epoch
+[INFO: train_generator_only.py:  114]: Here is the generator:
+[INFO: train_generator_only.py:  115]: TrajectoryGenerator(
+  (encoder): Encoder(
+    (convs): ModuleList(
+      (0): Conv1d(32, 32, kernel_size=(3,), stride=(1,), padding=(1,))
+      (1): Conv1d(32, 32, kernel_size=(3,), stride=(1,), padding=(1,))
+      (2): Conv1d(32, 32, kernel_size=(3,), stride=(1,), padding=(1,))
+      (3): Conv1d(32, 32, kernel_size=(3,), stride=(1,), padding=(1,))
+    )
+    (spatial_embedding): Linear(in_features=2, out_features=32, bias=True)
+    (hidden2pos): Linear(in_features=256, out_features=24, bias=True)
+    (relu): ReLU()
+  )
+)
+[INFO: train_generator_only.py:  163]: Starting epoch 1
+[INFO: train_generator_only.py:  174]: t = 1 / 3300
+[INFO: train_generator_only.py:  179]:   [G] G_l2_loss_rel: 461.342
+[INFO: train_generator_only.py:  163]: Starting epoch 2
+[INFO: train_generator_only.py:  190]: Checking stats on val ...
+[INFO: train_generator_only.py:  194]: Checking stats on train ...
+[INFO: train_generator_only.py:  200]:   [val] ade: 1.523
+[INFO: train_generator_only.py:  200]:   [val] ade_l: 9.546
+[INFO: train_generator_only.py:  200]:   [val] ade_nl: 1.813
+[INFO: train_generator_only.py:  200]:   [val] fde: 2.774
+[INFO: train_generator_only.py:  200]:   [val] fde_l: 17.381
+[INFO: train_generator_only.py:  200]:   [val] fde_nl: 3.301
+[INFO: train_generator_only.py:  200]:   [val] g_l2_loss_abs: 1.233
+[INFO: train_generator_only.py:  200]:   [val] g_l2_loss_rel: 1.233
+[INFO: train_generator_only.py:  203]:   [train] ade: 1.489
+[INFO: train_generator_only.py:  203]:   [train] ade_l: 8.215
+[INFO: train_generator_only.py:  203]:   [train] ade_nl: 1.819
+[INFO: train_generator_only.py:  203]:   [train] fde: 2.786
+[INFO: train_generator_only.py:  203]:   [train] fde_l: 15.364
+[INFO: train_generator_only.py:  203]:   [train] fde_nl: 3.403
+[INFO: train_generator_only.py:  203]:   [train] g_l2_loss_abs: 1.144
+[INFO: train_generator_only.py:  203]:   [train] g_l2_loss_rel: 1.144
+[INFO: train_generator_only.py:  210]: New low for avg_disp_error
+[INFO: train_generator_only.py:  216]: New low for avg_disp_error_nl
+[INFO: train_generator_only.py:  228]: Saving checkpoint to organized_cnn_models_multi/organized_cnn_zara2_4lay_12_with_model.pt
+[INFO: train_generator_only.py:  230]: Done.
+[INFO: train_generator_only.py:  236]: Saving checkpoint to organized_cnn_models_multi/organized_cnn_zara2_4lay_12_no_model.pt
+[INFO: train_generator_only.py:  246]: Done.
+[INFO: train_generator_only.py:  163]: Starting epoch 3
+[INFO: train_generator_only.py:  163]: Starting epoch 4
+[INFO: train_generator_only.py:  174]: t = 201 / 3300
+[INFO: train_generator_only.py:  179]:   [G] G_l2_loss_rel: 1.326
+[INFO: train_generator_only.py:  190]: Checking stats on val ...
+[INFO: train_generator_only.py:  194]: Checking stats on train ...
+[INFO: train_generator_only.py:  200]:   [val] ade: 1.312
+[INFO: train_generator_only.py:  200]:   [val] ade_l: 8.220
+[INFO: train_generator_only.py:  200]:   [val] ade_nl: 1.561
+[INFO: train_generator_only.py:  200]:   [val] fde: 2.481
+[INFO: train_generator_only.py:  200]:   [val] fde_l: 15.547
+[INFO: train_generator_only.py:  200]:   [val] fde_nl: 2.953
+[INFO: train_generator_only.py:  200]:   [val] g_l2_loss_abs: 0.992
+[INFO: train_generator_only.py:  200]:   [val] g_l2_loss_rel: 0.992
+[INFO: train_generator_only.py:  203]:   [train] ade: 1.351
+[INFO: train_generator_only.py:  203]:   [train] ade_l: 8.111
+[INFO: train_generator_only.py:  203]:   [train] ade_nl: 1.621
+[INFO: train_generator_only.py:  203]:   [train] fde: 2.587
+[INFO: train_generator_only.py:  203]:   [train] fde_l: 15.530
+[INFO: train_generator_only.py:  203]:   [train] fde_nl: 3.104
+[INFO: train_generator_only.py:  203]:   [train] g_l2_loss_abs: 1.000
+[INFO: train_generator_only.py:  203]:   [train] g_l2_loss_rel: 1.000
+[INFO: train_generator_only.py:  210]: New low for avg_disp_error
+[INFO: train_generator_only.py:  216]: New low for avg_disp_error_nl
+[INFO: train_generator_only.py:  228]: Saving checkpoint to organized_cnn_models_multi/organized_cnn_zara2_4lay_12_with_model.pt
+[INFO: train_generator_only.py:  230]: Done.
+[INFO: train_generator_only.py:  236]: Saving checkpoint to organized_cnn_models_multi/organized_cnn_zara2_4lay_12_no_model.pt
+[INFO: train_generator_only.py:  246]: Done.
+[INFO: train_generator_only.py:  163]: Starting epoch 5
+[INFO: train_generator_only.py:  190]: Checking stats on val ...
+[INFO: train_generator_only.py:  194]: Checking stats on train ...
+[INFO: train_generator_only.py:  200]:   [val] ade: 1.251
+[INFO: train_generator_only.py:  200]:   [val] ade_l: 7.840
+[INFO: train_generator_only.py:  200]:   [val] ade_nl: 1.489
+[INFO: train_generator_only.py:  200]:   [val] fde: 2.404
+[INFO: train_generator_only.py:  200]:   [val] fde_l: 15.064
+[INFO: train_generator_only.py:  200]:   [val] fde_nl: 2.861
+[INFO: train_generator_only.py:  200]:   [val] g_l2_loss_abs: 0.916
+[INFO: train_generator_only.py:  200]:   [val] g_l2_loss_rel: 0.916
+[INFO: train_generator_only.py:  203]:   [train] ade: 1.281
+[INFO: train_generator_only.py:  203]:   [train] ade_l: 7.539
+[INFO: train_generator_only.py:  203]:   [train] ade_nl: 1.544
+[INFO: train_generator_only.py:  203]:   [train] fde: 2.503
+[INFO: train_generator_only.py:  203]:   [train] fde_l: 14.729
+[INFO: train_generator_only.py:  203]:   [train] fde_nl: 3.016
+[INFO: train_generator_only.py:  203]:   [train] g_l2_loss_abs: 0.944
+[INFO: train_generator_only.py:  203]:   [train] g_l2_loss_rel: 0.944
+[INFO: train_generator_only.py:  210]: New low for avg_disp_error
+[INFO: train_generator_only.py:  216]: New low for avg_disp_error_nl
+[INFO: train_generator_only.py:  228]: Saving checkpoint to organized_cnn_models_multi/organized_cnn_zara2_4lay_12_with_model.pt
+[INFO: train_generator_only.py:  230]: Done.
+[INFO: train_generator_only.py:  236]: Saving checkpoint to organized_cnn_models_multi/organized_cnn_zara2_4lay_12_no_model.pt
+[INFO: train_generator_only.py:  246]: Done.
+[INFO: train_generator_only.py:  163]: Starting epoch 6
+[INFO: train_generator_only.py:  163]: Starting epoch 7
+[INFO: train_generator_only.py:  174]: t = 401 / 3300
+[INFO: train_generator_only.py:  179]:   [G] G_l2_loss_rel: 1.227
+[INFO: train_generator_only.py:  190]: Checking stats on val ...
+[INFO: train_generator_only.py:  194]: Checking stats on train ...
+[INFO: train_generator_only.py:  200]:   [val] ade: 1.215
+[INFO: train_generator_only.py:  200]:   [val] ade_l: 7.614
+[INFO: train_generator_only.py:  200]:   [val] ade_nl: 1.446
+[INFO: train_generator_only.py:  200]:   [val] fde: 2.380
+[INFO: train_generator_only.py:  200]:   [val] fde_l: 14.913
+[INFO: train_generator_only.py:  200]:   [val] fde_nl: 2.832
+[INFO: train_generator_only.py:  200]:   [val] g_l2_loss_abs: 0.857
+[INFO: train_generator_only.py:  200]:   [val] g_l2_loss_rel: 0.857
+[INFO: train_generator_only.py:  203]:   [train] ade: 1.238
+[INFO: train_generator_only.py:  203]:   [train] ade_l: 7.027
+[INFO: train_generator_only.py:  203]:   [train] ade_nl: 1.503
+[INFO: train_generator_only.py:  203]:   [train] fde: 2.457
+[INFO: train_generator_only.py:  203]:   [train] fde_l: 13.950
+[INFO: train_generator_only.py:  203]:   [train] fde_nl: 2.982
+[INFO: train_generator_only.py:  203]:   [train] g_l2_loss_abs: 0.872
+[INFO: train_generator_only.py:  203]:   [train] g_l2_loss_rel: 0.872
+[INFO: train_generator_only.py:  210]: New low for avg_disp_error
+[INFO: train_generator_only.py:  216]: New low for avg_disp_error_nl
+[INFO: train_generator_only.py:  228]: Saving checkpoint to organized_cnn_models_multi/organized_cnn_zara2_4lay_12_with_model.pt
+[INFO: train_generator_only.py:  230]: Done.
+[INFO: train_generator_only.py:  236]: Saving checkpoint to organized_cnn_models_multi/organized_cnn_zara2_4lay_12_no_model.pt
+[INFO: train_generator_only.py:  246]: Done.
+[INFO: train_generator_only.py:  163]: Starting epoch 8
+[INFO: train_generator_only.py:  190]: Checking stats on val ...
+[INFO: train_generator_only.py:  194]: Checking stats on train ...
+[INFO: train_generator_only.py:  200]:   [val] ade: 1.186
+[INFO: train_generator_only.py:  200]:   [val] ade_l: 7.434
+[INFO: train_generator_only.py:  200]:   [val] ade_nl: 1.412
+[INFO: train_generator_only.py:  200]:   [val] fde: 2.356
+[INFO: train_generator_only.py:  200]:   [val] fde_l: 14.761
+[INFO: train_generator_only.py:  200]:   [val] fde_nl: 2.803
+[INFO: train_generator_only.py:  200]:   [val] g_l2_loss_abs: 0.824
+[INFO: train_generator_only.py:  200]:   [val] g_l2_loss_rel: 0.824
+[INFO: train_generator_only.py:  203]:   [train] ade: 1.184
+[INFO: train_generator_only.py:  203]:   [train] ade_l: 6.694
+[INFO: train_generator_only.py:  203]:   [train] ade_nl: 1.438
+[INFO: train_generator_only.py:  203]:   [train] fde: 2.350
+[INFO: train_generator_only.py:  203]:   [train] fde_l: 13.287
+[INFO: train_generator_only.py:  203]:   [train] fde_nl: 2.855
+[INFO: train_generator_only.py:  203]:   [train] g_l2_loss_abs: 0.825
+[INFO: train_generator_only.py:  203]:   [train] g_l2_loss_rel: 0.825
+[INFO: train_generator_only.py:  210]: New low for avg_disp_error
+[INFO: train_generator_only.py:  216]: New low for avg_disp_error_nl
+[INFO: train_generator_only.py:  228]: Saving checkpoint to organized_cnn_models_multi/organized_cnn_zara2_4lay_12_with_model.pt
+[INFO: train_generator_only.py:  230]: Done.
+[INFO: train_generator_only.py:  236]: Saving checkpoint to organized_cnn_models_multi/organized_cnn_zara2_4lay_12_no_model.pt
+[INFO: train_generator_only.py:  246]: Done.
+[INFO: train_generator_only.py:  163]: Starting epoch 9
+[INFO: train_generator_only.py:  163]: Starting epoch 10
+[INFO: train_generator_only.py:  174]: t = 601 / 3300
+[INFO: train_generator_only.py:  179]:   [G] G_l2_loss_rel: 0.849
+[INFO: train_generator_only.py:  190]: Checking stats on val ...
+[INFO: train_generator_only.py:  194]: Checking stats on train ...
+[INFO: train_generator_only.py:  200]:   [val] ade: 1.163
+[INFO: train_generator_only.py:  200]:   [val] ade_l: 7.287
+[INFO: train_generator_only.py:  200]:   [val] ade_nl: 1.384
+[INFO: train_generator_only.py:  200]:   [val] fde: 2.316
+[INFO: train_generator_only.py:  200]:   [val] fde_l: 14.514
+[INFO: train_generator_only.py:  200]:   [val] fde_nl: 2.756
+[INFO: train_generator_only.py:  200]:   [val] g_l2_loss_abs: 0.787
+[INFO: train_generator_only.py:  200]:   [val] g_l2_loss_rel: 0.787
+[INFO: train_generator_only.py:  203]:   [train] ade: 1.134
+[INFO: train_generator_only.py:  203]:   [train] ade_l: 6.196
+[INFO: train_generator_only.py:  203]:   [train] ade_nl: 1.388
+[INFO: train_generator_only.py:  203]:   [train] fde: 2.284
+[INFO: train_generator_only.py:  203]:   [train] fde_l: 12.480
+[INFO: train_generator_only.py:  203]:   [train] fde_nl: 2.795
+[INFO: train_generator_only.py:  203]:   [train] g_l2_loss_abs: 0.748
+[INFO: train_generator_only.py:  203]:   [train] g_l2_loss_rel: 0.748
+[INFO: train_generator_only.py:  210]: New low for avg_disp_error
+[INFO: train_generator_only.py:  216]: New low for avg_disp_error_nl
+[INFO: train_generator_only.py:  228]: Saving checkpoint to organized_cnn_models_multi/organized_cnn_zara2_4lay_12_with_model.pt
+[INFO: train_generator_only.py:  230]: Done.
+[INFO: train_generator_only.py:  236]: Saving checkpoint to organized_cnn_models_multi/organized_cnn_zara2_4lay_12_no_model.pt
+[INFO: train_generator_only.py:  246]: Done.
+[INFO: train_generator_only.py:  163]: Starting epoch 11
+[INFO: train_generator_only.py:  190]: Checking stats on val ...
+[INFO: train_generator_only.py:  194]: Checking stats on train ...
+[INFO: train_generator_only.py:  200]:   [val] ade: 1.119
+[INFO: train_generator_only.py:  200]:   [val] ade_l: 7.010
+[INFO: train_generator_only.py:  200]:   [val] ade_nl: 1.331
+[INFO: train_generator_only.py:  200]:   [val] fde: 2.246
+[INFO: train_generator_only.py:  200]:   [val] fde_l: 14.074
+[INFO: train_generator_only.py:  200]:   [val] fde_nl: 2.673
+[INFO: train_generator_only.py:  200]:   [val] g_l2_loss_abs: 0.749
+[INFO: train_generator_only.py:  200]:   [val] g_l2_loss_rel: 0.749
+[INFO: train_generator_only.py:  203]:   [train] ade: 1.140
+[INFO: train_generator_only.py:  203]:   [train] ade_l: 6.774
+[INFO: train_generator_only.py:  203]:   [train] ade_nl: 1.371
+[INFO: train_generator_only.py:  203]:   [train] fde: 2.295
+[INFO: train_generator_only.py:  203]:   [train] fde_l: 13.632
+[INFO: train_generator_only.py:  203]:   [train] fde_nl: 2.760
+[INFO: train_generator_only.py:  203]:   [train] g_l2_loss_abs: 0.775
+[INFO: train_generator_only.py:  203]:   [train] g_l2_loss_rel: 0.775
+[INFO: train_generator_only.py:  210]: New low for avg_disp_error
+[INFO: train_generator_only.py:  216]: New low for avg_disp_error_nl
+[INFO: train_generator_only.py:  228]: Saving checkpoint to organized_cnn_models_multi/organized_cnn_zara2_4lay_12_with_model.pt
+[INFO: train_generator_only.py:  230]: Done.
+[INFO: train_generator_only.py:  236]: Saving checkpoint to organized_cnn_models_multi/organized_cnn_zara2_4lay_12_no_model.pt
+[INFO: train_generator_only.py:  246]: Done.
+[INFO: train_generator_only.py:  163]: Starting epoch 12
+[INFO: train_generator_only.py:  163]: Starting epoch 13
+[INFO: train_generator_only.py:  174]: t = 801 / 3300
+[INFO: train_generator_only.py:  179]:   [G] G_l2_loss_rel: 0.778
+[INFO: train_generator_only.py:  190]: Checking stats on val ...
+[INFO: train_generator_only.py:  194]: Checking stats on train ...
+[INFO: train_generator_only.py:  200]:   [val] ade: 1.102
+[INFO: train_generator_only.py:  200]:   [val] ade_l: 6.902
+[INFO: train_generator_only.py:  200]:   [val] ade_nl: 1.311
+[INFO: train_generator_only.py:  200]:   [val] fde: 2.219
+[INFO: train_generator_only.py:  200]:   [val] fde_l: 13.903
+[INFO: train_generator_only.py:  200]:   [val] fde_nl: 2.640
+[INFO: train_generator_only.py:  200]:   [val] g_l2_loss_abs: 0.723
+[INFO: train_generator_only.py:  200]:   [val] g_l2_loss_rel: 0.723
+[INFO: train_generator_only.py:  203]:   [train] ade: 1.106
+[INFO: train_generator_only.py:  203]:   [train] ade_l: 6.366
+[INFO: train_generator_only.py:  203]:   [train] ade_nl: 1.339
+[INFO: train_generator_only.py:  203]:   [train] fde: 2.259
+[INFO: train_generator_only.py:  203]:   [train] fde_l: 12.998
+[INFO: train_generator_only.py:  203]:   [train] fde_nl: 2.734
+[INFO: train_generator_only.py:  203]:   [train] g_l2_loss_abs: 0.738
+[INFO: train_generator_only.py:  203]:   [train] g_l2_loss_rel: 0.738
+[INFO: train_generator_only.py:  210]: New low for avg_disp_error
+[INFO: train_generator_only.py:  216]: New low for avg_disp_error_nl
+[INFO: train_generator_only.py:  228]: Saving checkpoint to organized_cnn_models_multi/organized_cnn_zara2_4lay_12_with_model.pt
+[INFO: train_generator_only.py:  230]: Done.
+[INFO: train_generator_only.py:  236]: Saving checkpoint to organized_cnn_models_multi/organized_cnn_zara2_4lay_12_no_model.pt
+[INFO: train_generator_only.py:  246]: Done.
+[INFO: train_generator_only.py:  163]: Starting epoch 14
+[INFO: train_generator_only.py:  190]: Checking stats on val ...
+[INFO: train_generator_only.py:  194]: Checking stats on train ...
+[INFO: train_generator_only.py:  200]:   [val] ade: 1.086
+[INFO: train_generator_only.py:  200]:   [val] ade_l: 6.807
+[INFO: train_generator_only.py:  200]:   [val] ade_nl: 1.293
+[INFO: train_generator_only.py:  200]:   [val] fde: 2.205
+[INFO: train_generator_only.py:  200]:   [val] fde_l: 13.815
+[INFO: train_generator_only.py:  200]:   [val] fde_nl: 2.624
+[INFO: train_generator_only.py:  200]:   [val] g_l2_loss_abs: 0.714
+[INFO: train_generator_only.py:  200]:   [val] g_l2_loss_rel: 0.714
+[INFO: train_generator_only.py:  203]:   [train] ade: 1.080
+[INFO: train_generator_only.py:  203]:   [train] ade_l: 6.136
+[INFO: train_generator_only.py:  203]:   [train] ade_nl: 1.310
+[INFO: train_generator_only.py:  203]:   [train] fde: 2.213
+[INFO: train_generator_only.py:  203]:   [train] fde_l: 12.577
+[INFO: train_generator_only.py:  203]:   [train] fde_nl: 2.686
+[INFO: train_generator_only.py:  203]:   [train] g_l2_loss_abs: 0.700
+[INFO: train_generator_only.py:  203]:   [train] g_l2_loss_rel: 0.700
+[INFO: train_generator_only.py:  210]: New low for avg_disp_error
+[INFO: train_generator_only.py:  216]: New low for avg_disp_error_nl
+[INFO: train_generator_only.py:  228]: Saving checkpoint to organized_cnn_models_multi/organized_cnn_zara2_4lay_12_with_model.pt
+[INFO: train_generator_only.py:  230]: Done.
+[INFO: train_generator_only.py:  236]: Saving checkpoint to organized_cnn_models_multi/organized_cnn_zara2_4lay_12_no_model.pt
+[INFO: train_generator_only.py:  246]: Done.
+[INFO: train_generator_only.py:  163]: Starting epoch 15
+[INFO: train_generator_only.py:  163]: Starting epoch 16
+[INFO: train_generator_only.py:  174]: t = 1001 / 3300
+[INFO: train_generator_only.py:  179]:   [G] G_l2_loss_rel: 0.691
+[INFO: train_generator_only.py:  190]: Checking stats on val ...
+[INFO: train_generator_only.py:  194]: Checking stats on train ...
+[INFO: train_generator_only.py:  200]:   [val] ade: 1.082
+[INFO: train_generator_only.py:  200]:   [val] ade_l: 6.781
+[INFO: train_generator_only.py:  200]:   [val] ade_nl: 1.288
+[INFO: train_generator_only.py:  200]:   [val] fde: 2.220
+[INFO: train_generator_only.py:  200]:   [val] fde_l: 13.911
+[INFO: train_generator_only.py:  200]:   [val] fde_nl: 2.642
+[INFO: train_generator_only.py:  200]:   [val] g_l2_loss_abs: 0.708
+[INFO: train_generator_only.py:  200]:   [val] g_l2_loss_rel: 0.708
+[INFO: train_generator_only.py:  203]:   [train] ade: 1.062
+[INFO: train_generator_only.py:  203]:   [train] ade_l: 6.303
+[INFO: train_generator_only.py:  203]:   [train] ade_nl: 1.277
+[INFO: train_generator_only.py:  203]:   [train] fde: 2.218
+[INFO: train_generator_only.py:  203]:   [train] fde_l: 13.163
+[INFO: train_generator_only.py:  203]:   [train] fde_nl: 2.668
+[INFO: train_generator_only.py:  203]:   [train] g_l2_loss_abs: 0.673
+[INFO: train_generator_only.py:  203]:   [train] g_l2_loss_rel: 0.673
+[INFO: train_generator_only.py:  210]: New low for avg_disp_error
+[INFO: train_generator_only.py:  216]: New low for avg_disp_error_nl
+[INFO: train_generator_only.py:  228]: Saving checkpoint to organized_cnn_models_multi/organized_cnn_zara2_4lay_12_with_model.pt
+[INFO: train_generator_only.py:  230]: Done.
+[INFO: train_generator_only.py:  236]: Saving checkpoint to organized_cnn_models_multi/organized_cnn_zara2_4lay_12_no_model.pt
+[INFO: train_generator_only.py:  246]: Done.
+[INFO: train_generator_only.py:  163]: Starting epoch 17
+[INFO: train_generator_only.py:  190]: Checking stats on val ...
+[INFO: train_generator_only.py:  194]: Checking stats on train ...
+[INFO: train_generator_only.py:  200]:   [val] ade: 1.085
+[INFO: train_generator_only.py:  200]:   [val] ade_l: 6.795
+[INFO: train_generator_only.py:  200]:   [val] ade_nl: 1.290
+[INFO: train_generator_only.py:  200]:   [val] fde: 2.232
+[INFO: train_generator_only.py:  200]:   [val] fde_l: 13.985
+[INFO: train_generator_only.py:  200]:   [val] fde_nl: 2.656
+[INFO: train_generator_only.py:  200]:   [val] g_l2_loss_abs: 0.700
+[INFO: train_generator_only.py:  200]:   [val] g_l2_loss_rel: 0.700
+[INFO: train_generator_only.py:  203]:   [train] ade: 1.054
+[INFO: train_generator_only.py:  203]:   [train] ade_l: 5.513
+[INFO: train_generator_only.py:  203]:   [train] ade_nl: 1.303
+[INFO: train_generator_only.py:  203]:   [train] fde: 2.187
+[INFO: train_generator_only.py:  203]:   [train] fde_l: 11.443
+[INFO: train_generator_only.py:  203]:   [train] fde_nl: 2.704
+[INFO: train_generator_only.py:  203]:   [train] g_l2_loss_abs: 0.665
+[INFO: train_generator_only.py:  203]:   [train] g_l2_loss_rel: 0.665
+[INFO: train_generator_only.py:  228]: Saving checkpoint to organized_cnn_models_multi/organized_cnn_zara2_4lay_12_with_model.pt
+[INFO: train_generator_only.py:  230]: Done.
+[INFO: train_generator_only.py:  236]: Saving checkpoint to organized_cnn_models_multi/organized_cnn_zara2_4lay_12_no_model.pt
+[INFO: train_generator_only.py:  246]: Done.
+[INFO: train_generator_only.py:  163]: Starting epoch 18
+[INFO: train_generator_only.py:  163]: Starting epoch 19
+[INFO: train_generator_only.py:  174]: t = 1201 / 3300
+[INFO: train_generator_only.py:  179]:   [G] G_l2_loss_rel: 0.779
+[INFO: train_generator_only.py:  190]: Checking stats on val ...
+[INFO: train_generator_only.py:  194]: Checking stats on train ...
+[INFO: train_generator_only.py:  200]:   [val] ade: 1.077
+[INFO: train_generator_only.py:  200]:   [val] ade_l: 6.746
+[INFO: train_generator_only.py:  200]:   [val] ade_nl: 1.281
+[INFO: train_generator_only.py:  200]:   [val] fde: 2.213
+[INFO: train_generator_only.py:  200]:   [val] fde_l: 13.868
+[INFO: train_generator_only.py:  200]:   [val] fde_nl: 2.634
+[INFO: train_generator_only.py:  200]:   [val] g_l2_loss_abs: 0.701
+[INFO: train_generator_only.py:  200]:   [val] g_l2_loss_rel: 0.701
+[INFO: train_generator_only.py:  203]:   [train] ade: 1.029
+[INFO: train_generator_only.py:  203]:   [train] ade_l: 5.735
+[INFO: train_generator_only.py:  203]:   [train] ade_nl: 1.254
+[INFO: train_generator_only.py:  203]:   [train] fde: 2.140
+[INFO: train_generator_only.py:  203]:   [train] fde_l: 11.929
+[INFO: train_generator_only.py:  203]:   [train] fde_nl: 2.608
+[INFO: train_generator_only.py:  203]:   [train] g_l2_loss_abs: 0.644
+[INFO: train_generator_only.py:  203]:   [train] g_l2_loss_rel: 0.644
+[INFO: train_generator_only.py:  210]: New low for avg_disp_error
+[INFO: train_generator_only.py:  216]: New low for avg_disp_error_nl
+[INFO: train_generator_only.py:  228]: Saving checkpoint to organized_cnn_models_multi/organized_cnn_zara2_4lay_12_with_model.pt
+[INFO: train_generator_only.py:  230]: Done.
+[INFO: train_generator_only.py:  236]: Saving checkpoint to organized_cnn_models_multi/organized_cnn_zara2_4lay_12_no_model.pt
+[INFO: train_generator_only.py:  246]: Done.
+[INFO: train_generator_only.py:  163]: Starting epoch 20
+[INFO: train_generator_only.py:  190]: Checking stats on val ...
+[INFO: train_generator_only.py:  194]: Checking stats on train ...
+[INFO: train_generator_only.py:  200]:   [val] ade: 1.058
+[INFO: train_generator_only.py:  200]:   [val] ade_l: 6.630
+[INFO: train_generator_only.py:  200]:   [val] ade_nl: 1.259
+[INFO: train_generator_only.py:  200]:   [val] fde: 2.169
+[INFO: train_generator_only.py:  200]:   [val] fde_l: 13.592
+[INFO: train_generator_only.py:  200]:   [val] fde_nl: 2.581
+[INFO: train_generator_only.py:  200]:   [val] g_l2_loss_abs: 0.680
+[INFO: train_generator_only.py:  200]:   [val] g_l2_loss_rel: 0.680
+[INFO: train_generator_only.py:  203]:   [train] ade: 1.052
+[INFO: train_generator_only.py:  203]:   [train] ade_l: 6.153
+[INFO: train_generator_only.py:  203]:   [train] ade_nl: 1.269
+[INFO: train_generator_only.py:  203]:   [train] fde: 2.174
+[INFO: train_generator_only.py:  203]:   [train] fde_l: 12.718
+[INFO: train_generator_only.py:  203]:   [train] fde_nl: 2.623
+[INFO: train_generator_only.py:  203]:   [train] g_l2_loss_abs: 0.678
+[INFO: train_generator_only.py:  203]:   [train] g_l2_loss_rel: 0.678
+[INFO: train_generator_only.py:  210]: New low for avg_disp_error
+[INFO: train_generator_only.py:  216]: New low for avg_disp_error_nl
+[INFO: train_generator_only.py:  228]: Saving checkpoint to organized_cnn_models_multi/organized_cnn_zara2_4lay_12_with_model.pt
+[INFO: train_generator_only.py:  230]: Done.
+[INFO: train_generator_only.py:  236]: Saving checkpoint to organized_cnn_models_multi/organized_cnn_zara2_4lay_12_no_model.pt
+[INFO: train_generator_only.py:  246]: Done.
+[INFO: train_generator_only.py:  163]: Starting epoch 21
+[INFO: train_generator_only.py:  163]: Starting epoch 22
+[INFO: train_generator_only.py:  174]: t = 1401 / 3300
+[INFO: train_generator_only.py:  179]:   [G] G_l2_loss_rel: 0.564
+[INFO: train_generator_only.py:  190]: Checking stats on val ...
+[INFO: train_generator_only.py:  194]: Checking stats on train ...
+[INFO: train_generator_only.py:  200]:   [val] ade: 1.037
+[INFO: train_generator_only.py:  200]:   [val] ade_l: 6.499
+[INFO: train_generator_only.py:  200]:   [val] ade_nl: 1.234
+[INFO: train_generator_only.py:  200]:   [val] fde: 2.142
+[INFO: train_generator_only.py:  200]:   [val] fde_l: 13.421
+[INFO: train_generator_only.py:  200]:   [val] fde_nl: 2.549
+[INFO: train_generator_only.py:  200]:   [val] g_l2_loss_abs: 0.666
+[INFO: train_generator_only.py:  200]:   [val] g_l2_loss_rel: 0.666
+[INFO: train_generator_only.py:  203]:   [train] ade: 1.042
+[INFO: train_generator_only.py:  203]:   [train] ade_l: 5.748
+[INFO: train_generator_only.py:  203]:   [train] ade_nl: 1.273
+[INFO: train_generator_only.py:  203]:   [train] fde: 2.179
+[INFO: train_generator_only.py:  203]:   [train] fde_l: 12.018
+[INFO: train_generator_only.py:  203]:   [train] fde_nl: 2.662
+[INFO: train_generator_only.py:  203]:   [train] g_l2_loss_abs: 0.669
+[INFO: train_generator_only.py:  203]:   [train] g_l2_loss_rel: 0.669
+[INFO: train_generator_only.py:  210]: New low for avg_disp_error
+[INFO: train_generator_only.py:  216]: New low for avg_disp_error_nl
+[INFO: train_generator_only.py:  228]: Saving checkpoint to organized_cnn_models_multi/organized_cnn_zara2_4lay_12_with_model.pt
+[INFO: train_generator_only.py:  230]: Done.
+[INFO: train_generator_only.py:  236]: Saving checkpoint to organized_cnn_models_multi/organized_cnn_zara2_4lay_12_no_model.pt
+[INFO: train_generator_only.py:  246]: Done.
+[INFO: train_generator_only.py:  163]: Starting epoch 23
+[INFO: train_generator_only.py:  190]: Checking stats on val ...
+[INFO: train_generator_only.py:  194]: Checking stats on train ...
+[INFO: train_generator_only.py:  200]:   [val] ade: 1.090
+[INFO: train_generator_only.py:  200]:   [val] ade_l: 6.828
+[INFO: train_generator_only.py:  200]:   [val] ade_nl: 1.297
+[INFO: train_generator_only.py:  200]:   [val] fde: 2.242
+[INFO: train_generator_only.py:  200]:   [val] fde_l: 14.049
+[INFO: train_generator_only.py:  200]:   [val] fde_nl: 2.668
+[INFO: train_generator_only.py:  200]:   [val] g_l2_loss_abs: 0.687
+[INFO: train_generator_only.py:  200]:   [val] g_l2_loss_rel: 0.687
+[INFO: train_generator_only.py:  203]:   [train] ade: 1.097
+[INFO: train_generator_only.py:  203]:   [train] ade_l: 6.476
+[INFO: train_generator_only.py:  203]:   [train] ade_nl: 1.320
+[INFO: train_generator_only.py:  203]:   [train] fde: 2.279
+[INFO: train_generator_only.py:  203]:   [train] fde_l: 13.455
+[INFO: train_generator_only.py:  203]:   [train] fde_nl: 2.743
+[INFO: train_generator_only.py:  203]:   [train] g_l2_loss_abs: 0.693
+[INFO: train_generator_only.py:  203]:   [train] g_l2_loss_rel: 0.693
+[INFO: train_generator_only.py:  228]: Saving checkpoint to organized_cnn_models_multi/organized_cnn_zara2_4lay_12_with_model.pt
+[INFO: train_generator_only.py:  230]: Done.
+[INFO: train_generator_only.py:  236]: Saving checkpoint to organized_cnn_models_multi/organized_cnn_zara2_4lay_12_no_model.pt
+[INFO: train_generator_only.py:  246]: Done.
+[INFO: train_generator_only.py:  163]: Starting epoch 24
+[INFO: train_generator_only.py:  163]: Starting epoch 25
+[INFO: train_generator_only.py:  174]: t = 1601 / 3300
+[INFO: train_generator_only.py:  179]:   [G] G_l2_loss_rel: 0.598
+[INFO: train_generator_only.py:  190]: Checking stats on val ...
+[INFO: train_generator_only.py:  194]: Checking stats on train ...
+[INFO: train_generator_only.py:  200]:   [val] ade: 1.039
+[INFO: train_generator_only.py:  200]:   [val] ade_l: 6.513
+[INFO: train_generator_only.py:  200]:   [val] ade_nl: 1.237
+[INFO: train_generator_only.py:  200]:   [val] fde: 2.158
+[INFO: train_generator_only.py:  200]:   [val] fde_l: 13.520
+[INFO: train_generator_only.py:  200]:   [val] fde_nl: 2.567
+[INFO: train_generator_only.py:  200]:   [val] g_l2_loss_abs: 0.667
+[INFO: train_generator_only.py:  200]:   [val] g_l2_loss_rel: 0.667
+[INFO: train_generator_only.py:  203]:   [train] ade: 1.022
+[INFO: train_generator_only.py:  203]:   [train] ade_l: 6.143
+[INFO: train_generator_only.py:  203]:   [train] ade_nl: 1.226
+[INFO: train_generator_only.py:  203]:   [train] fde: 2.149
+[INFO: train_generator_only.py:  203]:   [train] fde_l: 12.913
+[INFO: train_generator_only.py:  203]:   [train] fde_nl: 2.578
+[INFO: train_generator_only.py:  203]:   [train] g_l2_loss_abs: 0.640
+[INFO: train_generator_only.py:  203]:   [train] g_l2_loss_rel: 0.640
+[INFO: train_generator_only.py:  228]: Saving checkpoint to organized_cnn_models_multi/organized_cnn_zara2_4lay_12_with_model.pt
+[INFO: train_generator_only.py:  230]: Done.
+[INFO: train_generator_only.py:  236]: Saving checkpoint to organized_cnn_models_multi/organized_cnn_zara2_4lay_12_no_model.pt
+[INFO: train_generator_only.py:  246]: Done.
+[INFO: train_generator_only.py:  163]: Starting epoch 26
+[INFO: train_generator_only.py:  190]: Checking stats on val ...
+[INFO: train_generator_only.py:  194]: Checking stats on train ...
+[INFO: train_generator_only.py:  200]:   [val] ade: 1.067
+[INFO: train_generator_only.py:  200]:   [val] ade_l: 6.685
+[INFO: train_generator_only.py:  200]:   [val] ade_nl: 1.269
+[INFO: train_generator_only.py:  200]:   [val] fde: 2.225
+[INFO: train_generator_only.py:  200]:   [val] fde_l: 13.944
+[INFO: train_generator_only.py:  200]:   [val] fde_nl: 2.648
+[INFO: train_generator_only.py:  200]:   [val] g_l2_loss_abs: 0.665
+[INFO: train_generator_only.py:  200]:   [val] g_l2_loss_rel: 0.665
+[INFO: train_generator_only.py:  203]:   [train] ade: 1.091
+[INFO: train_generator_only.py:  203]:   [train] ade_l: 6.205
+[INFO: train_generator_only.py:  203]:   [train] ade_nl: 1.323
+[INFO: train_generator_only.py:  203]:   [train] fde: 2.292
+[INFO: train_generator_only.py:  203]:   [train] fde_l: 13.040
+[INFO: train_generator_only.py:  203]:   [train] fde_nl: 2.780
+[INFO: train_generator_only.py:  203]:   [train] g_l2_loss_abs: 0.690
+[INFO: train_generator_only.py:  203]:   [train] g_l2_loss_rel: 0.690
+[INFO: train_generator_only.py:  228]: Saving checkpoint to organized_cnn_models_multi/organized_cnn_zara2_4lay_12_with_model.pt
+[INFO: train_generator_only.py:  230]: Done.
+[INFO: train_generator_only.py:  236]: Saving checkpoint to organized_cnn_models_multi/organized_cnn_zara2_4lay_12_no_model.pt
+[INFO: train_generator_only.py:  246]: Done.
+[INFO: train_generator_only.py:  163]: Starting epoch 27
+[INFO: train_generator_only.py:  163]: Starting epoch 28
+[INFO: train_generator_only.py:  174]: t = 1801 / 3300
+[INFO: train_generator_only.py:  179]:   [G] G_l2_loss_rel: 0.635
+[INFO: train_generator_only.py:  190]: Checking stats on val ...
+[INFO: train_generator_only.py:  194]: Checking stats on train ...
+[INFO: train_generator_only.py:  200]:   [val] ade: 1.031
+[INFO: train_generator_only.py:  200]:   [val] ade_l: 6.460
+[INFO: train_generator_only.py:  200]:   [val] ade_nl: 1.227
+[INFO: train_generator_only.py:  200]:   [val] fde: 2.163
+[INFO: train_generator_only.py:  200]:   [val] fde_l: 13.553
+[INFO: train_generator_only.py:  200]:   [val] fde_nl: 2.574
+[INFO: train_generator_only.py:  200]:   [val] g_l2_loss_abs: 0.652
+[INFO: train_generator_only.py:  200]:   [val] g_l2_loss_rel: 0.652
+[INFO: train_generator_only.py:  203]:   [train] ade: 1.029
+[INFO: train_generator_only.py:  203]:   [train] ade_l: 6.007
+[INFO: train_generator_only.py:  203]:   [train] ade_nl: 1.241
+[INFO: train_generator_only.py:  203]:   [train] fde: 2.171
+[INFO: train_generator_only.py:  203]:   [train] fde_l: 12.679
+[INFO: train_generator_only.py:  203]:   [train] fde_nl: 2.619
+[INFO: train_generator_only.py:  203]:   [train] g_l2_loss_abs: 0.657
+[INFO: train_generator_only.py:  203]:   [train] g_l2_loss_rel: 0.657
+[INFO: train_generator_only.py:  210]: New low for avg_disp_error
+[INFO: train_generator_only.py:  216]: New low for avg_disp_error_nl
+[INFO: train_generator_only.py:  228]: Saving checkpoint to organized_cnn_models_multi/organized_cnn_zara2_4lay_12_with_model.pt
+[INFO: train_generator_only.py:  230]: Done.
+[INFO: train_generator_only.py:  236]: Saving checkpoint to organized_cnn_models_multi/organized_cnn_zara2_4lay_12_no_model.pt
+[INFO: train_generator_only.py:  246]: Done.
+[INFO: train_generator_only.py:  163]: Starting epoch 29
+[INFO: train_generator_only.py:  190]: Checking stats on val ...
+[INFO: train_generator_only.py:  194]: Checking stats on train ...
+[INFO: train_generator_only.py:  200]:   [val] ade: 1.034
+[INFO: train_generator_only.py:  200]:   [val] ade_l: 6.480
+[INFO: train_generator_only.py:  200]:   [val] ade_nl: 1.231
+[INFO: train_generator_only.py:  200]:   [val] fde: 2.179
+[INFO: train_generator_only.py:  200]:   [val] fde_l: 13.656
+[INFO: train_generator_only.py:  200]:   [val] fde_nl: 2.593
+[INFO: train_generator_only.py:  200]:   [val] g_l2_loss_abs: 0.656
+[INFO: train_generator_only.py:  200]:   [val] g_l2_loss_rel: 0.656
+[INFO: train_generator_only.py:  203]:   [train] ade: 1.018
+[INFO: train_generator_only.py:  203]:   [train] ade_l: 5.732
+[INFO: train_generator_only.py:  203]:   [train] ade_nl: 1.237
+[INFO: train_generator_only.py:  203]:   [train] fde: 2.163
+[INFO: train_generator_only.py:  203]:   [train] fde_l: 12.180
+[INFO: train_generator_only.py:  203]:   [train] fde_nl: 2.630
+[INFO: train_generator_only.py:  203]:   [train] g_l2_loss_abs: 0.641
+[INFO: train_generator_only.py:  203]:   [train] g_l2_loss_rel: 0.641
+[INFO: train_generator_only.py:  228]: Saving checkpoint to organized_cnn_models_multi/organized_cnn_zara2_4lay_12_with_model.pt
+[INFO: train_generator_only.py:  230]: Done.
+[INFO: train_generator_only.py:  236]: Saving checkpoint to organized_cnn_models_multi/organized_cnn_zara2_4lay_12_no_model.pt
+[INFO: train_generator_only.py:  246]: Done.
+[INFO: train_generator_only.py:  163]: Starting epoch 30
+[INFO: train_generator_only.py:  163]: Starting epoch 31
+[INFO: train_generator_only.py:  174]: t = 2001 / 3300
+[INFO: train_generator_only.py:  179]:   [G] G_l2_loss_rel: 0.752
+[INFO: train_generator_only.py:  190]: Checking stats on val ...
+[INFO: train_generator_only.py:  194]: Checking stats on train ...
+[INFO: train_generator_only.py:  200]:   [val] ade: 1.071
+[INFO: train_generator_only.py:  200]:   [val] ade_l: 6.712
+[INFO: train_generator_only.py:  200]:   [val] ade_nl: 1.275
+[INFO: train_generator_only.py:  200]:   [val] fde: 2.251
+[INFO: train_generator_only.py:  200]:   [val] fde_l: 14.103
+[INFO: train_generator_only.py:  200]:   [val] fde_nl: 2.678
+[INFO: train_generator_only.py:  200]:   [val] g_l2_loss_abs: 0.676
+[INFO: train_generator_only.py:  200]:   [val] g_l2_loss_rel: 0.676
+[INFO: train_generator_only.py:  203]:   [train] ade: 1.070
+[INFO: train_generator_only.py:  203]:   [train] ade_l: 6.046
+[INFO: train_generator_only.py:  203]:   [train] ade_nl: 1.300
+[INFO: train_generator_only.py:  203]:   [train] fde: 2.261
+[INFO: train_generator_only.py:  203]:   [train] fde_l: 12.776
+[INFO: train_generator_only.py:  203]:   [train] fde_nl: 2.748
+[INFO: train_generator_only.py:  203]:   [train] g_l2_loss_abs: 0.666
+[INFO: train_generator_only.py:  203]:   [train] g_l2_loss_rel: 0.666
+[INFO: train_generator_only.py:  228]: Saving checkpoint to organized_cnn_models_multi/organized_cnn_zara2_4lay_12_with_model.pt
+[INFO: train_generator_only.py:  230]: Done.
+[INFO: train_generator_only.py:  236]: Saving checkpoint to organized_cnn_models_multi/organized_cnn_zara2_4lay_12_no_model.pt
+[INFO: train_generator_only.py:  246]: Done.
+[INFO: train_generator_only.py:  163]: Starting epoch 32
+[INFO: train_generator_only.py:  190]: Checking stats on val ...
+[INFO: train_generator_only.py:  194]: Checking stats on train ...
+[INFO: train_generator_only.py:  200]:   [val] ade: 1.036
+[INFO: train_generator_only.py:  200]:   [val] ade_l: 6.492
+[INFO: train_generator_only.py:  200]:   [val] ade_nl: 1.233
+[INFO: train_generator_only.py:  200]:   [val] fde: 2.178
+[INFO: train_generator_only.py:  200]:   [val] fde_l: 13.650
+[INFO: train_generator_only.py:  200]:   [val] fde_nl: 2.592
+[INFO: train_generator_only.py:  200]:   [val] g_l2_loss_abs: 0.654
+[INFO: train_generator_only.py:  200]:   [val] g_l2_loss_rel: 0.654
+[INFO: train_generator_only.py:  203]:   [train] ade: 1.014
+[INFO: train_generator_only.py:  203]:   [train] ade_l: 5.159
+[INFO: train_generator_only.py:  203]:   [train] ade_nl: 1.263
+[INFO: train_generator_only.py:  203]:   [train] fde: 2.152
+[INFO: train_generator_only.py:  203]:   [train] fde_l: 10.942
+[INFO: train_generator_only.py:  203]:   [train] fde_nl: 2.678
+[INFO: train_generator_only.py:  203]:   [train] g_l2_loss_abs: 0.628
+[INFO: train_generator_only.py:  203]:   [train] g_l2_loss_rel: 0.628
+[INFO: train_generator_only.py:  228]: Saving checkpoint to organized_cnn_models_multi/organized_cnn_zara2_4lay_12_with_model.pt
+[INFO: train_generator_only.py:  230]: Done.
+[INFO: train_generator_only.py:  236]: Saving checkpoint to organized_cnn_models_multi/organized_cnn_zara2_4lay_12_no_model.pt
+[INFO: train_generator_only.py:  246]: Done.
+[INFO: train_generator_only.py:  163]: Starting epoch 33
+[INFO: train_generator_only.py:  163]: Starting epoch 34
+[INFO: train_generator_only.py:  174]: t = 2201 / 3300
+[INFO: train_generator_only.py:  179]:   [G] G_l2_loss_rel: 0.608
+[INFO: train_generator_only.py:  190]: Checking stats on val ...
+[INFO: train_generator_only.py:  194]: Checking stats on train ...
+[INFO: train_generator_only.py:  200]:   [val] ade: 1.032
+[INFO: train_generator_only.py:  200]:   [val] ade_l: 6.465
+[INFO: train_generator_only.py:  200]:   [val] ade_nl: 1.228
+[INFO: train_generator_only.py:  200]:   [val] fde: 2.166
+[INFO: train_generator_only.py:  200]:   [val] fde_l: 13.569
+[INFO: train_generator_only.py:  200]:   [val] fde_nl: 2.577
+[INFO: train_generator_only.py:  200]:   [val] g_l2_loss_abs: 0.642
+[INFO: train_generator_only.py:  200]:   [val] g_l2_loss_rel: 0.642
+[INFO: train_generator_only.py:  203]:   [train] ade: 1.020
+[INFO: train_generator_only.py:  203]:   [train] ade_l: 5.770
+[INFO: train_generator_only.py:  203]:   [train] ade_nl: 1.239
+[INFO: train_generator_only.py:  203]:   [train] fde: 2.159
+[INFO: train_generator_only.py:  203]:   [train] fde_l: 12.210
+[INFO: train_generator_only.py:  203]:   [train] fde_nl: 2.623
+[INFO: train_generator_only.py:  203]:   [train] g_l2_loss_abs: 0.627
+[INFO: train_generator_only.py:  203]:   [train] g_l2_loss_rel: 0.627
+[INFO: train_generator_only.py:  228]: Saving checkpoint to organized_cnn_models_multi/organized_cnn_zara2_4lay_12_with_model.pt
+[INFO: train_generator_only.py:  230]: Done.
+[INFO: train_generator_only.py:  236]: Saving checkpoint to organized_cnn_models_multi/organized_cnn_zara2_4lay_12_no_model.pt
+[INFO: train_generator_only.py:  246]: Done.
+[INFO: train_generator_only.py:  163]: Starting epoch 35
+[INFO: train_generator_only.py:  190]: Checking stats on val ...
+[INFO: train_generator_only.py:  194]: Checking stats on train ...
+[INFO: train_generator_only.py:  200]:   [val] ade: 1.016
+[INFO: train_generator_only.py:  200]:   [val] ade_l: 6.364
+[INFO: train_generator_only.py:  200]:   [val] ade_nl: 1.209
+[INFO: train_generator_only.py:  200]:   [val] fde: 2.131
+[INFO: train_generator_only.py:  200]:   [val] fde_l: 13.352
+[INFO: train_generator_only.py:  200]:   [val] fde_nl: 2.536
+[INFO: train_generator_only.py:  200]:   [val] g_l2_loss_abs: 0.641
+[INFO: train_generator_only.py:  200]:   [val] g_l2_loss_rel: 0.641
+[INFO: train_generator_only.py:  203]:   [train] ade: 0.994
+[INFO: train_generator_only.py:  203]:   [train] ade_l: 5.258
+[INFO: train_generator_only.py:  203]:   [train] ade_nl: 1.225
+[INFO: train_generator_only.py:  203]:   [train] fde: 2.098
+[INFO: train_generator_only.py:  203]:   [train] fde_l: 11.097
+[INFO: train_generator_only.py:  203]:   [train] fde_nl: 2.586
+[INFO: train_generator_only.py:  203]:   [train] g_l2_loss_abs: 0.611
+[INFO: train_generator_only.py:  203]:   [train] g_l2_loss_rel: 0.611
+[INFO: train_generator_only.py:  210]: New low for avg_disp_error
+[INFO: train_generator_only.py:  216]: New low for avg_disp_error_nl
+[INFO: train_generator_only.py:  228]: Saving checkpoint to organized_cnn_models_multi/organized_cnn_zara2_4lay_12_with_model.pt
+[INFO: train_generator_only.py:  230]: Done.
+[INFO: train_generator_only.py:  236]: Saving checkpoint to organized_cnn_models_multi/organized_cnn_zara2_4lay_12_no_model.pt
+[INFO: train_generator_only.py:  246]: Done.
+[INFO: train_generator_only.py:  163]: Starting epoch 36
+[INFO: train_generator_only.py:  163]: Starting epoch 37
+[INFO: train_generator_only.py:  174]: t = 2401 / 3300
+[INFO: train_generator_only.py:  179]:   [G] G_l2_loss_rel: 0.536
+[INFO: train_generator_only.py:  190]: Checking stats on val ...
+[INFO: train_generator_only.py:  194]: Checking stats on train ...
+[INFO: train_generator_only.py:  200]:   [val] ade: 1.077
+[INFO: train_generator_only.py:  200]:   [val] ade_l: 6.749
+[INFO: train_generator_only.py:  200]:   [val] ade_nl: 1.282
+[INFO: train_generator_only.py:  200]:   [val] fde: 2.244
+[INFO: train_generator_only.py:  200]:   [val] fde_l: 14.060
+[INFO: train_generator_only.py:  200]:   [val] fde_nl: 2.670
+[INFO: train_generator_only.py:  200]:   [val] g_l2_loss_abs: 0.665
+[INFO: train_generator_only.py:  200]:   [val] g_l2_loss_rel: 0.665
+[INFO: train_generator_only.py:  203]:   [train] ade: 1.059
+[INFO: train_generator_only.py:  203]:   [train] ade_l: 6.008
+[INFO: train_generator_only.py:  203]:   [train] ade_nl: 1.286
+[INFO: train_generator_only.py:  203]:   [train] fde: 2.225
+[INFO: train_generator_only.py:  203]:   [train] fde_l: 12.619
+[INFO: train_generator_only.py:  203]:   [train] fde_nl: 2.701
+[INFO: train_generator_only.py:  203]:   [train] g_l2_loss_abs: 0.648
+[INFO: train_generator_only.py:  203]:   [train] g_l2_loss_rel: 0.648
+[INFO: train_generator_only.py:  228]: Saving checkpoint to organized_cnn_models_multi/organized_cnn_zara2_4lay_12_with_model.pt
+[INFO: train_generator_only.py:  230]: Done.
+[INFO: train_generator_only.py:  236]: Saving checkpoint to organized_cnn_models_multi/organized_cnn_zara2_4lay_12_no_model.pt
+[INFO: train_generator_only.py:  246]: Done.
+[INFO: train_generator_only.py:  163]: Starting epoch 38
+[INFO: train_generator_only.py:  190]: Checking stats on val ...
+[INFO: train_generator_only.py:  194]: Checking stats on train ...
+[INFO: train_generator_only.py:  200]:   [val] ade: 1.034
+[INFO: train_generator_only.py:  200]:   [val] ade_l: 6.480
+[INFO: train_generator_only.py:  200]:   [val] ade_nl: 1.231
+[INFO: train_generator_only.py:  200]:   [val] fde: 2.162
+[INFO: train_generator_only.py:  200]:   [val] fde_l: 13.544
+[INFO: train_generator_only.py:  200]:   [val] fde_nl: 2.572
+[INFO: train_generator_only.py:  200]:   [val] g_l2_loss_abs: 0.653
+[INFO: train_generator_only.py:  200]:   [val] g_l2_loss_rel: 0.653
+[INFO: train_generator_only.py:  203]:   [train] ade: 1.007
+[INFO: train_generator_only.py:  203]:   [train] ade_l: 5.402
+[INFO: train_generator_only.py:  203]:   [train] ade_nl: 1.237
+[INFO: train_generator_only.py:  203]:   [train] fde: 2.115
+[INFO: train_generator_only.py:  203]:   [train] fde_l: 11.353
+[INFO: train_generator_only.py:  203]:   [train] fde_nl: 2.600
+[INFO: train_generator_only.py:  203]:   [train] g_l2_loss_abs: 0.614
+[INFO: train_generator_only.py:  203]:   [train] g_l2_loss_rel: 0.614
+[INFO: train_generator_only.py:  228]: Saving checkpoint to organized_cnn_models_multi/organized_cnn_zara2_4lay_12_with_model.pt
+[INFO: train_generator_only.py:  230]: Done.
+[INFO: train_generator_only.py:  236]: Saving checkpoint to organized_cnn_models_multi/organized_cnn_zara2_4lay_12_no_model.pt
+[INFO: train_generator_only.py:  246]: Done.
+[INFO: train_generator_only.py:  163]: Starting epoch 39
+[INFO: train_generator_only.py:  163]: Starting epoch 40
+[INFO: train_generator_only.py:  174]: t = 2601 / 3300
+[INFO: train_generator_only.py:  179]:   [G] G_l2_loss_rel: 0.512
+[INFO: train_generator_only.py:  190]: Checking stats on val ...
+[INFO: train_generator_only.py:  194]: Checking stats on train ...
+[INFO: train_generator_only.py:  200]:   [val] ade: 1.033
+[INFO: train_generator_only.py:  200]:   [val] ade_l: 6.470
+[INFO: train_generator_only.py:  200]:   [val] ade_nl: 1.229
+[INFO: train_generator_only.py:  200]:   [val] fde: 2.177
+[INFO: train_generator_only.py:  200]:   [val] fde_l: 13.640
+[INFO: train_generator_only.py:  200]:   [val] fde_nl: 2.590
+[INFO: train_generator_only.py:  200]:   [val] g_l2_loss_abs: 0.643
+[INFO: train_generator_only.py:  200]:   [val] g_l2_loss_rel: 0.643
+[INFO: train_generator_only.py:  203]:   [train] ade: 1.030
+[INFO: train_generator_only.py:  203]:   [train] ade_l: 5.677
+[INFO: train_generator_only.py:  203]:   [train] ade_nl: 1.259
+[INFO: train_generator_only.py:  203]:   [train] fde: 2.193
+[INFO: train_generator_only.py:  203]:   [train] fde_l: 12.084
+[INFO: train_generator_only.py:  203]:   [train] fde_nl: 2.679
+[INFO: train_generator_only.py:  203]:   [train] g_l2_loss_abs: 0.637
+[INFO: train_generator_only.py:  203]:   [train] g_l2_loss_rel: 0.637
+[INFO: train_generator_only.py:  228]: Saving checkpoint to organized_cnn_models_multi/organized_cnn_zara2_4lay_12_with_model.pt
+[INFO: train_generator_only.py:  230]: Done.
+[INFO: train_generator_only.py:  236]: Saving checkpoint to organized_cnn_models_multi/organized_cnn_zara2_4lay_12_no_model.pt
+[INFO: train_generator_only.py:  246]: Done.
+[INFO: train_generator_only.py:  163]: Starting epoch 41
+[INFO: train_generator_only.py:  190]: Checking stats on val ...
+[INFO: train_generator_only.py:  194]: Checking stats on train ...
+[INFO: train_generator_only.py:  200]:   [val] ade: 1.033
+[INFO: train_generator_only.py:  200]:   [val] ade_l: 6.472
+[INFO: train_generator_only.py:  200]:   [val] ade_nl: 1.229
+[INFO: train_generator_only.py:  200]:   [val] fde: 2.157
+[INFO: train_generator_only.py:  200]:   [val] fde_l: 13.518
+[INFO: train_generator_only.py:  200]:   [val] fde_nl: 2.567
+[INFO: train_generator_only.py:  200]:   [val] g_l2_loss_abs: 0.646
+[INFO: train_generator_only.py:  200]:   [val] g_l2_loss_rel: 0.646
+[INFO: train_generator_only.py:  203]:   [train] ade: 1.037
+[INFO: train_generator_only.py:  203]:   [train] ade_l: 6.147
+[INFO: train_generator_only.py:  203]:   [train] ade_nl: 1.248
+[INFO: train_generator_only.py:  203]:   [train] fde: 2.206
+[INFO: train_generator_only.py:  203]:   [train] fde_l: 13.070
+[INFO: train_generator_only.py:  203]:   [train] fde_nl: 2.654
+[INFO: train_generator_only.py:  203]:   [train] g_l2_loss_abs: 0.645
+[INFO: train_generator_only.py:  203]:   [train] g_l2_loss_rel: 0.645
+[INFO: train_generator_only.py:  228]: Saving checkpoint to organized_cnn_models_multi/organized_cnn_zara2_4lay_12_with_model.pt
+[INFO: train_generator_only.py:  230]: Done.
+[INFO: train_generator_only.py:  236]: Saving checkpoint to organized_cnn_models_multi/organized_cnn_zara2_4lay_12_no_model.pt
+[INFO: train_generator_only.py:  246]: Done.
+[INFO: train_generator_only.py:  163]: Starting epoch 42
+[INFO: train_generator_only.py:  163]: Starting epoch 43
+[INFO: train_generator_only.py:  174]: t = 2801 / 3300
+[INFO: train_generator_only.py:  179]:   [G] G_l2_loss_rel: 0.611
+[INFO: train_generator_only.py:  190]: Checking stats on val ...
+[INFO: train_generator_only.py:  194]: Checking stats on train ...
+[INFO: train_generator_only.py:  200]:   [val] ade: 1.048
+[INFO: train_generator_only.py:  200]:   [val] ade_l: 6.566
+[INFO: train_generator_only.py:  200]:   [val] ade_nl: 1.247
+[INFO: train_generator_only.py:  200]:   [val] fde: 2.190
+[INFO: train_generator_only.py:  200]:   [val] fde_l: 13.724
+[INFO: train_generator_only.py:  200]:   [val] fde_nl: 2.606
+[INFO: train_generator_only.py:  200]:   [val] g_l2_loss_abs: 0.665
+[INFO: train_generator_only.py:  200]:   [val] g_l2_loss_rel: 0.665
+[INFO: train_generator_only.py:  203]:   [train] ade: 1.002
+[INFO: train_generator_only.py:  203]:   [train] ade_l: 5.360
+[INFO: train_generator_only.py:  203]:   [train] ade_nl: 1.232
+[INFO: train_generator_only.py:  203]:   [train] fde: 2.119
+[INFO: train_generator_only.py:  203]:   [train] fde_l: 11.338
+[INFO: train_generator_only.py:  203]:   [train] fde_nl: 2.607
+[INFO: train_generator_only.py:  203]:   [train] g_l2_loss_abs: 0.633
+[INFO: train_generator_only.py:  203]:   [train] g_l2_loss_rel: 0.633
+[INFO: train_generator_only.py:  228]: Saving checkpoint to organized_cnn_models_multi/organized_cnn_zara2_4lay_12_with_model.pt
+[INFO: train_generator_only.py:  230]: Done.
+[INFO: train_generator_only.py:  236]: Saving checkpoint to organized_cnn_models_multi/organized_cnn_zara2_4lay_12_no_model.pt
+[INFO: train_generator_only.py:  246]: Done.
+[INFO: train_generator_only.py:  163]: Starting epoch 44
+[INFO: train_generator_only.py:  190]: Checking stats on val ...
+[INFO: train_generator_only.py:  194]: Checking stats on train ...
+[INFO: train_generator_only.py:  200]:   [val] ade: 1.092
+[INFO: train_generator_only.py:  200]:   [val] ade_l: 6.843
+[INFO: train_generator_only.py:  200]:   [val] ade_nl: 1.300
+[INFO: train_generator_only.py:  200]:   [val] fde: 2.246
+[INFO: train_generator_only.py:  200]:   [val] fde_l: 14.070
+[INFO: train_generator_only.py:  200]:   [val] fde_nl: 2.672
+[INFO: train_generator_only.py:  200]:   [val] g_l2_loss_abs: 0.667
+[INFO: train_generator_only.py:  200]:   [val] g_l2_loss_rel: 0.667
+[INFO: train_generator_only.py:  203]:   [train] ade: 1.105
+[INFO: train_generator_only.py:  203]:   [train] ade_l: 6.146
+[INFO: train_generator_only.py:  203]:   [train] ade_nl: 1.347
+[INFO: train_generator_only.py:  203]:   [train] fde: 2.275
+[INFO: train_generator_only.py:  203]:   [train] fde_l: 12.657
+[INFO: train_generator_only.py:  203]:   [train] fde_nl: 2.773
+[INFO: train_generator_only.py:  203]:   [train] g_l2_loss_abs: 0.673
+[INFO: train_generator_only.py:  203]:   [train] g_l2_loss_rel: 0.673
+[INFO: train_generator_only.py:  228]: Saving checkpoint to organized_cnn_models_multi/organized_cnn_zara2_4lay_12_with_model.pt
+[INFO: train_generator_only.py:  230]: Done.
+[INFO: train_generator_only.py:  236]: Saving checkpoint to organized_cnn_models_multi/organized_cnn_zara2_4lay_12_no_model.pt
+[INFO: train_generator_only.py:  246]: Done.
+[INFO: train_generator_only.py:  163]: Starting epoch 45
+[INFO: train_generator_only.py:  163]: Starting epoch 46
+[INFO: train_generator_only.py:  174]: t = 3001 / 3300
+[INFO: train_generator_only.py:  179]:   [G] G_l2_loss_rel: 0.517
+[INFO: train_generator_only.py:  190]: Checking stats on val ...
+[INFO: train_generator_only.py:  194]: Checking stats on train ...
+[INFO: train_generator_only.py:  200]:   [val] ade: 1.015
+[INFO: train_generator_only.py:  200]:   [val] ade_l: 6.358
+[INFO: train_generator_only.py:  200]:   [val] ade_nl: 1.207
+[INFO: train_generator_only.py:  200]:   [val] fde: 2.144
+[INFO: train_generator_only.py:  200]:   [val] fde_l: 13.435
+[INFO: train_generator_only.py:  200]:   [val] fde_nl: 2.551
+[INFO: train_generator_only.py:  200]:   [val] g_l2_loss_abs: 0.642
+[INFO: train_generator_only.py:  200]:   [val] g_l2_loss_rel: 0.642
+[INFO: train_generator_only.py:  203]:   [train] ade: 1.002
+[INFO: train_generator_only.py:  203]:   [train] ade_l: 5.956
+[INFO: train_generator_only.py:  203]:   [train] ade_nl: 1.205
+[INFO: train_generator_only.py:  203]:   [train] fde: 2.156
+[INFO: train_generator_only.py:  203]:   [train] fde_l: 12.814
+[INFO: train_generator_only.py:  203]:   [train] fde_nl: 2.593
+[INFO: train_generator_only.py:  203]:   [train] g_l2_loss_abs: 0.633
+[INFO: train_generator_only.py:  203]:   [train] g_l2_loss_rel: 0.633
+[INFO: train_generator_only.py:  210]: New low for avg_disp_error
+[INFO: train_generator_only.py:  216]: New low for avg_disp_error_nl
+[INFO: train_generator_only.py:  228]: Saving checkpoint to organized_cnn_models_multi/organized_cnn_zara2_4lay_12_with_model.pt
+[INFO: train_generator_only.py:  230]: Done.
+[INFO: train_generator_only.py:  236]: Saving checkpoint to organized_cnn_models_multi/organized_cnn_zara2_4lay_12_no_model.pt
+[INFO: train_generator_only.py:  246]: Done.
+[INFO: train_generator_only.py:  163]: Starting epoch 47
+[INFO: train_generator_only.py:  190]: Checking stats on val ...
+[INFO: train_generator_only.py:  194]: Checking stats on train ...
+[INFO: train_generator_only.py:  200]:   [val] ade: 1.025
+[INFO: train_generator_only.py:  200]:   [val] ade_l: 6.421
+[INFO: train_generator_only.py:  200]:   [val] ade_nl: 1.219
+[INFO: train_generator_only.py:  200]:   [val] fde: 2.139
+[INFO: train_generator_only.py:  200]:   [val] fde_l: 13.405
+[INFO: train_generator_only.py:  200]:   [val] fde_nl: 2.546
+[INFO: train_generator_only.py:  200]:   [val] g_l2_loss_abs: 0.647
+[INFO: train_generator_only.py:  200]:   [val] g_l2_loss_rel: 0.647
+[INFO: train_generator_only.py:  203]:   [train] ade: 1.001
+[INFO: train_generator_only.py:  203]:   [train] ade_l: 5.531
+[INFO: train_generator_only.py:  203]:   [train] ade_nl: 1.222
+[INFO: train_generator_only.py:  203]:   [train] fde: 2.104
+[INFO: train_generator_only.py:  203]:   [train] fde_l: 11.626
+[INFO: train_generator_only.py:  203]:   [train] fde_nl: 2.569
+[INFO: train_generator_only.py:  203]:   [train] g_l2_loss_abs: 0.629
+[INFO: train_generator_only.py:  203]:   [train] g_l2_loss_rel: 0.629
+[INFO: train_generator_only.py:  228]: Saving checkpoint to organized_cnn_models_multi/organized_cnn_zara2_4lay_12_with_model.pt
+[INFO: train_generator_only.py:  230]: Done.
+[INFO: train_generator_only.py:  236]: Saving checkpoint to organized_cnn_models_multi/organized_cnn_zara2_4lay_12_no_model.pt
+[INFO: train_generator_only.py:  246]: Done.
+[INFO: train_generator_only.py:  163]: Starting epoch 48
+[INFO: train_generator_only.py:  163]: Starting epoch 49
+[INFO: train_generator_only.py:  174]: t = 3201 / 3300
+[INFO: train_generator_only.py:  179]:   [G] G_l2_loss_rel: 0.521
+[INFO: train_generator_only.py:  190]: Checking stats on val ...
+[INFO: train_generator_only.py:  194]: Checking stats on train ...
+[INFO: train_generator_only.py:  200]:   [val] ade: 1.012
+[INFO: train_generator_only.py:  200]:   [val] ade_l: 6.340
+[INFO: train_generator_only.py:  200]:   [val] ade_nl: 1.204
+[INFO: train_generator_only.py:  200]:   [val] fde: 2.120
+[INFO: train_generator_only.py:  200]:   [val] fde_l: 13.285
+[INFO: train_generator_only.py:  200]:   [val] fde_nl: 2.523
+[INFO: train_generator_only.py:  200]:   [val] g_l2_loss_abs: 0.637
+[INFO: train_generator_only.py:  200]:   [val] g_l2_loss_rel: 0.637
+[INFO: train_generator_only.py:  203]:   [train] ade: 0.999
+[INFO: train_generator_only.py:  203]:   [train] ade_l: 5.514
+[INFO: train_generator_only.py:  203]:   [train] ade_nl: 1.220
+[INFO: train_generator_only.py:  203]:   [train] fde: 2.136
+[INFO: train_generator_only.py:  203]:   [train] fde_l: 11.784
+[INFO: train_generator_only.py:  203]:   [train] fde_nl: 2.608
+[INFO: train_generator_only.py:  203]:   [train] g_l2_loss_abs: 0.630
+[INFO: train_generator_only.py:  203]:   [train] g_l2_loss_rel: 0.630
+[INFO: train_generator_only.py:  210]: New low for avg_disp_error
+[INFO: train_generator_only.py:  216]: New low for avg_disp_error_nl
+[INFO: train_generator_only.py:  228]: Saving checkpoint to organized_cnn_models_multi/organized_cnn_zara2_4lay_12_with_model.pt
+[INFO: train_generator_only.py:  230]: Done.
+[INFO: train_generator_only.py:  236]: Saving checkpoint to organized_cnn_models_multi/organized_cnn_zara2_4lay_12_no_model.pt
+[INFO: train_generator_only.py:  246]: Done.
+[INFO: train_generator_only.py:  163]: Starting epoch 50
+TESTING NOW epochs 50
+0.001881769607807028
+Dataset: zara2, Pred Len: 12, ADE: 0.33, FDE: 0.71
+trajs dumped at  zara2_test_trajs.pkl
+[INFO: train_generator_only.py:   92]: Initializing train dataset
+[INFO: train_generator_only.py:   94]: Initializing val dataset
+[INFO: train_generator_only.py:  101]: There are 66.0 iterations per epoch
+[INFO: train_generator_only.py:  114]: Here is the generator:
+[INFO: train_generator_only.py:  115]: TrajectoryGenerator(
+  (encoder): Encoder(
+    (convs): ModuleList(
+      (0): Conv1d(32, 32, kernel_size=(3,), stride=(1,), padding=(1,))
+      (1): Conv1d(32, 32, kernel_size=(3,), stride=(1,), padding=(1,))
+      (2): Conv1d(32, 32, kernel_size=(3,), stride=(1,), padding=(1,))
+      (3): Conv1d(32, 32, kernel_size=(3,), stride=(1,), padding=(1,))
+    )
+    (spatial_embedding): Linear(in_features=2, out_features=32, bias=True)
+    (hidden2pos): Linear(in_features=256, out_features=24, bias=True)
+    (relu): ReLU()
+  )
+)
+[INFO: train_generator_only.py:  128]: Restoring from checkpoint organized_cnn_models_multi/organized_cnn_zara2_4lay_12_with_model.pt
+[INFO: train_generator_only.py:  163]: Starting epoch 50
+[INFO: train_generator_only.py:  174]: t = 3201 / 6600
+[INFO: train_generator_only.py:  179]:   [G] G_l2_loss_rel: 0.626
+[INFO: train_generator_only.py:  190]: Checking stats on val ...
+[INFO: train_generator_only.py:  194]: Checking stats on train ...
+[INFO: train_generator_only.py:  200]:   [val] ade: 1.017
+[INFO: train_generator_only.py:  200]:   [val] ade_l: 6.372
+[INFO: train_generator_only.py:  200]:   [val] ade_nl: 1.210
+[INFO: train_generator_only.py:  200]:   [val] fde: 2.126
+[INFO: train_generator_only.py:  200]:   [val] fde_l: 13.319
+[INFO: train_generator_only.py:  200]:   [val] fde_nl: 2.529
+[INFO: train_generator_only.py:  200]:   [val] g_l2_loss_abs: 0.639
+[INFO: train_generator_only.py:  200]:   [val] g_l2_loss_rel: 0.639
+[INFO: train_generator_only.py:  203]:   [train] ade: 1.002
+[INFO: train_generator_only.py:  203]:   [train] ade_l: 5.566
+[INFO: train_generator_only.py:  203]:   [train] ade_nl: 1.222
+[INFO: train_generator_only.py:  203]:   [train] fde: 2.104
+[INFO: train_generator_only.py:  203]:   [train] fde_l: 11.684
+[INFO: train_generator_only.py:  203]:   [train] fde_nl: 2.566
+[INFO: train_generator_only.py:  203]:   [train] g_l2_loss_abs: 0.622
+[INFO: train_generator_only.py:  203]:   [train] g_l2_loss_rel: 0.622
+[INFO: train_generator_only.py:  228]: Saving checkpoint to organized_cnn_models_multi/organized_cnn_zara2_4lay_12_with_model.pt
+[INFO: train_generator_only.py:  230]: Done.
+[INFO: train_generator_only.py:  236]: Saving checkpoint to organized_cnn_models_multi/organized_cnn_zara2_4lay_12_no_model.pt
+[INFO: train_generator_only.py:  246]: Done.
+[INFO: train_generator_only.py:  163]: Starting epoch 51
+[INFO: train_generator_only.py:  190]: Checking stats on val ...
+[INFO: train_generator_only.py:  194]: Checking stats on train ...
+[INFO: train_generator_only.py:  200]:   [val] ade: 0.996
+[INFO: train_generator_only.py:  200]:   [val] ade_l: 6.241
+[INFO: train_generator_only.py:  200]:   [val] ade_nl: 1.185
+[INFO: train_generator_only.py:  200]:   [val] fde: 2.101
+[INFO: train_generator_only.py:  200]:   [val] fde_l: 13.165
+[INFO: train_generator_only.py:  200]:   [val] fde_nl: 2.500
+[INFO: train_generator_only.py:  200]:   [val] g_l2_loss_abs: 0.632
+[INFO: train_generator_only.py:  200]:   [val] g_l2_loss_rel: 0.632
+[INFO: train_generator_only.py:  203]:   [train] ade: 0.985
+[INFO: train_generator_only.py:  203]:   [train] ade_l: 5.573
+[INFO: train_generator_only.py:  203]:   [train] ade_nl: 1.197
+[INFO: train_generator_only.py:  203]:   [train] fde: 2.106
+[INFO: train_generator_only.py:  203]:   [train] fde_l: 11.913
+[INFO: train_generator_only.py:  203]:   [train] fde_nl: 2.558
+[INFO: train_generator_only.py:  203]:   [train] g_l2_loss_abs: 0.617
+[INFO: train_generator_only.py:  203]:   [train] g_l2_loss_rel: 0.617
+[INFO: train_generator_only.py:  210]: New low for avg_disp_error
+[INFO: train_generator_only.py:  216]: New low for avg_disp_error_nl
+[INFO: train_generator_only.py:  228]: Saving checkpoint to organized_cnn_models_multi/organized_cnn_zara2_4lay_12_with_model.pt
+[INFO: train_generator_only.py:  230]: Done.
+[INFO: train_generator_only.py:  236]: Saving checkpoint to organized_cnn_models_multi/organized_cnn_zara2_4lay_12_no_model.pt
+[INFO: train_generator_only.py:  246]: Done.
+[INFO: train_generator_only.py:  163]: Starting epoch 52
+[INFO: train_generator_only.py:  163]: Starting epoch 53
+[INFO: train_generator_only.py:  174]: t = 3401 / 6600
+[INFO: train_generator_only.py:  179]:   [G] G_l2_loss_rel: 0.680
+[INFO: train_generator_only.py:  190]: Checking stats on val ...
+[INFO: train_generator_only.py:  194]: Checking stats on train ...
+[INFO: train_generator_only.py:  200]:   [val] ade: 0.995
+[INFO: train_generator_only.py:  200]:   [val] ade_l: 6.235
+[INFO: train_generator_only.py:  200]:   [val] ade_nl: 1.184
+[INFO: train_generator_only.py:  200]:   [val] fde: 2.096
+[INFO: train_generator_only.py:  200]:   [val] fde_l: 13.133
+[INFO: train_generator_only.py:  200]:   [val] fde_nl: 2.494
+[INFO: train_generator_only.py:  200]:   [val] g_l2_loss_abs: 0.622
+[INFO: train_generator_only.py:  200]:   [val] g_l2_loss_rel: 0.622
+[INFO: train_generator_only.py:  203]:   [train] ade: 0.993
+[INFO: train_generator_only.py:  203]:   [train] ade_l: 5.953
+[INFO: train_generator_only.py:  203]:   [train] ade_nl: 1.192
+[INFO: train_generator_only.py:  203]:   [train] fde: 2.123
+[INFO: train_generator_only.py:  203]:   [train] fde_l: 12.722
+[INFO: train_generator_only.py:  203]:   [train] fde_nl: 2.548
+[INFO: train_generator_only.py:  203]:   [train] g_l2_loss_abs: 0.619
+[INFO: train_generator_only.py:  203]:   [train] g_l2_loss_rel: 0.619
+[INFO: train_generator_only.py:  210]: New low for avg_disp_error
+[INFO: train_generator_only.py:  216]: New low for avg_disp_error_nl
+[INFO: train_generator_only.py:  228]: Saving checkpoint to organized_cnn_models_multi/organized_cnn_zara2_4lay_12_with_model.pt
+[INFO: train_generator_only.py:  230]: Done.
+[INFO: train_generator_only.py:  236]: Saving checkpoint to organized_cnn_models_multi/organized_cnn_zara2_4lay_12_no_model.pt
+[INFO: train_generator_only.py:  246]: Done.
+[INFO: train_generator_only.py:  163]: Starting epoch 54
+[INFO: train_generator_only.py:  190]: Checking stats on val ...
+[INFO: train_generator_only.py:  194]: Checking stats on train ...
+[INFO: train_generator_only.py:  200]:   [val] ade: 1.010
+[INFO: train_generator_only.py:  200]:   [val] ade_l: 6.330
+[INFO: train_generator_only.py:  200]:   [val] ade_nl: 1.202
+[INFO: train_generator_only.py:  200]:   [val] fde: 2.128
+[INFO: train_generator_only.py:  200]:   [val] fde_l: 13.336
+[INFO: train_generator_only.py:  200]:   [val] fde_nl: 2.533
+[INFO: train_generator_only.py:  200]:   [val] g_l2_loss_abs: 0.642
+[INFO: train_generator_only.py:  200]:   [val] g_l2_loss_rel: 0.642
+[INFO: train_generator_only.py:  203]:   [train] ade: 0.968
+[INFO: train_generator_only.py:  203]:   [train] ade_l: 5.517
+[INFO: train_generator_only.py:  203]:   [train] ade_nl: 1.174
+[INFO: train_generator_only.py:  203]:   [train] fde: 2.067
+[INFO: train_generator_only.py:  203]:   [train] fde_l: 11.780
+[INFO: train_generator_only.py:  203]:   [train] fde_nl: 2.507
+[INFO: train_generator_only.py:  203]:   [train] g_l2_loss_abs: 0.596
+[INFO: train_generator_only.py:  203]:   [train] g_l2_loss_rel: 0.596
+[INFO: train_generator_only.py:  228]: Saving checkpoint to organized_cnn_models_multi/organized_cnn_zara2_4lay_12_with_model.pt
+[INFO: train_generator_only.py:  230]: Done.
+[INFO: train_generator_only.py:  236]: Saving checkpoint to organized_cnn_models_multi/organized_cnn_zara2_4lay_12_no_model.pt
+[INFO: train_generator_only.py:  246]: Done.
+[INFO: train_generator_only.py:  163]: Starting epoch 55
+[INFO: train_generator_only.py:  163]: Starting epoch 56
+[INFO: train_generator_only.py:  174]: t = 3601 / 6600
+[INFO: train_generator_only.py:  179]:   [G] G_l2_loss_rel: 0.535
+[INFO: train_generator_only.py:  190]: Checking stats on val ...
+[INFO: train_generator_only.py:  194]: Checking stats on train ...
+[INFO: train_generator_only.py:  200]:   [val] ade: 1.058
+[INFO: train_generator_only.py:  200]:   [val] ade_l: 6.631
+[INFO: train_generator_only.py:  200]:   [val] ade_nl: 1.259
+[INFO: train_generator_only.py:  200]:   [val] fde: 2.216
+[INFO: train_generator_only.py:  200]:   [val] fde_l: 13.883
+[INFO: train_generator_only.py:  200]:   [val] fde_nl: 2.637
+[INFO: train_generator_only.py:  200]:   [val] g_l2_loss_abs: 0.661
+[INFO: train_generator_only.py:  200]:   [val] g_l2_loss_rel: 0.661
+[INFO: train_generator_only.py:  203]:   [train] ade: 1.024
+[INFO: train_generator_only.py:  203]:   [train] ade_l: 5.646
+[INFO: train_generator_only.py:  203]:   [train] ade_nl: 1.252
+[INFO: train_generator_only.py:  203]:   [train] fde: 2.176
+[INFO: train_generator_only.py:  203]:   [train] fde_l: 11.990
+[INFO: train_generator_only.py:  203]:   [train] fde_nl: 2.658
+[INFO: train_generator_only.py:  203]:   [train] g_l2_loss_abs: 0.623
+[INFO: train_generator_only.py:  203]:   [train] g_l2_loss_rel: 0.623
+[INFO: train_generator_only.py:  228]: Saving checkpoint to organized_cnn_models_multi/organized_cnn_zara2_4lay_12_with_model.pt
+[INFO: train_generator_only.py:  230]: Done.
+[INFO: train_generator_only.py:  236]: Saving checkpoint to organized_cnn_models_multi/organized_cnn_zara2_4lay_12_no_model.pt
+[INFO: train_generator_only.py:  246]: Done.
+[INFO: train_generator_only.py:  163]: Starting epoch 57
+[INFO: train_generator_only.py:  190]: Checking stats on val ...
+[INFO: train_generator_only.py:  194]: Checking stats on train ...
+[INFO: train_generator_only.py:  200]:   [val] ade: 1.052
+[INFO: train_generator_only.py:  200]:   [val] ade_l: 6.589
+[INFO: train_generator_only.py:  200]:   [val] ade_nl: 1.251
+[INFO: train_generator_only.py:  200]:   [val] fde: 2.206
+[INFO: train_generator_only.py:  200]:   [val] fde_l: 13.821
+[INFO: train_generator_only.py:  200]:   [val] fde_nl: 2.625
+[INFO: train_generator_only.py:  200]:   [val] g_l2_loss_abs: 0.656
+[INFO: train_generator_only.py:  200]:   [val] g_l2_loss_rel: 0.656
+[INFO: train_generator_only.py:  203]:   [train] ade: 1.056
+[INFO: train_generator_only.py:  203]:   [train] ade_l: 6.594
+[INFO: train_generator_only.py:  203]:   [train] ade_nl: 1.257
+[INFO: train_generator_only.py:  203]:   [train] fde: 2.225
+[INFO: train_generator_only.py:  203]:   [train] fde_l: 13.898
+[INFO: train_generator_only.py:  203]:   [train] fde_nl: 2.650
+[INFO: train_generator_only.py:  203]:   [train] g_l2_loss_abs: 0.650
+[INFO: train_generator_only.py:  203]:   [train] g_l2_loss_rel: 0.650
+[INFO: train_generator_only.py:  228]: Saving checkpoint to organized_cnn_models_multi/organized_cnn_zara2_4lay_12_with_model.pt
+[INFO: train_generator_only.py:  230]: Done.
+[INFO: train_generator_only.py:  236]: Saving checkpoint to organized_cnn_models_multi/organized_cnn_zara2_4lay_12_no_model.pt
+[INFO: train_generator_only.py:  246]: Done.
+[INFO: train_generator_only.py:  163]: Starting epoch 58
+[INFO: train_generator_only.py:  163]: Starting epoch 59
+[INFO: train_generator_only.py:  174]: t = 3801 / 6600
+[INFO: train_generator_only.py:  179]:   [G] G_l2_loss_rel: 0.723
+[INFO: train_generator_only.py:  190]: Checking stats on val ...
+[INFO: train_generator_only.py:  194]: Checking stats on train ...
+[INFO: train_generator_only.py:  200]:   [val] ade: 1.066
+[INFO: train_generator_only.py:  200]:   [val] ade_l: 6.681
+[INFO: train_generator_only.py:  200]:   [val] ade_nl: 1.269
+[INFO: train_generator_only.py:  200]:   [val] fde: 2.214
+[INFO: train_generator_only.py:  200]:   [val] fde_l: 13.870
+[INFO: train_generator_only.py:  200]:   [val] fde_nl: 2.634
+[INFO: train_generator_only.py:  200]:   [val] g_l2_loss_abs: 0.669
+[INFO: train_generator_only.py:  200]:   [val] g_l2_loss_rel: 0.669
+[INFO: train_generator_only.py:  203]:   [train] ade: 1.021
+[INFO: train_generator_only.py:  203]:   [train] ade_l: 5.689
+[INFO: train_generator_only.py:  203]:   [train] ade_nl: 1.244
+[INFO: train_generator_only.py:  203]:   [train] fde: 2.144
+[INFO: train_generator_only.py:  203]:   [train] fde_l: 11.946
+[INFO: train_generator_only.py:  203]:   [train] fde_nl: 2.613
+[INFO: train_generator_only.py:  203]:   [train] g_l2_loss_abs: 0.625
+[INFO: train_generator_only.py:  203]:   [train] g_l2_loss_rel: 0.625
+[INFO: train_generator_only.py:  228]: Saving checkpoint to organized_cnn_models_multi/organized_cnn_zara2_4lay_12_with_model.pt
+[INFO: train_generator_only.py:  230]: Done.
+[INFO: train_generator_only.py:  236]: Saving checkpoint to organized_cnn_models_multi/organized_cnn_zara2_4lay_12_no_model.pt
+[INFO: train_generator_only.py:  246]: Done.
+[INFO: train_generator_only.py:  163]: Starting epoch 60
+[INFO: train_generator_only.py:  190]: Checking stats on val ...
+[INFO: train_generator_only.py:  194]: Checking stats on train ...
+[INFO: train_generator_only.py:  200]:   [val] ade: 0.990
+[INFO: train_generator_only.py:  200]:   [val] ade_l: 6.201
+[INFO: train_generator_only.py:  200]:   [val] ade_nl: 1.178
+[INFO: train_generator_only.py:  200]:   [val] fde: 2.086
+[INFO: train_generator_only.py:  200]:   [val] fde_l: 13.067
+[INFO: train_generator_only.py:  200]:   [val] fde_nl: 2.482
+[INFO: train_generator_only.py:  200]:   [val] g_l2_loss_abs: 0.627
+[INFO: train_generator_only.py:  200]:   [val] g_l2_loss_rel: 0.627
+[INFO: train_generator_only.py:  203]:   [train] ade: 0.976
+[INFO: train_generator_only.py:  203]:   [train] ade_l: 5.516
+[INFO: train_generator_only.py:  203]:   [train] ade_nl: 1.185
+[INFO: train_generator_only.py:  203]:   [train] fde: 2.087
+[INFO: train_generator_only.py:  203]:   [train] fde_l: 11.800
+[INFO: train_generator_only.py:  203]:   [train] fde_nl: 2.536
+[INFO: train_generator_only.py:  203]:   [train] g_l2_loss_abs: 0.619
+[INFO: train_generator_only.py:  203]:   [train] g_l2_loss_rel: 0.619
+[INFO: train_generator_only.py:  210]: New low for avg_disp_error
+[INFO: train_generator_only.py:  216]: New low for avg_disp_error_nl
+[INFO: train_generator_only.py:  228]: Saving checkpoint to organized_cnn_models_multi/organized_cnn_zara2_4lay_12_with_model.pt
+[INFO: train_generator_only.py:  230]: Done.
+[INFO: train_generator_only.py:  236]: Saving checkpoint to organized_cnn_models_multi/organized_cnn_zara2_4lay_12_no_model.pt
+[INFO: train_generator_only.py:  246]: Done.
+[INFO: train_generator_only.py:  163]: Starting epoch 61
+[INFO: train_generator_only.py:  163]: Starting epoch 62
+[INFO: train_generator_only.py:  174]: t = 4001 / 6600
+[INFO: train_generator_only.py:  179]:   [G] G_l2_loss_rel: 0.739
+[INFO: train_generator_only.py:  190]: Checking stats on val ...
+[INFO: train_generator_only.py:  194]: Checking stats on train ...
+[INFO: train_generator_only.py:  200]:   [val] ade: 1.004
+[INFO: train_generator_only.py:  200]:   [val] ade_l: 6.289
+[INFO: train_generator_only.py:  200]:   [val] ade_nl: 1.194
+[INFO: train_generator_only.py:  200]:   [val] fde: 2.125
+[INFO: train_generator_only.py:  200]:   [val] fde_l: 13.316
+[INFO: train_generator_only.py:  200]:   [val] fde_nl: 2.529
+[INFO: train_generator_only.py:  200]:   [val] g_l2_loss_abs: 0.638
+[INFO: train_generator_only.py:  200]:   [val] g_l2_loss_rel: 0.638
+[INFO: train_generator_only.py:  203]:   [train] ade: 0.970
+[INFO: train_generator_only.py:  203]:   [train] ade_l: 5.322
+[INFO: train_generator_only.py:  203]:   [train] ade_nl: 1.187
+[INFO: train_generator_only.py:  203]:   [train] fde: 2.075
+[INFO: train_generator_only.py:  203]:   [train] fde_l: 11.383
+[INFO: train_generator_only.py:  203]:   [train] fde_nl: 2.538
+[INFO: train_generator_only.py:  203]:   [train] g_l2_loss_abs: 0.611
+[INFO: train_generator_only.py:  203]:   [train] g_l2_loss_rel: 0.611
+[INFO: train_generator_only.py:  228]: Saving checkpoint to organized_cnn_models_multi/organized_cnn_zara2_4lay_12_with_model.pt
+[INFO: train_generator_only.py:  230]: Done.
+[INFO: train_generator_only.py:  236]: Saving checkpoint to organized_cnn_models_multi/organized_cnn_zara2_4lay_12_no_model.pt
+[INFO: train_generator_only.py:  246]: Done.
+[INFO: train_generator_only.py:  163]: Starting epoch 63
+[INFO: train_generator_only.py:  190]: Checking stats on val ...
+[INFO: train_generator_only.py:  194]: Checking stats on train ...
+[INFO: train_generator_only.py:  200]:   [val] ade: 0.998
+[INFO: train_generator_only.py:  200]:   [val] ade_l: 6.251
+[INFO: train_generator_only.py:  200]:   [val] ade_nl: 1.187
+[INFO: train_generator_only.py:  200]:   [val] fde: 2.113
+[INFO: train_generator_only.py:  200]:   [val] fde_l: 13.241
+[INFO: train_generator_only.py:  200]:   [val] fde_nl: 2.515
+[INFO: train_generator_only.py:  200]:   [val] g_l2_loss_abs: 0.629
+[INFO: train_generator_only.py:  200]:   [val] g_l2_loss_rel: 0.629
+[INFO: train_generator_only.py:  203]:   [train] ade: 0.987
+[INFO: train_generator_only.py:  203]:   [train] ade_l: 5.571
+[INFO: train_generator_only.py:  203]:   [train] ade_nl: 1.200
+[INFO: train_generator_only.py:  203]:   [train] fde: 2.110
+[INFO: train_generator_only.py:  203]:   [train] fde_l: 11.909
+[INFO: train_generator_only.py:  203]:   [train] fde_nl: 2.564
+[INFO: train_generator_only.py:  203]:   [train] g_l2_loss_abs: 0.610
+[INFO: train_generator_only.py:  203]:   [train] g_l2_loss_rel: 0.610
+[INFO: train_generator_only.py:  228]: Saving checkpoint to organized_cnn_models_multi/organized_cnn_zara2_4lay_12_with_model.pt
+[INFO: train_generator_only.py:  230]: Done.
+[INFO: train_generator_only.py:  236]: Saving checkpoint to organized_cnn_models_multi/organized_cnn_zara2_4lay_12_no_model.pt
+[INFO: train_generator_only.py:  246]: Done.
+[INFO: train_generator_only.py:  163]: Starting epoch 64
+[INFO: train_generator_only.py:  163]: Starting epoch 65
+[INFO: train_generator_only.py:  174]: t = 4201 / 6600
+[INFO: train_generator_only.py:  179]:   [G] G_l2_loss_rel: 0.509
+[INFO: train_generator_only.py:  190]: Checking stats on val ...
+[INFO: train_generator_only.py:  194]: Checking stats on train ...
+[INFO: train_generator_only.py:  200]:   [val] ade: 1.006
+[INFO: train_generator_only.py:  200]:   [val] ade_l: 6.301
+[INFO: train_generator_only.py:  200]:   [val] ade_nl: 1.197
+[INFO: train_generator_only.py:  200]:   [val] fde: 2.120
+[INFO: train_generator_only.py:  200]:   [val] fde_l: 13.283
+[INFO: train_generator_only.py:  200]:   [val] fde_nl: 2.523
+[INFO: train_generator_only.py:  200]:   [val] g_l2_loss_abs: 0.643
+[INFO: train_generator_only.py:  200]:   [val] g_l2_loss_rel: 0.643
+[INFO: train_generator_only.py:  203]:   [train] ade: 0.964
+[INFO: train_generator_only.py:  203]:   [train] ade_l: 5.340
+[INFO: train_generator_only.py:  203]:   [train] ade_nl: 1.177
+[INFO: train_generator_only.py:  203]:   [train] fde: 2.053
+[INFO: train_generator_only.py:  203]:   [train] fde_l: 11.368
+[INFO: train_generator_only.py:  203]:   [train] fde_nl: 2.505
+[INFO: train_generator_only.py:  203]:   [train] g_l2_loss_abs: 0.592
+[INFO: train_generator_only.py:  203]:   [train] g_l2_loss_rel: 0.592
+[INFO: train_generator_only.py:  228]: Saving checkpoint to organized_cnn_models_multi/organized_cnn_zara2_4lay_12_with_model.pt
+[INFO: train_generator_only.py:  230]: Done.
+[INFO: train_generator_only.py:  236]: Saving checkpoint to organized_cnn_models_multi/organized_cnn_zara2_4lay_12_no_model.pt
+[INFO: train_generator_only.py:  246]: Done.
+[INFO: train_generator_only.py:  163]: Starting epoch 66
+[INFO: train_generator_only.py:  190]: Checking stats on val ...
+[INFO: train_generator_only.py:  194]: Checking stats on train ...
+[INFO: train_generator_only.py:  200]:   [val] ade: 1.031
+[INFO: train_generator_only.py:  200]:   [val] ade_l: 6.461
+[INFO: train_generator_only.py:  200]:   [val] ade_nl: 1.227
+[INFO: train_generator_only.py:  200]:   [val] fde: 2.155
+[INFO: train_generator_only.py:  200]:   [val] fde_l: 13.504
+[INFO: train_generator_only.py:  200]:   [val] fde_nl: 2.565
+[INFO: train_generator_only.py:  200]:   [val] g_l2_loss_abs: 0.643
+[INFO: train_generator_only.py:  200]:   [val] g_l2_loss_rel: 0.643
+[INFO: train_generator_only.py:  203]:   [train] ade: 1.021
+[INFO: train_generator_only.py:  203]:   [train] ade_l: 5.967
+[INFO: train_generator_only.py:  203]:   [train] ade_nl: 1.231
+[INFO: train_generator_only.py:  203]:   [train] fde: 2.158
+[INFO: train_generator_only.py:  203]:   [train] fde_l: 12.614
+[INFO: train_generator_only.py:  203]:   [train] fde_nl: 2.603
+[INFO: train_generator_only.py:  203]:   [train] g_l2_loss_abs: 0.619
+[INFO: train_generator_only.py:  203]:   [train] g_l2_loss_rel: 0.619
+[INFO: train_generator_only.py:  228]: Saving checkpoint to organized_cnn_models_multi/organized_cnn_zara2_4lay_12_with_model.pt
+[INFO: train_generator_only.py:  230]: Done.
+[INFO: train_generator_only.py:  236]: Saving checkpoint to organized_cnn_models_multi/organized_cnn_zara2_4lay_12_no_model.pt
+[INFO: train_generator_only.py:  246]: Done.
+[INFO: train_generator_only.py:  163]: Starting epoch 67
+[INFO: train_generator_only.py:  163]: Starting epoch 68
+[INFO: train_generator_only.py:  174]: t = 4401 / 6600
+[INFO: train_generator_only.py:  179]:   [G] G_l2_loss_rel: 0.607
+[INFO: train_generator_only.py:  190]: Checking stats on val ...
+[INFO: train_generator_only.py:  194]: Checking stats on train ...
+[INFO: train_generator_only.py:  200]:   [val] ade: 1.026
+[INFO: train_generator_only.py:  200]:   [val] ade_l: 6.430
+[INFO: train_generator_only.py:  200]:   [val] ade_nl: 1.221
+[INFO: train_generator_only.py:  200]:   [val] fde: 2.172
+[INFO: train_generator_only.py:  200]:   [val] fde_l: 13.609
+[INFO: train_generator_only.py:  200]:   [val] fde_nl: 2.584
+[INFO: train_generator_only.py:  200]:   [val] g_l2_loss_abs: 0.646
+[INFO: train_generator_only.py:  200]:   [val] g_l2_loss_rel: 0.646
+[INFO: train_generator_only.py:  203]:   [train] ade: 1.017
+[INFO: train_generator_only.py:  203]:   [train] ade_l: 5.860
+[INFO: train_generator_only.py:  203]:   [train] ade_nl: 1.231
+[INFO: train_generator_only.py:  203]:   [train] fde: 2.178
+[INFO: train_generator_only.py:  203]:   [train] fde_l: 12.550
+[INFO: train_generator_only.py:  203]:   [train] fde_nl: 2.635
+[INFO: train_generator_only.py:  203]:   [train] g_l2_loss_abs: 0.632
+[INFO: train_generator_only.py:  203]:   [train] g_l2_loss_rel: 0.632
+[INFO: train_generator_only.py:  228]: Saving checkpoint to organized_cnn_models_multi/organized_cnn_zara2_4lay_12_with_model.pt
+[INFO: train_generator_only.py:  230]: Done.
+[INFO: train_generator_only.py:  236]: Saving checkpoint to organized_cnn_models_multi/organized_cnn_zara2_4lay_12_no_model.pt
+[INFO: train_generator_only.py:  246]: Done.
+[INFO: train_generator_only.py:  163]: Starting epoch 69
+[INFO: train_generator_only.py:  190]: Checking stats on val ...
+[INFO: train_generator_only.py:  194]: Checking stats on train ...
+[INFO: train_generator_only.py:  200]:   [val] ade: 1.076
+[INFO: train_generator_only.py:  200]:   [val] ade_l: 6.740
+[INFO: train_generator_only.py:  200]:   [val] ade_nl: 1.280
+[INFO: train_generator_only.py:  200]:   [val] fde: 2.248
+[INFO: train_generator_only.py:  200]:   [val] fde_l: 14.083
+[INFO: train_generator_only.py:  200]:   [val] fde_nl: 2.674
+[INFO: train_generator_only.py:  200]:   [val] g_l2_loss_abs: 0.677
+[INFO: train_generator_only.py:  200]:   [val] g_l2_loss_rel: 0.677
+[INFO: train_generator_only.py:  203]:   [train] ade: 1.082
+[INFO: train_generator_only.py:  203]:   [train] ade_l: 6.622
+[INFO: train_generator_only.py:  203]:   [train] ade_nl: 1.293
+[INFO: train_generator_only.py:  203]:   [train] fde: 2.276
+[INFO: train_generator_only.py:  203]:   [train] fde_l: 13.931
+[INFO: train_generator_only.py:  203]:   [train] fde_nl: 2.721
+[INFO: train_generator_only.py:  203]:   [train] g_l2_loss_abs: 0.666
+[INFO: train_generator_only.py:  203]:   [train] g_l2_loss_rel: 0.666
+[INFO: train_generator_only.py:  228]: Saving checkpoint to organized_cnn_models_multi/organized_cnn_zara2_4lay_12_with_model.pt
+[INFO: train_generator_only.py:  230]: Done.
+[INFO: train_generator_only.py:  236]: Saving checkpoint to organized_cnn_models_multi/organized_cnn_zara2_4lay_12_no_model.pt
+[INFO: train_generator_only.py:  246]: Done.
+[INFO: train_generator_only.py:  163]: Starting epoch 70
+[INFO: train_generator_only.py:  163]: Starting epoch 71
+[INFO: train_generator_only.py:  174]: t = 4601 / 6600
+[INFO: train_generator_only.py:  179]:   [G] G_l2_loss_rel: 0.617
+[INFO: train_generator_only.py:  190]: Checking stats on val ...
+[INFO: train_generator_only.py:  194]: Checking stats on train ...
+[INFO: train_generator_only.py:  200]:   [val] ade: 1.046
+[INFO: train_generator_only.py:  200]:   [val] ade_l: 6.552
+[INFO: train_generator_only.py:  200]:   [val] ade_nl: 1.244
+[INFO: train_generator_only.py:  200]:   [val] fde: 2.203
+[INFO: train_generator_only.py:  200]:   [val] fde_l: 13.804
+[INFO: train_generator_only.py:  200]:   [val] fde_nl: 2.621
+[INFO: train_generator_only.py:  200]:   [val] g_l2_loss_abs: 0.653
+[INFO: train_generator_only.py:  200]:   [val] g_l2_loss_rel: 0.653
+[INFO: train_generator_only.py:  203]:   [train] ade: 1.043
+[INFO: train_generator_only.py:  203]:   [train] ade_l: 5.921
+[INFO: train_generator_only.py:  203]:   [train] ade_nl: 1.266
+[INFO: train_generator_only.py:  203]:   [train] fde: 2.213
+[INFO: train_generator_only.py:  203]:   [train] fde_l: 12.561
+[INFO: train_generator_only.py:  203]:   [train] fde_nl: 2.687
+[INFO: train_generator_only.py:  203]:   [train] g_l2_loss_abs: 0.652
+[INFO: train_generator_only.py:  203]:   [train] g_l2_loss_rel: 0.652
+[INFO: train_generator_only.py:  228]: Saving checkpoint to organized_cnn_models_multi/organized_cnn_zara2_4lay_12_with_model.pt
+[INFO: train_generator_only.py:  230]: Done.
+[INFO: train_generator_only.py:  236]: Saving checkpoint to organized_cnn_models_multi/organized_cnn_zara2_4lay_12_no_model.pt
+[INFO: train_generator_only.py:  246]: Done.
+[INFO: train_generator_only.py:  163]: Starting epoch 72
+[INFO: train_generator_only.py:  190]: Checking stats on val ...
+[INFO: train_generator_only.py:  194]: Checking stats on train ...
+[INFO: train_generator_only.py:  200]:   [val] ade: 0.998
+[INFO: train_generator_only.py:  200]:   [val] ade_l: 6.255
+[INFO: train_generator_only.py:  200]:   [val] ade_nl: 1.188
+[INFO: train_generator_only.py:  200]:   [val] fde: 2.117
+[INFO: train_generator_only.py:  200]:   [val] fde_l: 13.263
+[INFO: train_generator_only.py:  200]:   [val] fde_nl: 2.519
+[INFO: train_generator_only.py:  200]:   [val] g_l2_loss_abs: 0.632
+[INFO: train_generator_only.py:  200]:   [val] g_l2_loss_rel: 0.632
+[INFO: train_generator_only.py:  203]:   [train] ade: 0.980
+[INFO: train_generator_only.py:  203]:   [train] ade_l: 5.596
+[INFO: train_generator_only.py:  203]:   [train] ade_nl: 1.187
+[INFO: train_generator_only.py:  203]:   [train] fde: 2.105
+[INFO: train_generator_only.py:  203]:   [train] fde_l: 12.028
+[INFO: train_generator_only.py:  203]:   [train] fde_nl: 2.552
+[INFO: train_generator_only.py:  203]:   [train] g_l2_loss_abs: 0.607
+[INFO: train_generator_only.py:  203]:   [train] g_l2_loss_rel: 0.607
+[INFO: train_generator_only.py:  228]: Saving checkpoint to organized_cnn_models_multi/organized_cnn_zara2_4lay_12_with_model.pt
+[INFO: train_generator_only.py:  230]: Done.
+[INFO: train_generator_only.py:  236]: Saving checkpoint to organized_cnn_models_multi/organized_cnn_zara2_4lay_12_no_model.pt
+[INFO: train_generator_only.py:  246]: Done.
+[INFO: train_generator_only.py:  163]: Starting epoch 73
+[INFO: train_generator_only.py:  163]: Starting epoch 74
+[INFO: train_generator_only.py:  174]: t = 4801 / 6600
+[INFO: train_generator_only.py:  179]:   [G] G_l2_loss_rel: 0.570
+[INFO: train_generator_only.py:  190]: Checking stats on val ...
+[INFO: train_generator_only.py:  194]: Checking stats on train ...
+[INFO: train_generator_only.py:  200]:   [val] ade: 0.997
+[INFO: train_generator_only.py:  200]:   [val] ade_l: 6.248
+[INFO: train_generator_only.py:  200]:   [val] ade_nl: 1.186
+[INFO: train_generator_only.py:  200]:   [val] fde: 2.110
+[INFO: train_generator_only.py:  200]:   [val] fde_l: 13.223
+[INFO: train_generator_only.py:  200]:   [val] fde_nl: 2.511
+[INFO: train_generator_only.py:  200]:   [val] g_l2_loss_abs: 0.623
+[INFO: train_generator_only.py:  200]:   [val] g_l2_loss_rel: 0.623
+[INFO: train_generator_only.py:  203]:   [train] ade: 0.974
+[INFO: train_generator_only.py:  203]:   [train] ade_l: 5.477
+[INFO: train_generator_only.py:  203]:   [train] ade_nl: 1.185
+[INFO: train_generator_only.py:  203]:   [train] fde: 2.084
+[INFO: train_generator_only.py:  203]:   [train] fde_l: 11.716
+[INFO: train_generator_only.py:  203]:   [train] fde_nl: 2.535
+[INFO: train_generator_only.py:  203]:   [train] g_l2_loss_abs: 0.584
+[INFO: train_generator_only.py:  203]:   [train] g_l2_loss_rel: 0.584
+[INFO: train_generator_only.py:  228]: Saving checkpoint to organized_cnn_models_multi/organized_cnn_zara2_4lay_12_with_model.pt
+[INFO: train_generator_only.py:  230]: Done.
+[INFO: train_generator_only.py:  236]: Saving checkpoint to organized_cnn_models_multi/organized_cnn_zara2_4lay_12_no_model.pt
+[INFO: train_generator_only.py:  246]: Done.
+[INFO: train_generator_only.py:  163]: Starting epoch 75
+[INFO: train_generator_only.py:  190]: Checking stats on val ...
+[INFO: train_generator_only.py:  194]: Checking stats on train ...
+[INFO: train_generator_only.py:  200]:   [val] ade: 1.036
+[INFO: train_generator_only.py:  200]:   [val] ade_l: 6.492
+[INFO: train_generator_only.py:  200]:   [val] ade_nl: 1.233
+[INFO: train_generator_only.py:  200]:   [val] fde: 2.166
+[INFO: train_generator_only.py:  200]:   [val] fde_l: 13.573
+[INFO: train_generator_only.py:  200]:   [val] fde_nl: 2.578
+[INFO: train_generator_only.py:  200]:   [val] g_l2_loss_abs: 0.649
+[INFO: train_generator_only.py:  200]:   [val] g_l2_loss_rel: 0.649
+[INFO: train_generator_only.py:  203]:   [train] ade: 1.030
+[INFO: train_generator_only.py:  203]:   [train] ade_l: 6.510
+[INFO: train_generator_only.py:  203]:   [train] ade_nl: 1.224
+[INFO: train_generator_only.py:  203]:   [train] fde: 2.191
+[INFO: train_generator_only.py:  203]:   [train] fde_l: 13.840
+[INFO: train_generator_only.py:  203]:   [train] fde_nl: 2.603
+[INFO: train_generator_only.py:  203]:   [train] g_l2_loss_abs: 0.644
+[INFO: train_generator_only.py:  203]:   [train] g_l2_loss_rel: 0.644
+[INFO: train_generator_only.py:  228]: Saving checkpoint to organized_cnn_models_multi/organized_cnn_zara2_4lay_12_with_model.pt
+[INFO: train_generator_only.py:  230]: Done.
+[INFO: train_generator_only.py:  236]: Saving checkpoint to organized_cnn_models_multi/organized_cnn_zara2_4lay_12_no_model.pt
+[INFO: train_generator_only.py:  246]: Done.
+[INFO: train_generator_only.py:  163]: Starting epoch 76
+[INFO: train_generator_only.py:  163]: Starting epoch 77
+[INFO: train_generator_only.py:  174]: t = 5001 / 6600
+[INFO: train_generator_only.py:  179]:   [G] G_l2_loss_rel: 0.623
+[INFO: train_generator_only.py:  190]: Checking stats on val ...
+[INFO: train_generator_only.py:  194]: Checking stats on train ...
+[INFO: train_generator_only.py:  200]:   [val] ade: 1.003
+[INFO: train_generator_only.py:  200]:   [val] ade_l: 6.287
+[INFO: train_generator_only.py:  200]:   [val] ade_nl: 1.194
+[INFO: train_generator_only.py:  200]:   [val] fde: 2.124
+[INFO: train_generator_only.py:  200]:   [val] fde_l: 13.309
+[INFO: train_generator_only.py:  200]:   [val] fde_nl: 2.527
+[INFO: train_generator_only.py:  200]:   [val] g_l2_loss_abs: 0.643
+[INFO: train_generator_only.py:  200]:   [val] g_l2_loss_rel: 0.643
+[INFO: train_generator_only.py:  203]:   [train] ade: 0.970
+[INFO: train_generator_only.py:  203]:   [train] ade_l: 5.334
+[INFO: train_generator_only.py:  203]:   [train] ade_nl: 1.186
+[INFO: train_generator_only.py:  203]:   [train] fde: 2.075
+[INFO: train_generator_only.py:  203]:   [train] fde_l: 11.408
+[INFO: train_generator_only.py:  203]:   [train] fde_nl: 2.536
+[INFO: train_generator_only.py:  203]:   [train] g_l2_loss_abs: 0.599
+[INFO: train_generator_only.py:  203]:   [train] g_l2_loss_rel: 0.599
+[INFO: train_generator_only.py:  228]: Saving checkpoint to organized_cnn_models_multi/organized_cnn_zara2_4lay_12_with_model.pt
+[INFO: train_generator_only.py:  230]: Done.
+[INFO: train_generator_only.py:  236]: Saving checkpoint to organized_cnn_models_multi/organized_cnn_zara2_4lay_12_no_model.pt
+[INFO: train_generator_only.py:  246]: Done.
+[INFO: train_generator_only.py:  163]: Starting epoch 78
+[INFO: train_generator_only.py:  190]: Checking stats on val ...
+[INFO: train_generator_only.py:  194]: Checking stats on train ...
+[INFO: train_generator_only.py:  200]:   [val] ade: 1.035
+[INFO: train_generator_only.py:  200]:   [val] ade_l: 6.488
+[INFO: train_generator_only.py:  200]:   [val] ade_nl: 1.232
+[INFO: train_generator_only.py:  200]:   [val] fde: 2.182
+[INFO: train_generator_only.py:  200]:   [val] fde_l: 13.671
+[INFO: train_generator_only.py:  200]:   [val] fde_nl: 2.596
+[INFO: train_generator_only.py:  200]:   [val] g_l2_loss_abs: 0.670
+[INFO: train_generator_only.py:  200]:   [val] g_l2_loss_rel: 0.670
+[INFO: train_generator_only.py:  203]:   [train] ade: 0.994
+[INFO: train_generator_only.py:  203]:   [train] ade_l: 5.631
+[INFO: train_generator_only.py:  203]:   [train] ade_nl: 1.208
+[INFO: train_generator_only.py:  203]:   [train] fde: 2.108
+[INFO: train_generator_only.py:  203]:   [train] fde_l: 11.937
+[INFO: train_generator_only.py:  203]:   [train] fde_nl: 2.560
+[INFO: train_generator_only.py:  203]:   [train] g_l2_loss_abs: 0.623
+[INFO: train_generator_only.py:  203]:   [train] g_l2_loss_rel: 0.623
+[INFO: train_generator_only.py:  228]: Saving checkpoint to organized_cnn_models_multi/organized_cnn_zara2_4lay_12_with_model.pt
+[INFO: train_generator_only.py:  230]: Done.
+[INFO: train_generator_only.py:  236]: Saving checkpoint to organized_cnn_models_multi/organized_cnn_zara2_4lay_12_no_model.pt
+[INFO: train_generator_only.py:  246]: Done.
+[INFO: train_generator_only.py:  163]: Starting epoch 79
+[INFO: train_generator_only.py:  163]: Starting epoch 80
+[INFO: train_generator_only.py:  174]: t = 5201 / 6600
+[INFO: train_generator_only.py:  179]:   [G] G_l2_loss_rel: 0.458
+[INFO: train_generator_only.py:  190]: Checking stats on val ...
+[INFO: train_generator_only.py:  194]: Checking stats on train ...
+[INFO: train_generator_only.py:  200]:   [val] ade: 1.043
+[INFO: train_generator_only.py:  200]:   [val] ade_l: 6.537
+[INFO: train_generator_only.py:  200]:   [val] ade_nl: 1.241
+[INFO: train_generator_only.py:  200]:   [val] fde: 2.171
+[INFO: train_generator_only.py:  200]:   [val] fde_l: 13.601
+[INFO: train_generator_only.py:  200]:   [val] fde_nl: 2.583
+[INFO: train_generator_only.py:  200]:   [val] g_l2_loss_abs: 0.656
+[INFO: train_generator_only.py:  200]:   [val] g_l2_loss_rel: 0.656
+[INFO: train_generator_only.py:  203]:   [train] ade: 0.999
+[INFO: train_generator_only.py:  203]:   [train] ade_l: 5.394
+[INFO: train_generator_only.py:  203]:   [train] ade_nl: 1.225
+[INFO: train_generator_only.py:  203]:   [train] fde: 2.098
+[INFO: train_generator_only.py:  203]:   [train] fde_l: 11.331
+[INFO: train_generator_only.py:  203]:   [train] fde_nl: 2.574
+[INFO: train_generator_only.py:  203]:   [train] g_l2_loss_abs: 0.607
+[INFO: train_generator_only.py:  203]:   [train] g_l2_loss_rel: 0.607
+[INFO: train_generator_only.py:  228]: Saving checkpoint to organized_cnn_models_multi/organized_cnn_zara2_4lay_12_with_model.pt
+[INFO: train_generator_only.py:  230]: Done.
+[INFO: train_generator_only.py:  236]: Saving checkpoint to organized_cnn_models_multi/organized_cnn_zara2_4lay_12_no_model.pt
+[INFO: train_generator_only.py:  246]: Done.
+[INFO: train_generator_only.py:  163]: Starting epoch 81
+[INFO: train_generator_only.py:  190]: Checking stats on val ...
+[INFO: train_generator_only.py:  194]: Checking stats on train ...
+[INFO: train_generator_only.py:  200]:   [val] ade: 1.013
+[INFO: train_generator_only.py:  200]:   [val] ade_l: 6.347
+[INFO: train_generator_only.py:  200]:   [val] ade_nl: 1.205
+[INFO: train_generator_only.py:  200]:   [val] fde: 2.149
+[INFO: train_generator_only.py:  200]:   [val] fde_l: 13.466
+[INFO: train_generator_only.py:  200]:   [val] fde_nl: 2.557
+[INFO: train_generator_only.py:  200]:   [val] g_l2_loss_abs: 0.633
+[INFO: train_generator_only.py:  200]:   [val] g_l2_loss_rel: 0.633
+[INFO: train_generator_only.py:  203]:   [train] ade: 1.011
+[INFO: train_generator_only.py:  203]:   [train] ade_l: 5.379
+[INFO: train_generator_only.py:  203]:   [train] ade_nl: 1.245
+[INFO: train_generator_only.py:  203]:   [train] fde: 2.168
+[INFO: train_generator_only.py:  203]:   [train] fde_l: 11.534
+[INFO: train_generator_only.py:  203]:   [train] fde_nl: 2.670
+[INFO: train_generator_only.py:  203]:   [train] g_l2_loss_abs: 0.635
+[INFO: train_generator_only.py:  203]:   [train] g_l2_loss_rel: 0.635
+[INFO: train_generator_only.py:  228]: Saving checkpoint to organized_cnn_models_multi/organized_cnn_zara2_4lay_12_with_model.pt
+[INFO: train_generator_only.py:  230]: Done.
+[INFO: train_generator_only.py:  236]: Saving checkpoint to organized_cnn_models_multi/organized_cnn_zara2_4lay_12_no_model.pt
+[INFO: train_generator_only.py:  246]: Done.
+[INFO: train_generator_only.py:  163]: Starting epoch 82
+[INFO: train_generator_only.py:  163]: Starting epoch 83
+[INFO: train_generator_only.py:  174]: t = 5401 / 6600
+[INFO: train_generator_only.py:  179]:   [G] G_l2_loss_rel: 0.719
+[INFO: train_generator_only.py:  190]: Checking stats on val ...
+[INFO: train_generator_only.py:  194]: Checking stats on train ...
+[INFO: train_generator_only.py:  200]:   [val] ade: 0.993
+[INFO: train_generator_only.py:  200]:   [val] ade_l: 6.224
+[INFO: train_generator_only.py:  200]:   [val] ade_nl: 1.182
+[INFO: train_generator_only.py:  200]:   [val] fde: 2.094
+[INFO: train_generator_only.py:  200]:   [val] fde_l: 13.121
+[INFO: train_generator_only.py:  200]:   [val] fde_nl: 2.492
+[INFO: train_generator_only.py:  200]:   [val] g_l2_loss_abs: 0.635
+[INFO: train_generator_only.py:  200]:   [val] g_l2_loss_rel: 0.635
+[INFO: train_generator_only.py:  203]:   [train] ade: 0.993
+[INFO: train_generator_only.py:  203]:   [train] ade_l: 5.596
+[INFO: train_generator_only.py:  203]:   [train] ade_nl: 1.207
+[INFO: train_generator_only.py:  203]:   [train] fde: 2.117
+[INFO: train_generator_only.py:  203]:   [train] fde_l: 11.932
+[INFO: train_generator_only.py:  203]:   [train] fde_nl: 2.573
+[INFO: train_generator_only.py:  203]:   [train] g_l2_loss_abs: 0.630
+[INFO: train_generator_only.py:  203]:   [train] g_l2_loss_rel: 0.630
+[INFO: train_generator_only.py:  228]: Saving checkpoint to organized_cnn_models_multi/organized_cnn_zara2_4lay_12_with_model.pt
+[INFO: train_generator_only.py:  230]: Done.
+[INFO: train_generator_only.py:  236]: Saving checkpoint to organized_cnn_models_multi/organized_cnn_zara2_4lay_12_no_model.pt
+[INFO: train_generator_only.py:  246]: Done.
+[INFO: train_generator_only.py:  163]: Starting epoch 84
+[INFO: train_generator_only.py:  190]: Checking stats on val ...
+[INFO: train_generator_only.py:  194]: Checking stats on train ...
+[INFO: train_generator_only.py:  200]:   [val] ade: 0.994
+[INFO: train_generator_only.py:  200]:   [val] ade_l: 6.230
+[INFO: train_generator_only.py:  200]:   [val] ade_nl: 1.183
+[INFO: train_generator_only.py:  200]:   [val] fde: 2.114
+[INFO: train_generator_only.py:  200]:   [val] fde_l: 13.246
+[INFO: train_generator_only.py:  200]:   [val] fde_nl: 2.515
+[INFO: train_generator_only.py:  200]:   [val] g_l2_loss_abs: 0.638
+[INFO: train_generator_only.py:  200]:   [val] g_l2_loss_rel: 0.638
+[INFO: train_generator_only.py:  203]:   [train] ade: 0.986
+[INFO: train_generator_only.py:  203]:   [train] ade_l: 5.833
+[INFO: train_generator_only.py:  203]:   [train] ade_nl: 1.186
+[INFO: train_generator_only.py:  203]:   [train] fde: 2.123
+[INFO: train_generator_only.py:  203]:   [train] fde_l: 12.566
+[INFO: train_generator_only.py:  203]:   [train] fde_nl: 2.555
+[INFO: train_generator_only.py:  203]:   [train] g_l2_loss_abs: 0.617
+[INFO: train_generator_only.py:  203]:   [train] g_l2_loss_rel: 0.617
+[INFO: train_generator_only.py:  228]: Saving checkpoint to organized_cnn_models_multi/organized_cnn_zara2_4lay_12_with_model.pt
+[INFO: train_generator_only.py:  230]: Done.
+[INFO: train_generator_only.py:  236]: Saving checkpoint to organized_cnn_models_multi/organized_cnn_zara2_4lay_12_no_model.pt
+[INFO: train_generator_only.py:  246]: Done.
+[INFO: train_generator_only.py:  163]: Starting epoch 85
+[INFO: train_generator_only.py:  163]: Starting epoch 86
+[INFO: train_generator_only.py:  174]: t = 5601 / 6600
+[INFO: train_generator_only.py:  179]:   [G] G_l2_loss_rel: 0.594
+[INFO: train_generator_only.py:  190]: Checking stats on val ...
+[INFO: train_generator_only.py:  194]: Checking stats on train ...
+[INFO: train_generator_only.py:  200]:   [val] ade: 1.018
+[INFO: train_generator_only.py:  200]:   [val] ade_l: 6.377
+[INFO: train_generator_only.py:  200]:   [val] ade_nl: 1.211
+[INFO: train_generator_only.py:  200]:   [val] fde: 2.136
+[INFO: train_generator_only.py:  200]:   [val] fde_l: 13.384
+[INFO: train_generator_only.py:  200]:   [val] fde_nl: 2.542
+[INFO: train_generator_only.py:  200]:   [val] g_l2_loss_abs: 0.648
+[INFO: train_generator_only.py:  200]:   [val] g_l2_loss_rel: 0.648
+[INFO: train_generator_only.py:  203]:   [train] ade: 1.011
+[INFO: train_generator_only.py:  203]:   [train] ade_l: 6.190
+[INFO: train_generator_only.py:  203]:   [train] ade_nl: 1.208
+[INFO: train_generator_only.py:  203]:   [train] fde: 2.150
+[INFO: train_generator_only.py:  203]:   [train] fde_l: 13.169
+[INFO: train_generator_only.py:  203]:   [train] fde_nl: 2.570
+[INFO: train_generator_only.py:  203]:   [train] g_l2_loss_abs: 0.640
+[INFO: train_generator_only.py:  203]:   [train] g_l2_loss_rel: 0.640
+[INFO: train_generator_only.py:  228]: Saving checkpoint to organized_cnn_models_multi/organized_cnn_zara2_4lay_12_with_model.pt
+[INFO: train_generator_only.py:  230]: Done.
+[INFO: train_generator_only.py:  236]: Saving checkpoint to organized_cnn_models_multi/organized_cnn_zara2_4lay_12_no_model.pt
+[INFO: train_generator_only.py:  246]: Done.
+[INFO: train_generator_only.py:  163]: Starting epoch 87
+[INFO: train_generator_only.py:  190]: Checking stats on val ...
+[INFO: train_generator_only.py:  194]: Checking stats on train ...
+[INFO: train_generator_only.py:  200]:   [val] ade: 1.050
+[INFO: train_generator_only.py:  200]:   [val] ade_l: 6.577
+[INFO: train_generator_only.py:  200]:   [val] ade_nl: 1.249
+[INFO: train_generator_only.py:  200]:   [val] fde: 2.209
+[INFO: train_generator_only.py:  200]:   [val] fde_l: 13.842
+[INFO: train_generator_only.py:  200]:   [val] fde_nl: 2.629
+[INFO: train_generator_only.py:  200]:   [val] g_l2_loss_abs: 0.655
+[INFO: train_generator_only.py:  200]:   [val] g_l2_loss_rel: 0.655
+[INFO: train_generator_only.py:  203]:   [train] ade: 1.076
+[INFO: train_generator_only.py:  203]:   [train] ade_l: 6.849
+[INFO: train_generator_only.py:  203]:   [train] ade_nl: 1.277
+[INFO: train_generator_only.py:  203]:   [train] fde: 2.284
+[INFO: train_generator_only.py:  203]:   [train] fde_l: 14.537
+[INFO: train_generator_only.py:  203]:   [train] fde_nl: 2.710
+[INFO: train_generator_only.py:  203]:   [train] g_l2_loss_abs: 0.682
+[INFO: train_generator_only.py:  203]:   [train] g_l2_loss_rel: 0.682
+[INFO: train_generator_only.py:  228]: Saving checkpoint to organized_cnn_models_multi/organized_cnn_zara2_4lay_12_with_model.pt
+[INFO: train_generator_only.py:  230]: Done.
+[INFO: train_generator_only.py:  236]: Saving checkpoint to organized_cnn_models_multi/organized_cnn_zara2_4lay_12_no_model.pt
+[INFO: train_generator_only.py:  246]: Done.
+[INFO: train_generator_only.py:  163]: Starting epoch 88
+[INFO: train_generator_only.py:  163]: Starting epoch 89
+[INFO: train_generator_only.py:  174]: t = 5801 / 6600
+[INFO: train_generator_only.py:  179]:   [G] G_l2_loss_rel: 0.761
+[INFO: train_generator_only.py:  190]: Checking stats on val ...
+[INFO: train_generator_only.py:  194]: Checking stats on train ...
+[INFO: train_generator_only.py:  200]:   [val] ade: 1.012
+[INFO: train_generator_only.py:  200]:   [val] ade_l: 6.342
+[INFO: train_generator_only.py:  200]:   [val] ade_nl: 1.204
+[INFO: train_generator_only.py:  200]:   [val] fde: 2.133
+[INFO: train_generator_only.py:  200]:   [val] fde_l: 13.365
+[INFO: train_generator_only.py:  200]:   [val] fde_nl: 2.538
+[INFO: train_generator_only.py:  200]:   [val] g_l2_loss_abs: 0.632
+[INFO: train_generator_only.py:  200]:   [val] g_l2_loss_rel: 0.632
+[INFO: train_generator_only.py:  203]:   [train] ade: 1.047
+[INFO: train_generator_only.py:  203]:   [train] ade_l: 6.182
+[INFO: train_generator_only.py:  203]:   [train] ade_nl: 1.260
+[INFO: train_generator_only.py:  203]:   [train] fde: 2.218
+[INFO: train_generator_only.py:  203]:   [train] fde_l: 13.099
+[INFO: train_generator_only.py:  203]:   [train] fde_nl: 2.670
+[INFO: train_generator_only.py:  203]:   [train] g_l2_loss_abs: 0.672
+[INFO: train_generator_only.py:  203]:   [train] g_l2_loss_rel: 0.672
+[INFO: train_generator_only.py:  228]: Saving checkpoint to organized_cnn_models_multi/organized_cnn_zara2_4lay_12_with_model.pt
+[INFO: train_generator_only.py:  230]: Done.
+[INFO: train_generator_only.py:  236]: Saving checkpoint to organized_cnn_models_multi/organized_cnn_zara2_4lay_12_no_model.pt
+[INFO: train_generator_only.py:  246]: Done.
+[INFO: train_generator_only.py:  163]: Starting epoch 90
+[INFO: train_generator_only.py:  190]: Checking stats on val ...
+[INFO: train_generator_only.py:  194]: Checking stats on train ...
+[INFO: train_generator_only.py:  200]:   [val] ade: 1.016
+[INFO: train_generator_only.py:  200]:   [val] ade_l: 6.365
+[INFO: train_generator_only.py:  200]:   [val] ade_nl: 1.209
+[INFO: train_generator_only.py:  200]:   [val] fde: 2.159
+[INFO: train_generator_only.py:  200]:   [val] fde_l: 13.529
+[INFO: train_generator_only.py:  200]:   [val] fde_nl: 2.569
+[INFO: train_generator_only.py:  200]:   [val] g_l2_loss_abs: 0.627
+[INFO: train_generator_only.py:  200]:   [val] g_l2_loss_rel: 0.627
+[INFO: train_generator_only.py:  203]:   [train] ade: 1.015
+[INFO: train_generator_only.py:  203]:   [train] ade_l: 5.836
+[INFO: train_generator_only.py:  203]:   [train] ade_nl: 1.228
+[INFO: train_generator_only.py:  203]:   [train] fde: 2.179
+[INFO: train_generator_only.py:  203]:   [train] fde_l: 12.532
+[INFO: train_generator_only.py:  203]:   [train] fde_nl: 2.637
+[INFO: train_generator_only.py:  203]:   [train] g_l2_loss_abs: 0.641
+[INFO: train_generator_only.py:  203]:   [train] g_l2_loss_rel: 0.641
+[INFO: train_generator_only.py:  228]: Saving checkpoint to organized_cnn_models_multi/organized_cnn_zara2_4lay_12_with_model.pt
+[INFO: train_generator_only.py:  230]: Done.
+[INFO: train_generator_only.py:  236]: Saving checkpoint to organized_cnn_models_multi/organized_cnn_zara2_4lay_12_no_model.pt
+[INFO: train_generator_only.py:  246]: Done.
+[INFO: train_generator_only.py:  163]: Starting epoch 91
+[INFO: train_generator_only.py:  163]: Starting epoch 92
+[INFO: train_generator_only.py:  174]: t = 6001 / 6600
+[INFO: train_generator_only.py:  179]:   [G] G_l2_loss_rel: 0.534
+[INFO: train_generator_only.py:  190]: Checking stats on val ...
+[INFO: train_generator_only.py:  194]: Checking stats on train ...
+[INFO: train_generator_only.py:  200]:   [val] ade: 1.017
+[INFO: train_generator_only.py:  200]:   [val] ade_l: 6.371
+[INFO: train_generator_only.py:  200]:   [val] ade_nl: 1.210
+[INFO: train_generator_only.py:  200]:   [val] fde: 2.143
+[INFO: train_generator_only.py:  200]:   [val] fde_l: 13.428
+[INFO: train_generator_only.py:  200]:   [val] fde_nl: 2.550
+[INFO: train_generator_only.py:  200]:   [val] g_l2_loss_abs: 0.626
+[INFO: train_generator_only.py:  200]:   [val] g_l2_loss_rel: 0.626
+[INFO: train_generator_only.py:  203]:   [train] ade: 1.023
+[INFO: train_generator_only.py:  203]:   [train] ade_l: 5.670
+[INFO: train_generator_only.py:  203]:   [train] ade_nl: 1.248
+[INFO: train_generator_only.py:  203]:   [train] fde: 2.162
+[INFO: train_generator_only.py:  203]:   [train] fde_l: 11.986
+[INFO: train_generator_only.py:  203]:   [train] fde_nl: 2.638
+[INFO: train_generator_only.py:  203]:   [train] g_l2_loss_abs: 0.605
+[INFO: train_generator_only.py:  203]:   [train] g_l2_loss_rel: 0.605
+[INFO: train_generator_only.py:  228]: Saving checkpoint to organized_cnn_models_multi/organized_cnn_zara2_4lay_12_with_model.pt
+[INFO: train_generator_only.py:  230]: Done.
+[INFO: train_generator_only.py:  236]: Saving checkpoint to organized_cnn_models_multi/organized_cnn_zara2_4lay_12_no_model.pt
+[INFO: train_generator_only.py:  246]: Done.
+[INFO: train_generator_only.py:  163]: Starting epoch 93
+[INFO: train_generator_only.py:  190]: Checking stats on val ...
+[INFO: train_generator_only.py:  194]: Checking stats on train ...
+[INFO: train_generator_only.py:  200]:   [val] ade: 1.001
+[INFO: train_generator_only.py:  200]:   [val] ade_l: 6.270
+[INFO: train_generator_only.py:  200]:   [val] ade_nl: 1.191
+[INFO: train_generator_only.py:  200]:   [val] fde: 2.139
+[INFO: train_generator_only.py:  200]:   [val] fde_l: 13.403
+[INFO: train_generator_only.py:  200]:   [val] fde_nl: 2.545
+[INFO: train_generator_only.py:  200]:   [val] g_l2_loss_abs: 0.638
+[INFO: train_generator_only.py:  200]:   [val] g_l2_loss_rel: 0.638
+[INFO: train_generator_only.py:  203]:   [train] ade: 0.969
+[INFO: train_generator_only.py:  203]:   [train] ade_l: 5.259
+[INFO: train_generator_only.py:  203]:   [train] ade_nl: 1.187
+[INFO: train_generator_only.py:  203]:   [train] fde: 2.098
+[INFO: train_generator_only.py:  203]:   [train] fde_l: 11.390
+[INFO: train_generator_only.py:  203]:   [train] fde_nl: 2.571
+[INFO: train_generator_only.py:  203]:   [train] g_l2_loss_abs: 0.590
+[INFO: train_generator_only.py:  203]:   [train] g_l2_loss_rel: 0.590
+[INFO: train_generator_only.py:  228]: Saving checkpoint to organized_cnn_models_multi/organized_cnn_zara2_4lay_12_with_model.pt
+[INFO: train_generator_only.py:  230]: Done.
+[INFO: train_generator_only.py:  236]: Saving checkpoint to organized_cnn_models_multi/organized_cnn_zara2_4lay_12_no_model.pt
+[INFO: train_generator_only.py:  246]: Done.
+[INFO: train_generator_only.py:  163]: Starting epoch 94
+[INFO: train_generator_only.py:  163]: Starting epoch 95
+[INFO: train_generator_only.py:  174]: t = 6201 / 6600
+[INFO: train_generator_only.py:  179]:   [G] G_l2_loss_rel: 0.469
+[INFO: train_generator_only.py:  190]: Checking stats on val ...
+[INFO: train_generator_only.py:  194]: Checking stats on train ...
+[INFO: train_generator_only.py:  200]:   [val] ade: 0.996
+[INFO: train_generator_only.py:  200]:   [val] ade_l: 6.238
+[INFO: train_generator_only.py:  200]:   [val] ade_nl: 1.185
+[INFO: train_generator_only.py:  200]:   [val] fde: 2.115
+[INFO: train_generator_only.py:  200]:   [val] fde_l: 13.253
+[INFO: train_generator_only.py:  200]:   [val] fde_nl: 2.517
+[INFO: train_generator_only.py:  200]:   [val] g_l2_loss_abs: 0.635
+[INFO: train_generator_only.py:  200]:   [val] g_l2_loss_rel: 0.635
+[INFO: train_generator_only.py:  203]:   [train] ade: 0.973
+[INFO: train_generator_only.py:  203]:   [train] ade_l: 5.568
+[INFO: train_generator_only.py:  203]:   [train] ade_nl: 1.178
+[INFO: train_generator_only.py:  203]:   [train] fde: 2.088
+[INFO: train_generator_only.py:  203]:   [train] fde_l: 11.955
+[INFO: train_generator_only.py:  203]:   [train] fde_nl: 2.530
+[INFO: train_generator_only.py:  203]:   [train] g_l2_loss_abs: 0.608
+[INFO: train_generator_only.py:  203]:   [train] g_l2_loss_rel: 0.608
+[INFO: train_generator_only.py:  228]: Saving checkpoint to organized_cnn_models_multi/organized_cnn_zara2_4lay_12_with_model.pt
+[INFO: train_generator_only.py:  230]: Done.
+[INFO: train_generator_only.py:  236]: Saving checkpoint to organized_cnn_models_multi/organized_cnn_zara2_4lay_12_no_model.pt
+[INFO: train_generator_only.py:  246]: Done.
+[INFO: train_generator_only.py:  163]: Starting epoch 96
+[INFO: train_generator_only.py:  190]: Checking stats on val ...
+[INFO: train_generator_only.py:  194]: Checking stats on train ...
+[INFO: train_generator_only.py:  200]:   [val] ade: 0.998
+[INFO: train_generator_only.py:  200]:   [val] ade_l: 6.253
+[INFO: train_generator_only.py:  200]:   [val] ade_nl: 1.188
+[INFO: train_generator_only.py:  200]:   [val] fde: 2.110
+[INFO: train_generator_only.py:  200]:   [val] fde_l: 13.222
+[INFO: train_generator_only.py:  200]:   [val] fde_nl: 2.511
+[INFO: train_generator_only.py:  200]:   [val] g_l2_loss_abs: 0.627
+[INFO: train_generator_only.py:  200]:   [val] g_l2_loss_rel: 0.627
+[INFO: train_generator_only.py:  203]:   [train] ade: 0.988
+[INFO: train_generator_only.py:  203]:   [train] ade_l: 5.450
+[INFO: train_generator_only.py:  203]:   [train] ade_nl: 1.206
+[INFO: train_generator_only.py:  203]:   [train] fde: 2.117
+[INFO: train_generator_only.py:  203]:   [train] fde_l: 11.681
+[INFO: train_generator_only.py:  203]:   [train] fde_nl: 2.585
+[INFO: train_generator_only.py:  203]:   [train] g_l2_loss_abs: 0.619
+[INFO: train_generator_only.py:  203]:   [train] g_l2_loss_rel: 0.619
+[INFO: train_generator_only.py:  228]: Saving checkpoint to organized_cnn_models_multi/organized_cnn_zara2_4lay_12_with_model.pt
+[INFO: train_generator_only.py:  230]: Done.
+[INFO: train_generator_only.py:  236]: Saving checkpoint to organized_cnn_models_multi/organized_cnn_zara2_4lay_12_no_model.pt
+[INFO: train_generator_only.py:  246]: Done.
+[INFO: train_generator_only.py:  163]: Starting epoch 97
+[INFO: train_generator_only.py:  163]: Starting epoch 98
+[INFO: train_generator_only.py:  174]: t = 6401 / 6600
+[INFO: train_generator_only.py:  179]:   [G] G_l2_loss_rel: 0.444
+[INFO: train_generator_only.py:  190]: Checking stats on val ...
+[INFO: train_generator_only.py:  194]: Checking stats on train ...
+[INFO: train_generator_only.py:  200]:   [val] ade: 0.987
+[INFO: train_generator_only.py:  200]:   [val] ade_l: 6.184
+[INFO: train_generator_only.py:  200]:   [val] ade_nl: 1.174
+[INFO: train_generator_only.py:  200]:   [val] fde: 2.100
+[INFO: train_generator_only.py:  200]:   [val] fde_l: 13.159
+[INFO: train_generator_only.py:  200]:   [val] fde_nl: 2.499
+[INFO: train_generator_only.py:  200]:   [val] g_l2_loss_abs: 0.623
+[INFO: train_generator_only.py:  200]:   [val] g_l2_loss_rel: 0.623
+[INFO: train_generator_only.py:  203]:   [train] ade: 0.981
+[INFO: train_generator_only.py:  203]:   [train] ade_l: 5.444
+[INFO: train_generator_only.py:  203]:   [train] ade_nl: 1.196
+[INFO: train_generator_only.py:  203]:   [train] fde: 2.112
+[INFO: train_generator_only.py:  203]:   [train] fde_l: 11.724
+[INFO: train_generator_only.py:  203]:   [train] fde_nl: 2.576
+[INFO: train_generator_only.py:  203]:   [train] g_l2_loss_abs: 0.618
+[INFO: train_generator_only.py:  203]:   [train] g_l2_loss_rel: 0.618
+[INFO: train_generator_only.py:  210]: New low for avg_disp_error
+[INFO: train_generator_only.py:  216]: New low for avg_disp_error_nl
+[INFO: train_generator_only.py:  228]: Saving checkpoint to organized_cnn_models_multi/organized_cnn_zara2_4lay_12_with_model.pt
+[INFO: train_generator_only.py:  230]: Done.
+[INFO: train_generator_only.py:  236]: Saving checkpoint to organized_cnn_models_multi/organized_cnn_zara2_4lay_12_no_model.pt
+[INFO: train_generator_only.py:  246]: Done.
+[INFO: train_generator_only.py:  163]: Starting epoch 99
+[INFO: train_generator_only.py:  163]: Starting epoch 100
+[INFO: train_generator_only.py:  190]: Checking stats on val ...
+[INFO: train_generator_only.py:  194]: Checking stats on train ...
+[INFO: train_generator_only.py:  200]:   [val] ade: 1.029
+[INFO: train_generator_only.py:  200]:   [val] ade_l: 6.447
+[INFO: train_generator_only.py:  200]:   [val] ade_nl: 1.224
+[INFO: train_generator_only.py:  200]:   [val] fde: 2.161
+[INFO: train_generator_only.py:  200]:   [val] fde_l: 13.538
+[INFO: train_generator_only.py:  200]:   [val] fde_nl: 2.571
+[INFO: train_generator_only.py:  200]:   [val] g_l2_loss_abs: 0.652
+[INFO: train_generator_only.py:  200]:   [val] g_l2_loss_rel: 0.652
+[INFO: train_generator_only.py:  203]:   [train] ade: 0.991
+[INFO: train_generator_only.py:  203]:   [train] ade_l: 5.369
+[INFO: train_generator_only.py:  203]:   [train] ade_nl: 1.216
+[INFO: train_generator_only.py:  203]:   [train] fde: 2.095
+[INFO: train_generator_only.py:  203]:   [train] fde_l: 11.350
+[INFO: train_generator_only.py:  203]:   [train] fde_nl: 2.570
+[INFO: train_generator_only.py:  203]:   [train] g_l2_loss_abs: 0.610
+[INFO: train_generator_only.py:  203]:   [train] g_l2_loss_rel: 0.610
+[INFO: train_generator_only.py:  228]: Saving checkpoint to organized_cnn_models_multi/organized_cnn_zara2_4lay_12_with_model.pt
+[INFO: train_generator_only.py:  230]: Done.
+[INFO: train_generator_only.py:  236]: Saving checkpoint to organized_cnn_models_multi/organized_cnn_zara2_4lay_12_no_model.pt
+[INFO: train_generator_only.py:  246]: Done.
+[INFO: train_generator_only.py:  163]: Starting epoch 101
+TESTING NOW epochs 100
+0.0018614148271494898
+Dataset: zara2, Pred Len: 12, ADE: 0.34, FDE: 0.73
+trajs dumped at  zara2_test_trajs.pkl
+[INFO: train_generator_only.py:   92]: Initializing train dataset
+[INFO: train_generator_only.py:   94]: Initializing val dataset
+[INFO: train_generator_only.py:  101]: There are 66.0 iterations per epoch
+[INFO: train_generator_only.py:  114]: Here is the generator:
+[INFO: train_generator_only.py:  115]: TrajectoryGenerator(
+  (encoder): Encoder(
+    (convs): ModuleList(
+      (0): Conv1d(32, 32, kernel_size=(3,), stride=(1,), padding=(1,))
+      (1): Conv1d(32, 32, kernel_size=(3,), stride=(1,), padding=(1,))
+      (2): Conv1d(32, 32, kernel_size=(3,), stride=(1,), padding=(1,))
+      (3): Conv1d(32, 32, kernel_size=(3,), stride=(1,), padding=(1,))
+    )
+    (spatial_embedding): Linear(in_features=2, out_features=32, bias=True)
+    (hidden2pos): Linear(in_features=256, out_features=24, bias=True)
+    (relu): ReLU()
+  )
+)
+[INFO: train_generator_only.py:  128]: Restoring from checkpoint organized_cnn_models_multi/organized_cnn_zara2_4lay_12_with_model.pt
+[INFO: train_generator_only.py:  163]: Starting epoch 101
+[INFO: train_generator_only.py:  190]: Checking stats on val ...
+[INFO: train_generator_only.py:  194]: Checking stats on train ...
+[INFO: train_generator_only.py:  200]:   [val] ade: 1.020
+[INFO: train_generator_only.py:  200]:   [val] ade_l: 6.391
+[INFO: train_generator_only.py:  200]:   [val] ade_nl: 1.214
+[INFO: train_generator_only.py:  200]:   [val] fde: 2.156
+[INFO: train_generator_only.py:  200]:   [val] fde_l: 13.508
+[INFO: train_generator_only.py:  200]:   [val] fde_nl: 2.565
+[INFO: train_generator_only.py:  200]:   [val] g_l2_loss_abs: 0.645
+[INFO: train_generator_only.py:  200]:   [val] g_l2_loss_rel: 0.645
+[INFO: train_generator_only.py:  203]:   [train] ade: 0.995
+[INFO: train_generator_only.py:  203]:   [train] ade_l: 5.560
+[INFO: train_generator_only.py:  203]:   [train] ade_nl: 1.212
+[INFO: train_generator_only.py:  203]:   [train] fde: 2.134
+[INFO: train_generator_only.py:  203]:   [train] fde_l: 11.919
+[INFO: train_generator_only.py:  203]:   [train] fde_nl: 2.599
+[INFO: train_generator_only.py:  203]:   [train] g_l2_loss_abs: 0.621
+[INFO: train_generator_only.py:  203]:   [train] g_l2_loss_rel: 0.621
+[INFO: train_generator_only.py:  228]: Saving checkpoint to organized_cnn_models_multi/organized_cnn_zara2_4lay_12_with_model.pt
+[INFO: train_generator_only.py:  230]: Done.
+[INFO: train_generator_only.py:  236]: Saving checkpoint to organized_cnn_models_multi/organized_cnn_zara2_4lay_12_no_model.pt
+[INFO: train_generator_only.py:  246]: Done.
+[INFO: train_generator_only.py:  163]: Starting epoch 102
+[INFO: train_generator_only.py:  174]: t = 6601 / 9900
+[INFO: train_generator_only.py:  179]:   [G] G_l2_loss_rel: 0.656
+[INFO: train_generator_only.py:  190]: Checking stats on val ...
+[INFO: train_generator_only.py:  194]: Checking stats on train ...
+[INFO: train_generator_only.py:  200]:   [val] ade: 1.004
+[INFO: train_generator_only.py:  200]:   [val] ade_l: 6.294
+[INFO: train_generator_only.py:  200]:   [val] ade_nl: 1.195
+[INFO: train_generator_only.py:  200]:   [val] fde: 2.140
+[INFO: train_generator_only.py:  200]:   [val] fde_l: 13.410
+[INFO: train_generator_only.py:  200]:   [val] fde_nl: 2.547
+[INFO: train_generator_only.py:  200]:   [val] g_l2_loss_abs: 0.636
+[INFO: train_generator_only.py:  200]:   [val] g_l2_loss_rel: 0.636
+[INFO: train_generator_only.py:  203]:   [train] ade: 0.980
+[INFO: train_generator_only.py:  203]:   [train] ade_l: 5.419
+[INFO: train_generator_only.py:  203]:   [train] ade_nl: 1.196
+[INFO: train_generator_only.py:  203]:   [train] fde: 2.108
+[INFO: train_generator_only.py:  203]:   [train] fde_l: 11.656
+[INFO: train_generator_only.py:  203]:   [train] fde_nl: 2.573
+[INFO: train_generator_only.py:  203]:   [train] g_l2_loss_abs: 0.612
+[INFO: train_generator_only.py:  203]:   [train] g_l2_loss_rel: 0.612
+[INFO: train_generator_only.py:  228]: Saving checkpoint to organized_cnn_models_multi/organized_cnn_zara2_4lay_12_with_model.pt
+[INFO: train_generator_only.py:  230]: Done.
+[INFO: train_generator_only.py:  236]: Saving checkpoint to organized_cnn_models_multi/organized_cnn_zara2_4lay_12_no_model.pt
+[INFO: train_generator_only.py:  246]: Done.
+[INFO: train_generator_only.py:  163]: Starting epoch 103
+[INFO: train_generator_only.py:  163]: Starting epoch 104
+[INFO: train_generator_only.py:  190]: Checking stats on val ...
+[INFO: train_generator_only.py:  194]: Checking stats on train ...
+[INFO: train_generator_only.py:  200]:   [val] ade: 1.002
+[INFO: train_generator_only.py:  200]:   [val] ade_l: 6.276
+[INFO: train_generator_only.py:  200]:   [val] ade_nl: 1.192
+[INFO: train_generator_only.py:  200]:   [val] fde: 2.116
+[INFO: train_generator_only.py:  200]:   [val] fde_l: 13.257
+[INFO: train_generator_only.py:  200]:   [val] fde_nl: 2.518
+[INFO: train_generator_only.py:  200]:   [val] g_l2_loss_abs: 0.630
+[INFO: train_generator_only.py:  200]:   [val] g_l2_loss_rel: 0.630
+[INFO: train_generator_only.py:  203]:   [train] ade: 0.988
+[INFO: train_generator_only.py:  203]:   [train] ade_l: 5.652
+[INFO: train_generator_only.py:  203]:   [train] ade_nl: 1.197
+[INFO: train_generator_only.py:  203]:   [train] fde: 2.110
+[INFO: train_generator_only.py:  203]:   [train] fde_l: 12.074
+[INFO: train_generator_only.py:  203]:   [train] fde_nl: 2.557
+[INFO: train_generator_only.py:  203]:   [train] g_l2_loss_abs: 0.595
+[INFO: train_generator_only.py:  203]:   [train] g_l2_loss_rel: 0.595
+[INFO: train_generator_only.py:  228]: Saving checkpoint to organized_cnn_models_multi/organized_cnn_zara2_4lay_12_with_model.pt
+[INFO: train_generator_only.py:  230]: Done.
+[INFO: train_generator_only.py:  236]: Saving checkpoint to organized_cnn_models_multi/organized_cnn_zara2_4lay_12_no_model.pt
+[INFO: train_generator_only.py:  246]: Done.
+[INFO: train_generator_only.py:  163]: Starting epoch 105
+[INFO: train_generator_only.py:  174]: t = 6801 / 9900
+[INFO: train_generator_only.py:  179]:   [G] G_l2_loss_rel: 0.394
+[INFO: train_generator_only.py:  190]: Checking stats on val ...
+[INFO: train_generator_only.py:  194]: Checking stats on train ...
+[INFO: train_generator_only.py:  200]:   [val] ade: 0.999
+[INFO: train_generator_only.py:  200]:   [val] ade_l: 6.257
+[INFO: train_generator_only.py:  200]:   [val] ade_nl: 1.188
+[INFO: train_generator_only.py:  200]:   [val] fde: 2.113
+[INFO: train_generator_only.py:  200]:   [val] fde_l: 13.240
+[INFO: train_generator_only.py:  200]:   [val] fde_nl: 2.514
+[INFO: train_generator_only.py:  200]:   [val] g_l2_loss_abs: 0.633
+[INFO: train_generator_only.py:  200]:   [val] g_l2_loss_rel: 0.633
+[INFO: train_generator_only.py:  203]:   [train] ade: 0.955
+[INFO: train_generator_only.py:  203]:   [train] ade_l: 5.480
+[INFO: train_generator_only.py:  203]:   [train] ade_nl: 1.156
+[INFO: train_generator_only.py:  203]:   [train] fde: 2.038
+[INFO: train_generator_only.py:  203]:   [train] fde_l: 11.695
+[INFO: train_generator_only.py:  203]:   [train] fde_nl: 2.468
+[INFO: train_generator_only.py:  203]:   [train] g_l2_loss_abs: 0.565
+[INFO: train_generator_only.py:  203]:   [train] g_l2_loss_rel: 0.565
+[INFO: train_generator_only.py:  228]: Saving checkpoint to organized_cnn_models_multi/organized_cnn_zara2_4lay_12_with_model.pt
+[INFO: train_generator_only.py:  230]: Done.
+[INFO: train_generator_only.py:  236]: Saving checkpoint to organized_cnn_models_multi/organized_cnn_zara2_4lay_12_no_model.pt
+[INFO: train_generator_only.py:  246]: Done.
+[INFO: train_generator_only.py:  163]: Starting epoch 106
+[INFO: train_generator_only.py:  163]: Starting epoch 107
+[INFO: train_generator_only.py:  190]: Checking stats on val ...
+[INFO: train_generator_only.py:  194]: Checking stats on train ...
+[INFO: train_generator_only.py:  200]:   [val] ade: 1.029
+[INFO: train_generator_only.py:  200]:   [val] ade_l: 6.450
+[INFO: train_generator_only.py:  200]:   [val] ade_nl: 1.225
+[INFO: train_generator_only.py:  200]:   [val] fde: 2.180
+[INFO: train_generator_only.py:  200]:   [val] fde_l: 13.658
+[INFO: train_generator_only.py:  200]:   [val] fde_nl: 2.594
+[INFO: train_generator_only.py:  200]:   [val] g_l2_loss_abs: 0.659
+[INFO: train_generator_only.py:  200]:   [val] g_l2_loss_rel: 0.659
+[INFO: train_generator_only.py:  203]:   [train] ade: 1.032
+[INFO: train_generator_only.py:  203]:   [train] ade_l: 6.250
+[INFO: train_generator_only.py:  203]:   [train] ade_nl: 1.236
+[INFO: train_generator_only.py:  203]:   [train] fde: 2.197
+[INFO: train_generator_only.py:  203]:   [train] fde_l: 13.306
+[INFO: train_generator_only.py:  203]:   [train] fde_nl: 2.632
+[INFO: train_generator_only.py:  203]:   [train] g_l2_loss_abs: 0.651
+[INFO: train_generator_only.py:  203]:   [train] g_l2_loss_rel: 0.651
+[INFO: train_generator_only.py:  228]: Saving checkpoint to organized_cnn_models_multi/organized_cnn_zara2_4lay_12_with_model.pt
+[INFO: train_generator_only.py:  230]: Done.
+[INFO: train_generator_only.py:  236]: Saving checkpoint to organized_cnn_models_multi/organized_cnn_zara2_4lay_12_no_model.pt
+[INFO: train_generator_only.py:  246]: Done.
+[INFO: train_generator_only.py:  163]: Starting epoch 108
+[INFO: train_generator_only.py:  174]: t = 7001 / 9900
+[INFO: train_generator_only.py:  179]:   [G] G_l2_loss_rel: 0.440
+[INFO: train_generator_only.py:  190]: Checking stats on val ...
+[INFO: train_generator_only.py:  194]: Checking stats on train ...
+[INFO: train_generator_only.py:  200]:   [val] ade: 0.995
+[INFO: train_generator_only.py:  200]:   [val] ade_l: 6.236
+[INFO: train_generator_only.py:  200]:   [val] ade_nl: 1.184
+[INFO: train_generator_only.py:  200]:   [val] fde: 2.122
+[INFO: train_generator_only.py:  200]:   [val] fde_l: 13.297
+[INFO: train_generator_only.py:  200]:   [val] fde_nl: 2.525
+[INFO: train_generator_only.py:  200]:   [val] g_l2_loss_abs: 0.631
+[INFO: train_generator_only.py:  200]:   [val] g_l2_loss_rel: 0.631
+[INFO: train_generator_only.py:  203]:   [train] ade: 0.986
+[INFO: train_generator_only.py:  203]:   [train] ade_l: 5.445
+[INFO: train_generator_only.py:  203]:   [train] ade_nl: 1.204
+[INFO: train_generator_only.py:  203]:   [train] fde: 2.117
+[INFO: train_generator_only.py:  203]:   [train] fde_l: 11.692
+[INFO: train_generator_only.py:  203]:   [train] fde_nl: 2.586
+[INFO: train_generator_only.py:  203]:   [train] g_l2_loss_abs: 0.614
+[INFO: train_generator_only.py:  203]:   [train] g_l2_loss_rel: 0.614
+[INFO: train_generator_only.py:  228]: Saving checkpoint to organized_cnn_models_multi/organized_cnn_zara2_4lay_12_with_model.pt
+[INFO: train_generator_only.py:  230]: Done.
+[INFO: train_generator_only.py:  236]: Saving checkpoint to organized_cnn_models_multi/organized_cnn_zara2_4lay_12_no_model.pt
+[INFO: train_generator_only.py:  246]: Done.
+[INFO: train_generator_only.py:  163]: Starting epoch 109
+[INFO: train_generator_only.py:  163]: Starting epoch 110
+[INFO: train_generator_only.py:  190]: Checking stats on val ...
+[INFO: train_generator_only.py:  194]: Checking stats on train ...
+[INFO: train_generator_only.py:  200]:   [val] ade: 1.043
+[INFO: train_generator_only.py:  200]:   [val] ade_l: 6.535
+[INFO: train_generator_only.py:  200]:   [val] ade_nl: 1.241
+[INFO: train_generator_only.py:  200]:   [val] fde: 2.183
+[INFO: train_generator_only.py:  200]:   [val] fde_l: 13.680
+[INFO: train_generator_only.py:  200]:   [val] fde_nl: 2.598
+[INFO: train_generator_only.py:  200]:   [val] g_l2_loss_abs: 0.653
+[INFO: train_generator_only.py:  200]:   [val] g_l2_loss_rel: 0.653
+[INFO: train_generator_only.py:  203]:   [train] ade: 1.020
+[INFO: train_generator_only.py:  203]:   [train] ade_l: 5.937
+[INFO: train_generator_only.py:  203]:   [train] ade_nl: 1.231
+[INFO: train_generator_only.py:  203]:   [train] fde: 2.153
+[INFO: train_generator_only.py:  203]:   [train] fde_l: 12.538
+[INFO: train_generator_only.py:  203]:   [train] fde_nl: 2.600
+[INFO: train_generator_only.py:  203]:   [train] g_l2_loss_abs: 0.620
+[INFO: train_generator_only.py:  203]:   [train] g_l2_loss_rel: 0.620
+[INFO: train_generator_only.py:  228]: Saving checkpoint to organized_cnn_models_multi/organized_cnn_zara2_4lay_12_with_model.pt
+[INFO: train_generator_only.py:  230]: Done.
+[INFO: train_generator_only.py:  236]: Saving checkpoint to organized_cnn_models_multi/organized_cnn_zara2_4lay_12_no_model.pt
+[INFO: train_generator_only.py:  246]: Done.
+[INFO: train_generator_only.py:  163]: Starting epoch 111
+[INFO: train_generator_only.py:  174]: t = 7201 / 9900
+[INFO: train_generator_only.py:  179]:   [G] G_l2_loss_rel: 0.586
+[INFO: train_generator_only.py:  190]: Checking stats on val ...
+[INFO: train_generator_only.py:  194]: Checking stats on train ...
+[INFO: train_generator_only.py:  200]:   [val] ade: 0.997
+[INFO: train_generator_only.py:  200]:   [val] ade_l: 6.247
+[INFO: train_generator_only.py:  200]:   [val] ade_nl: 1.186
+[INFO: train_generator_only.py:  200]:   [val] fde: 2.103
+[INFO: train_generator_only.py:  200]:   [val] fde_l: 13.174
+[INFO: train_generator_only.py:  200]:   [val] fde_nl: 2.502
+[INFO: train_generator_only.py:  200]:   [val] g_l2_loss_abs: 0.639
+[INFO: train_generator_only.py:  200]:   [val] g_l2_loss_rel: 0.639
+[INFO: train_generator_only.py:  203]:   [train] ade: 1.002
+[INFO: train_generator_only.py:  203]:   [train] ade_l: 5.545
+[INFO: train_generator_only.py:  203]:   [train] ade_nl: 1.224
+[INFO: train_generator_only.py:  203]:   [train] fde: 2.113
+[INFO: train_generator_only.py:  203]:   [train] fde_l: 11.691
+[INFO: train_generator_only.py:  203]:   [train] fde_nl: 2.580
+[INFO: train_generator_only.py:  203]:   [train] g_l2_loss_abs: 0.633
+[INFO: train_generator_only.py:  203]:   [train] g_l2_loss_rel: 0.633
+[INFO: train_generator_only.py:  228]: Saving checkpoint to organized_cnn_models_multi/organized_cnn_zara2_4lay_12_with_model.pt
+[INFO: train_generator_only.py:  230]: Done.
+[INFO: train_generator_only.py:  236]: Saving checkpoint to organized_cnn_models_multi/organized_cnn_zara2_4lay_12_no_model.pt
+[INFO: train_generator_only.py:  246]: Done.
+[INFO: train_generator_only.py:  163]: Starting epoch 112
+[INFO: train_generator_only.py:  163]: Starting epoch 113
+[INFO: train_generator_only.py:  190]: Checking stats on val ...
+[INFO: train_generator_only.py:  194]: Checking stats on train ...
+[INFO: train_generator_only.py:  200]:   [val] ade: 1.006
+[INFO: train_generator_only.py:  200]:   [val] ade_l: 6.303
+[INFO: train_generator_only.py:  200]:   [val] ade_nl: 1.197
+[INFO: train_generator_only.py:  200]:   [val] fde: 2.133
+[INFO: train_generator_only.py:  200]:   [val] fde_l: 13.363
+[INFO: train_generator_only.py:  200]:   [val] fde_nl: 2.538
+[INFO: train_generator_only.py:  200]:   [val] g_l2_loss_abs: 0.649
+[INFO: train_generator_only.py:  200]:   [val] g_l2_loss_rel: 0.649
+[INFO: train_generator_only.py:  203]:   [train] ade: 0.979
+[INFO: train_generator_only.py:  203]:   [train] ade_l: 5.427
+[INFO: train_generator_only.py:  203]:   [train] ade_nl: 1.195
+[INFO: train_generator_only.py:  203]:   [train] fde: 2.090
+[INFO: train_generator_only.py:  203]:   [train] fde_l: 11.580
+[INFO: train_generator_only.py:  203]:   [train] fde_nl: 2.550
+[INFO: train_generator_only.py:  203]:   [train] g_l2_loss_abs: 0.618
+[INFO: train_generator_only.py:  203]:   [train] g_l2_loss_rel: 0.618
+[INFO: train_generator_only.py:  228]: Saving checkpoint to organized_cnn_models_multi/organized_cnn_zara2_4lay_12_with_model.pt
+[INFO: train_generator_only.py:  230]: Done.
+[INFO: train_generator_only.py:  236]: Saving checkpoint to organized_cnn_models_multi/organized_cnn_zara2_4lay_12_no_model.pt
+[INFO: train_generator_only.py:  246]: Done.
+[INFO: train_generator_only.py:  163]: Starting epoch 114
+[INFO: train_generator_only.py:  174]: t = 7401 / 9900
+[INFO: train_generator_only.py:  179]:   [G] G_l2_loss_rel: 0.617
+[INFO: train_generator_only.py:  190]: Checking stats on val ...
+[INFO: train_generator_only.py:  194]: Checking stats on train ...
+[INFO: train_generator_only.py:  200]:   [val] ade: 1.036
+[INFO: train_generator_only.py:  200]:   [val] ade_l: 6.490
+[INFO: train_generator_only.py:  200]:   [val] ade_nl: 1.232
+[INFO: train_generator_only.py:  200]:   [val] fde: 2.156
+[INFO: train_generator_only.py:  200]:   [val] fde_l: 13.509
+[INFO: train_generator_only.py:  200]:   [val] fde_nl: 2.565
+[INFO: train_generator_only.py:  200]:   [val] g_l2_loss_abs: 0.657
+[INFO: train_generator_only.py:  200]:   [val] g_l2_loss_rel: 0.657
+[INFO: train_generator_only.py:  203]:   [train] ade: 1.004
+[INFO: train_generator_only.py:  203]:   [train] ade_l: 5.794
+[INFO: train_generator_only.py:  203]:   [train] ade_nl: 1.215
+[INFO: train_generator_only.py:  203]:   [train] fde: 2.116
+[INFO: train_generator_only.py:  203]:   [train] fde_l: 12.208
+[INFO: train_generator_only.py:  203]:   [train] fde_nl: 2.560
+[INFO: train_generator_only.py:  203]:   [train] g_l2_loss_abs: 0.609
+[INFO: train_generator_only.py:  203]:   [train] g_l2_loss_rel: 0.609
+[INFO: train_generator_only.py:  228]: Saving checkpoint to organized_cnn_models_multi/organized_cnn_zara2_4lay_12_with_model.pt
+[INFO: train_generator_only.py:  230]: Done.
+[INFO: train_generator_only.py:  236]: Saving checkpoint to organized_cnn_models_multi/organized_cnn_zara2_4lay_12_no_model.pt
+[INFO: train_generator_only.py:  246]: Done.
+[INFO: train_generator_only.py:  163]: Starting epoch 115
+[INFO: train_generator_only.py:  163]: Starting epoch 116
+[INFO: train_generator_only.py:  190]: Checking stats on val ...
+[INFO: train_generator_only.py:  194]: Checking stats on train ...
+[INFO: train_generator_only.py:  200]:   [val] ade: 0.985
+[INFO: train_generator_only.py:  200]:   [val] ade_l: 6.173
+[INFO: train_generator_only.py:  200]:   [val] ade_nl: 1.172
+[INFO: train_generator_only.py:  200]:   [val] fde: 2.104
+[INFO: train_generator_only.py:  200]:   [val] fde_l: 13.186
+[INFO: train_generator_only.py:  200]:   [val] fde_nl: 2.504
+[INFO: train_generator_only.py:  200]:   [val] g_l2_loss_abs: 0.625
+[INFO: train_generator_only.py:  200]:   [val] g_l2_loss_rel: 0.625
+[INFO: train_generator_only.py:  203]:   [train] ade: 0.975
+[INFO: train_generator_only.py:  203]:   [train] ade_l: 5.484
+[INFO: train_generator_only.py:  203]:   [train] ade_nl: 1.186
+[INFO: train_generator_only.py:  203]:   [train] fde: 2.093
+[INFO: train_generator_only.py:  203]:   [train] fde_l: 11.777
+[INFO: train_generator_only.py:  203]:   [train] fde_nl: 2.546
+[INFO: train_generator_only.py:  203]:   [train] g_l2_loss_abs: 0.608
+[INFO: train_generator_only.py:  203]:   [train] g_l2_loss_rel: 0.608
+[INFO: train_generator_only.py:  210]: New low for avg_disp_error
+[INFO: train_generator_only.py:  216]: New low for avg_disp_error_nl
+[INFO: train_generator_only.py:  228]: Saving checkpoint to organized_cnn_models_multi/organized_cnn_zara2_4lay_12_with_model.pt
+[INFO: train_generator_only.py:  230]: Done.
+[INFO: train_generator_only.py:  236]: Saving checkpoint to organized_cnn_models_multi/organized_cnn_zara2_4lay_12_no_model.pt
+[INFO: train_generator_only.py:  246]: Done.
+[INFO: train_generator_only.py:  163]: Starting epoch 117
+[INFO: train_generator_only.py:  174]: t = 7601 / 9900
+[INFO: train_generator_only.py:  179]:   [G] G_l2_loss_rel: 0.508
+[INFO: train_generator_only.py:  190]: Checking stats on val ...
+[INFO: train_generator_only.py:  194]: Checking stats on train ...
+[INFO: train_generator_only.py:  200]:   [val] ade: 1.050
+[INFO: train_generator_only.py:  200]:   [val] ade_l: 6.580
+[INFO: train_generator_only.py:  200]:   [val] ade_nl: 1.250
+[INFO: train_generator_only.py:  200]:   [val] fde: 2.213
+[INFO: train_generator_only.py:  200]:   [val] fde_l: 13.864
+[INFO: train_generator_only.py:  200]:   [val] fde_nl: 2.633
+[INFO: train_generator_only.py:  200]:   [val] g_l2_loss_abs: 0.653
+[INFO: train_generator_only.py:  200]:   [val] g_l2_loss_rel: 0.653
+[INFO: train_generator_only.py:  203]:   [train] ade: 0.985
+[INFO: train_generator_only.py:  203]:   [train] ade_l: 5.418
+[INFO: train_generator_only.py:  203]:   [train] ade_nl: 1.204
+[INFO: train_generator_only.py:  203]:   [train] fde: 2.097
+[INFO: train_generator_only.py:  203]:   [train] fde_l: 11.538
+[INFO: train_generator_only.py:  203]:   [train] fde_nl: 2.563
+[INFO: train_generator_only.py:  203]:   [train] g_l2_loss_abs: 0.589
+[INFO: train_generator_only.py:  203]:   [train] g_l2_loss_rel: 0.589
+[INFO: train_generator_only.py:  228]: Saving checkpoint to organized_cnn_models_multi/organized_cnn_zara2_4lay_12_with_model.pt
+[INFO: train_generator_only.py:  230]: Done.
+[INFO: train_generator_only.py:  236]: Saving checkpoint to organized_cnn_models_multi/organized_cnn_zara2_4lay_12_no_model.pt
+[INFO: train_generator_only.py:  246]: Done.
+[INFO: train_generator_only.py:  163]: Starting epoch 118
+[INFO: train_generator_only.py:  163]: Starting epoch 119
+[INFO: train_generator_only.py:  190]: Checking stats on val ...
+[INFO: train_generator_only.py:  194]: Checking stats on train ...
+[INFO: train_generator_only.py:  200]:   [val] ade: 1.001
+[INFO: train_generator_only.py:  200]:   [val] ade_l: 6.269
+[INFO: train_generator_only.py:  200]:   [val] ade_nl: 1.191
+[INFO: train_generator_only.py:  200]:   [val] fde: 2.136
+[INFO: train_generator_only.py:  200]:   [val] fde_l: 13.381
+[INFO: train_generator_only.py:  200]:   [val] fde_nl: 2.541
+[INFO: train_generator_only.py:  200]:   [val] g_l2_loss_abs: 0.638
+[INFO: train_generator_only.py:  200]:   [val] g_l2_loss_rel: 0.638
+[INFO: train_generator_only.py:  203]:   [train] ade: 0.970
+[INFO: train_generator_only.py:  203]:   [train] ade_l: 5.092
+[INFO: train_generator_only.py:  203]:   [train] ade_nl: 1.198
+[INFO: train_generator_only.py:  203]:   [train] fde: 2.074
+[INFO: train_generator_only.py:  203]:   [train] fde_l: 10.891
+[INFO: train_generator_only.py:  203]:   [train] fde_nl: 2.562
+[INFO: train_generator_only.py:  203]:   [train] g_l2_loss_abs: 0.593
+[INFO: train_generator_only.py:  203]:   [train] g_l2_loss_rel: 0.593
+[INFO: train_generator_only.py:  228]: Saving checkpoint to organized_cnn_models_multi/organized_cnn_zara2_4lay_12_with_model.pt
+[INFO: train_generator_only.py:  230]: Done.
+[INFO: train_generator_only.py:  236]: Saving checkpoint to organized_cnn_models_multi/organized_cnn_zara2_4lay_12_no_model.pt
+[INFO: train_generator_only.py:  246]: Done.
+[INFO: train_generator_only.py:  163]: Starting epoch 120
+[INFO: train_generator_only.py:  174]: t = 7801 / 9900
+[INFO: train_generator_only.py:  179]:   [G] G_l2_loss_rel: 0.471
+[INFO: train_generator_only.py:  190]: Checking stats on val ...
+[INFO: train_generator_only.py:  194]: Checking stats on train ...
+[INFO: train_generator_only.py:  200]:   [val] ade: 1.028
+[INFO: train_generator_only.py:  200]:   [val] ade_l: 6.440
+[INFO: train_generator_only.py:  200]:   [val] ade_nl: 1.223
+[INFO: train_generator_only.py:  200]:   [val] fde: 2.178
+[INFO: train_generator_only.py:  200]:   [val] fde_l: 13.646
+[INFO: train_generator_only.py:  200]:   [val] fde_nl: 2.592
+[INFO: train_generator_only.py:  200]:   [val] g_l2_loss_abs: 0.644
+[INFO: train_generator_only.py:  200]:   [val] g_l2_loss_rel: 0.644
+[INFO: train_generator_only.py:  203]:   [train] ade: 1.027
+[INFO: train_generator_only.py:  203]:   [train] ade_l: 6.396
+[INFO: train_generator_only.py:  203]:   [train] ade_nl: 1.224
+[INFO: train_generator_only.py:  203]:   [train] fde: 2.181
+[INFO: train_generator_only.py:  203]:   [train] fde_l: 13.581
+[INFO: train_generator_only.py:  203]:   [train] fde_nl: 2.599
+[INFO: train_generator_only.py:  203]:   [train] g_l2_loss_abs: 0.633
+[INFO: train_generator_only.py:  203]:   [train] g_l2_loss_rel: 0.633
+[INFO: train_generator_only.py:  228]: Saving checkpoint to organized_cnn_models_multi/organized_cnn_zara2_4lay_12_with_model.pt
+[INFO: train_generator_only.py:  230]: Done.
+[INFO: train_generator_only.py:  236]: Saving checkpoint to organized_cnn_models_multi/organized_cnn_zara2_4lay_12_no_model.pt
+[INFO: train_generator_only.py:  246]: Done.
+[INFO: train_generator_only.py:  163]: Starting epoch 121
+[INFO: train_generator_only.py:  163]: Starting epoch 122
+[INFO: train_generator_only.py:  190]: Checking stats on val ...
+[INFO: train_generator_only.py:  194]: Checking stats on train ...
+[INFO: train_generator_only.py:  200]:   [val] ade: 1.027
+[INFO: train_generator_only.py:  200]:   [val] ade_l: 6.437
+[INFO: train_generator_only.py:  200]:   [val] ade_nl: 1.222
+[INFO: train_generator_only.py:  200]:   [val] fde: 2.181
+[INFO: train_generator_only.py:  200]:   [val] fde_l: 13.668
+[INFO: train_generator_only.py:  200]:   [val] fde_nl: 2.596
+[INFO: train_generator_only.py:  200]:   [val] g_l2_loss_abs: 0.643
+[INFO: train_generator_only.py:  200]:   [val] g_l2_loss_rel: 0.643
+[INFO: train_generator_only.py:  203]:   [train] ade: 1.037
+[INFO: train_generator_only.py:  203]:   [train] ade_l: 5.995
+[INFO: train_generator_only.py:  203]:   [train] ade_nl: 1.253
+[INFO: train_generator_only.py:  203]:   [train] fde: 2.205
+[INFO: train_generator_only.py:  203]:   [train] fde_l: 12.753
+[INFO: train_generator_only.py:  203]:   [train] fde_nl: 2.666
+[INFO: train_generator_only.py:  203]:   [train] g_l2_loss_abs: 0.642
+[INFO: train_generator_only.py:  203]:   [train] g_l2_loss_rel: 0.642
+[INFO: train_generator_only.py:  228]: Saving checkpoint to organized_cnn_models_multi/organized_cnn_zara2_4lay_12_with_model.pt
+[INFO: train_generator_only.py:  230]: Done.
+[INFO: train_generator_only.py:  236]: Saving checkpoint to organized_cnn_models_multi/organized_cnn_zara2_4lay_12_no_model.pt
+[INFO: train_generator_only.py:  246]: Done.
+[INFO: train_generator_only.py:  163]: Starting epoch 123
+[INFO: train_generator_only.py:  174]: t = 8001 / 9900
+[INFO: train_generator_only.py:  179]:   [G] G_l2_loss_rel: 0.550
+[INFO: train_generator_only.py:  190]: Checking stats on val ...
+[INFO: train_generator_only.py:  194]: Checking stats on train ...
+[INFO: train_generator_only.py:  200]:   [val] ade: 1.029
+[INFO: train_generator_only.py:  200]:   [val] ade_l: 6.449
+[INFO: train_generator_only.py:  200]:   [val] ade_nl: 1.225
+[INFO: train_generator_only.py:  200]:   [val] fde: 2.200
+[INFO: train_generator_only.py:  200]:   [val] fde_l: 13.782
+[INFO: train_generator_only.py:  200]:   [val] fde_nl: 2.617
+[INFO: train_generator_only.py:  200]:   [val] g_l2_loss_abs: 0.657
+[INFO: train_generator_only.py:  200]:   [val] g_l2_loss_rel: 0.657
+[INFO: train_generator_only.py:  203]:   [train] ade: 1.016
+[INFO: train_generator_only.py:  203]:   [train] ade_l: 5.732
+[INFO: train_generator_only.py:  203]:   [train] ade_nl: 1.236
+[INFO: train_generator_only.py:  203]:   [train] fde: 2.183
+[INFO: train_generator_only.py:  203]:   [train] fde_l: 12.312
+[INFO: train_generator_only.py:  203]:   [train] fde_nl: 2.654
+[INFO: train_generator_only.py:  203]:   [train] g_l2_loss_abs: 0.629
+[INFO: train_generator_only.py:  203]:   [train] g_l2_loss_rel: 0.629
+[INFO: train_generator_only.py:  228]: Saving checkpoint to organized_cnn_models_multi/organized_cnn_zara2_4lay_12_with_model.pt
+[INFO: train_generator_only.py:  230]: Done.
+[INFO: train_generator_only.py:  236]: Saving checkpoint to organized_cnn_models_multi/organized_cnn_zara2_4lay_12_no_model.pt
+[INFO: train_generator_only.py:  246]: Done.
+[INFO: train_generator_only.py:  163]: Starting epoch 124
+[INFO: train_generator_only.py:  163]: Starting epoch 125
+[INFO: train_generator_only.py:  190]: Checking stats on val ...
+[INFO: train_generator_only.py:  194]: Checking stats on train ...
+[INFO: train_generator_only.py:  200]:   [val] ade: 1.047
+[INFO: train_generator_only.py:  200]:   [val] ade_l: 6.560
+[INFO: train_generator_only.py:  200]:   [val] ade_nl: 1.246
+[INFO: train_generator_only.py:  200]:   [val] fde: 2.213
+[INFO: train_generator_only.py:  200]:   [val] fde_l: 13.863
+[INFO: train_generator_only.py:  200]:   [val] fde_nl: 2.633
+[INFO: train_generator_only.py:  200]:   [val] g_l2_loss_abs: 0.673
+[INFO: train_generator_only.py:  200]:   [val] g_l2_loss_rel: 0.673
+[INFO: train_generator_only.py:  203]:   [train] ade: 1.033
+[INFO: train_generator_only.py:  203]:   [train] ade_l: 6.212
+[INFO: train_generator_only.py:  203]:   [train] ade_nl: 1.240
+[INFO: train_generator_only.py:  203]:   [train] fde: 2.205
+[INFO: train_generator_only.py:  203]:   [train] fde_l: 13.252
+[INFO: train_generator_only.py:  203]:   [train] fde_nl: 2.645
+[INFO: train_generator_only.py:  203]:   [train] g_l2_loss_abs: 0.639
+[INFO: train_generator_only.py:  203]:   [train] g_l2_loss_rel: 0.639
+[INFO: train_generator_only.py:  228]: Saving checkpoint to organized_cnn_models_multi/organized_cnn_zara2_4lay_12_with_model.pt
+[INFO: train_generator_only.py:  230]: Done.
+[INFO: train_generator_only.py:  236]: Saving checkpoint to organized_cnn_models_multi/organized_cnn_zara2_4lay_12_no_model.pt
+[INFO: train_generator_only.py:  246]: Done.
+[INFO: train_generator_only.py:  163]: Starting epoch 126
+[INFO: train_generator_only.py:  174]: t = 8201 / 9900
+[INFO: train_generator_only.py:  179]:   [G] G_l2_loss_rel: 0.575
+[INFO: train_generator_only.py:  190]: Checking stats on val ...
+[INFO: train_generator_only.py:  194]: Checking stats on train ...
+[INFO: train_generator_only.py:  200]:   [val] ade: 1.035
+[INFO: train_generator_only.py:  200]:   [val] ade_l: 6.484
+[INFO: train_generator_only.py:  200]:   [val] ade_nl: 1.231
+[INFO: train_generator_only.py:  200]:   [val] fde: 2.188
+[INFO: train_generator_only.py:  200]:   [val] fde_l: 13.710
+[INFO: train_generator_only.py:  200]:   [val] fde_nl: 2.604
+[INFO: train_generator_only.py:  200]:   [val] g_l2_loss_abs: 0.678
+[INFO: train_generator_only.py:  200]:   [val] g_l2_loss_rel: 0.678
+[INFO: train_generator_only.py:  203]:   [train] ade: 0.990
+[INFO: train_generator_only.py:  203]:   [train] ade_l: 5.538
+[INFO: train_generator_only.py:  203]:   [train] ade_nl: 1.206
+[INFO: train_generator_only.py:  203]:   [train] fde: 2.105
+[INFO: train_generator_only.py:  203]:   [train] fde_l: 11.774
+[INFO: train_generator_only.py:  203]:   [train] fde_nl: 2.564
+[INFO: train_generator_only.py:  203]:   [train] g_l2_loss_abs: 0.618
+[INFO: train_generator_only.py:  203]:   [train] g_l2_loss_rel: 0.618
+[INFO: train_generator_only.py:  228]: Saving checkpoint to organized_cnn_models_multi/organized_cnn_zara2_4lay_12_with_model.pt
+[INFO: train_generator_only.py:  230]: Done.
+[INFO: train_generator_only.py:  236]: Saving checkpoint to organized_cnn_models_multi/organized_cnn_zara2_4lay_12_no_model.pt
+[INFO: train_generator_only.py:  246]: Done.
+[INFO: train_generator_only.py:  163]: Starting epoch 127
+[INFO: train_generator_only.py:  163]: Starting epoch 128
+[INFO: train_generator_only.py:  190]: Checking stats on val ...
+[INFO: train_generator_only.py:  194]: Checking stats on train ...
+[INFO: train_generator_only.py:  200]:   [val] ade: 1.002
+[INFO: train_generator_only.py:  200]:   [val] ade_l: 6.278
+[INFO: train_generator_only.py:  200]:   [val] ade_nl: 1.192
+[INFO: train_generator_only.py:  200]:   [val] fde: 2.154
+[INFO: train_generator_only.py:  200]:   [val] fde_l: 13.495
+[INFO: train_generator_only.py:  200]:   [val] fde_nl: 2.563
+[INFO: train_generator_only.py:  200]:   [val] g_l2_loss_abs: 0.632
+[INFO: train_generator_only.py:  200]:   [val] g_l2_loss_rel: 0.632
+[INFO: train_generator_only.py:  203]:   [train] ade: 0.965
+[INFO: train_generator_only.py:  203]:   [train] ade_l: 5.408
+[INFO: train_generator_only.py:  203]:   [train] ade_nl: 1.174
+[INFO: train_generator_only.py:  203]:   [train] fde: 2.085
+[INFO: train_generator_only.py:  203]:   [train] fde_l: 11.690
+[INFO: train_generator_only.py:  203]:   [train] fde_nl: 2.538
+[INFO: train_generator_only.py:  203]:   [train] g_l2_loss_abs: 0.585
+[INFO: train_generator_only.py:  203]:   [train] g_l2_loss_rel: 0.585
+[INFO: train_generator_only.py:  228]: Saving checkpoint to organized_cnn_models_multi/organized_cnn_zara2_4lay_12_with_model.pt
+[INFO: train_generator_only.py:  230]: Done.
+[INFO: train_generator_only.py:  236]: Saving checkpoint to organized_cnn_models_multi/organized_cnn_zara2_4lay_12_no_model.pt
+[INFO: train_generator_only.py:  246]: Done.
+[INFO: train_generator_only.py:  163]: Starting epoch 129
+[INFO: train_generator_only.py:  174]: t = 8401 / 9900
+[INFO: train_generator_only.py:  179]:   [G] G_l2_loss_rel: 0.500
+[INFO: train_generator_only.py:  190]: Checking stats on val ...
+[INFO: train_generator_only.py:  194]: Checking stats on train ...
+[INFO: train_generator_only.py:  200]:   [val] ade: 1.006
+[INFO: train_generator_only.py:  200]:   [val] ade_l: 6.306
+[INFO: train_generator_only.py:  200]:   [val] ade_nl: 1.198
+[INFO: train_generator_only.py:  200]:   [val] fde: 2.135
+[INFO: train_generator_only.py:  200]:   [val] fde_l: 13.380
+[INFO: train_generator_only.py:  200]:   [val] fde_nl: 2.541
+[INFO: train_generator_only.py:  200]:   [val] g_l2_loss_abs: 0.646
+[INFO: train_generator_only.py:  200]:   [val] g_l2_loss_rel: 0.646
+[INFO: train_generator_only.py:  203]:   [train] ade: 0.975
+[INFO: train_generator_only.py:  203]:   [train] ade_l: 5.565
+[INFO: train_generator_only.py:  203]:   [train] ade_nl: 1.182
+[INFO: train_generator_only.py:  203]:   [train] fde: 2.079
+[INFO: train_generator_only.py:  203]:   [train] fde_l: 11.864
+[INFO: train_generator_only.py:  203]:   [train] fde_nl: 2.520
+[INFO: train_generator_only.py:  203]:   [train] g_l2_loss_abs: 0.593
+[INFO: train_generator_only.py:  203]:   [train] g_l2_loss_rel: 0.593
+[INFO: train_generator_only.py:  228]: Saving checkpoint to organized_cnn_models_multi/organized_cnn_zara2_4lay_12_with_model.pt
+[INFO: train_generator_only.py:  230]: Done.
+[INFO: train_generator_only.py:  236]: Saving checkpoint to organized_cnn_models_multi/organized_cnn_zara2_4lay_12_no_model.pt
+[INFO: train_generator_only.py:  246]: Done.
+[INFO: train_generator_only.py:  163]: Starting epoch 130
+[INFO: train_generator_only.py:  163]: Starting epoch 131
+[INFO: train_generator_only.py:  190]: Checking stats on val ...
+[INFO: train_generator_only.py:  194]: Checking stats on train ...
+[INFO: train_generator_only.py:  200]:   [val] ade: 1.034
+[INFO: train_generator_only.py:  200]:   [val] ade_l: 6.480
+[INFO: train_generator_only.py:  200]:   [val] ade_nl: 1.231
+[INFO: train_generator_only.py:  200]:   [val] fde: 2.184
+[INFO: train_generator_only.py:  200]:   [val] fde_l: 13.685
+[INFO: train_generator_only.py:  200]:   [val] fde_nl: 2.599
+[INFO: train_generator_only.py:  200]:   [val] g_l2_loss_abs: 0.663
+[INFO: train_generator_only.py:  200]:   [val] g_l2_loss_rel: 0.663
+[INFO: train_generator_only.py:  203]:   [train] ade: 1.007
+[INFO: train_generator_only.py:  203]:   [train] ade_l: 5.761
+[INFO: train_generator_only.py:  203]:   [train] ade_nl: 1.221
+[INFO: train_generator_only.py:  203]:   [train] fde: 2.125
+[INFO: train_generator_only.py:  203]:   [train] fde_l: 12.155
+[INFO: train_generator_only.py:  203]:   [train] fde_nl: 2.576
+[INFO: train_generator_only.py:  203]:   [train] g_l2_loss_abs: 0.619
+[INFO: train_generator_only.py:  203]:   [train] g_l2_loss_rel: 0.619
+[INFO: train_generator_only.py:  228]: Saving checkpoint to organized_cnn_models_multi/organized_cnn_zara2_4lay_12_with_model.pt
+[INFO: train_generator_only.py:  230]: Done.
+[INFO: train_generator_only.py:  236]: Saving checkpoint to organized_cnn_models_multi/organized_cnn_zara2_4lay_12_no_model.pt
+[INFO: train_generator_only.py:  246]: Done.
+[INFO: train_generator_only.py:  163]: Starting epoch 132
+[INFO: train_generator_only.py:  174]: t = 8601 / 9900
+[INFO: train_generator_only.py:  179]:   [G] G_l2_loss_rel: 0.523
+[INFO: train_generator_only.py:  190]: Checking stats on val ...
+[INFO: train_generator_only.py:  194]: Checking stats on train ...
+[INFO: train_generator_only.py:  200]:   [val] ade: 1.013
+[INFO: train_generator_only.py:  200]:   [val] ade_l: 6.346
+[INFO: train_generator_only.py:  200]:   [val] ade_nl: 1.205
+[INFO: train_generator_only.py:  200]:   [val] fde: 2.155
+[INFO: train_generator_only.py:  200]:   [val] fde_l: 13.500
+[INFO: train_generator_only.py:  200]:   [val] fde_nl: 2.564
+[INFO: train_generator_only.py:  200]:   [val] g_l2_loss_abs: 0.655
+[INFO: train_generator_only.py:  200]:   [val] g_l2_loss_rel: 0.655
+[INFO: train_generator_only.py:  203]:   [train] ade: 0.970
+[INFO: train_generator_only.py:  203]:   [train] ade_l: 5.572
+[INFO: train_generator_only.py:  203]:   [train] ade_nl: 1.174
+[INFO: train_generator_only.py:  203]:   [train] fde: 2.059
+[INFO: train_generator_only.py:  203]:   [train] fde_l: 11.831
+[INFO: train_generator_only.py:  203]:   [train] fde_nl: 2.492
+[INFO: train_generator_only.py:  203]:   [train] g_l2_loss_abs: 0.598
+[INFO: train_generator_only.py:  203]:   [train] g_l2_loss_rel: 0.598
+[INFO: train_generator_only.py:  228]: Saving checkpoint to organized_cnn_models_multi/organized_cnn_zara2_4lay_12_with_model.pt
+[INFO: train_generator_only.py:  230]: Done.
+[INFO: train_generator_only.py:  236]: Saving checkpoint to organized_cnn_models_multi/organized_cnn_zara2_4lay_12_no_model.pt
+[INFO: train_generator_only.py:  246]: Done.
+[INFO: train_generator_only.py:  163]: Starting epoch 133
+[INFO: train_generator_only.py:  163]: Starting epoch 134
+[INFO: train_generator_only.py:  190]: Checking stats on val ...
+[INFO: train_generator_only.py:  194]: Checking stats on train ...
+[INFO: train_generator_only.py:  200]:   [val] ade: 1.020
+[INFO: train_generator_only.py:  200]:   [val] ade_l: 6.391
+[INFO: train_generator_only.py:  200]:   [val] ade_nl: 1.214
+[INFO: train_generator_only.py:  200]:   [val] fde: 2.170
+[INFO: train_generator_only.py:  200]:   [val] fde_l: 13.600
+[INFO: train_generator_only.py:  200]:   [val] fde_nl: 2.583
+[INFO: train_generator_only.py:  200]:   [val] g_l2_loss_abs: 0.654
+[INFO: train_generator_only.py:  200]:   [val] g_l2_loss_rel: 0.654
+[INFO: train_generator_only.py:  203]:   [train] ade: 0.980
+[INFO: train_generator_only.py:  203]:   [train] ade_l: 5.459
+[INFO: train_generator_only.py:  203]:   [train] ade_nl: 1.194
+[INFO: train_generator_only.py:  203]:   [train] fde: 2.085
+[INFO: train_generator_only.py:  203]:   [train] fde_l: 11.618
+[INFO: train_generator_only.py:  203]:   [train] fde_nl: 2.541
+[INFO: train_generator_only.py:  203]:   [train] g_l2_loss_abs: 0.589
+[INFO: train_generator_only.py:  203]:   [train] g_l2_loss_rel: 0.589
+[INFO: train_generator_only.py:  228]: Saving checkpoint to organized_cnn_models_multi/organized_cnn_zara2_4lay_12_with_model.pt
+[INFO: train_generator_only.py:  230]: Done.
+[INFO: train_generator_only.py:  236]: Saving checkpoint to organized_cnn_models_multi/organized_cnn_zara2_4lay_12_no_model.pt
+[INFO: train_generator_only.py:  246]: Done.
+[INFO: train_generator_only.py:  163]: Starting epoch 135
+[INFO: train_generator_only.py:  174]: t = 8801 / 9900
+[INFO: train_generator_only.py:  179]:   [G] G_l2_loss_rel: 0.525
+[INFO: train_generator_only.py:  190]: Checking stats on val ...
+[INFO: train_generator_only.py:  194]: Checking stats on train ...
+[INFO: train_generator_only.py:  200]:   [val] ade: 1.017
+[INFO: train_generator_only.py:  200]:   [val] ade_l: 6.375
+[INFO: train_generator_only.py:  200]:   [val] ade_nl: 1.211
+[INFO: train_generator_only.py:  200]:   [val] fde: 2.156
+[INFO: train_generator_only.py:  200]:   [val] fde_l: 13.508
+[INFO: train_generator_only.py:  200]:   [val] fde_nl: 2.565
+[INFO: train_generator_only.py:  200]:   [val] g_l2_loss_abs: 0.656
+[INFO: train_generator_only.py:  200]:   [val] g_l2_loss_rel: 0.656
+[INFO: train_generator_only.py:  203]:   [train] ade: 0.987
+[INFO: train_generator_only.py:  203]:   [train] ade_l: 5.678
+[INFO: train_generator_only.py:  203]:   [train] ade_nl: 1.195
+[INFO: train_generator_only.py:  203]:   [train] fde: 2.106
+[INFO: train_generator_only.py:  203]:   [train] fde_l: 12.113
+[INFO: train_generator_only.py:  203]:   [train] fde_nl: 2.549
+[INFO: train_generator_only.py:  203]:   [train] g_l2_loss_abs: 0.610
+[INFO: train_generator_only.py:  203]:   [train] g_l2_loss_rel: 0.610
+[INFO: train_generator_only.py:  228]: Saving checkpoint to organized_cnn_models_multi/organized_cnn_zara2_4lay_12_with_model.pt
+[INFO: train_generator_only.py:  230]: Done.
+[INFO: train_generator_only.py:  236]: Saving checkpoint to organized_cnn_models_multi/organized_cnn_zara2_4lay_12_no_model.pt
+[INFO: train_generator_only.py:  246]: Done.
+[INFO: train_generator_only.py:  163]: Starting epoch 136
+[INFO: train_generator_only.py:  163]: Starting epoch 137
+[INFO: train_generator_only.py:  190]: Checking stats on val ...
+[INFO: train_generator_only.py:  194]: Checking stats on train ...
+[INFO: train_generator_only.py:  200]:   [val] ade: 1.006
+[INFO: train_generator_only.py:  200]:   [val] ade_l: 6.302
+[INFO: train_generator_only.py:  200]:   [val] ade_nl: 1.197
+[INFO: train_generator_only.py:  200]:   [val] fde: 2.136
+[INFO: train_generator_only.py:  200]:   [val] fde_l: 13.381
+[INFO: train_generator_only.py:  200]:   [val] fde_nl: 2.541
+[INFO: train_generator_only.py:  200]:   [val] g_l2_loss_abs: 0.642
+[INFO: train_generator_only.py:  200]:   [val] g_l2_loss_rel: 0.642
+[INFO: train_generator_only.py:  203]:   [train] ade: 0.962
+[INFO: train_generator_only.py:  203]:   [train] ade_l: 5.412
+[INFO: train_generator_only.py:  203]:   [train] ade_nl: 1.171
+[INFO: train_generator_only.py:  203]:   [train] fde: 2.062
+[INFO: train_generator_only.py:  203]:   [train] fde_l: 11.594
+[INFO: train_generator_only.py:  203]:   [train] fde_nl: 2.508
+[INFO: train_generator_only.py:  203]:   [train] g_l2_loss_abs: 0.582
+[INFO: train_generator_only.py:  203]:   [train] g_l2_loss_rel: 0.582
+[INFO: train_generator_only.py:  228]: Saving checkpoint to organized_cnn_models_multi/organized_cnn_zara2_4lay_12_with_model.pt
+[INFO: train_generator_only.py:  230]: Done.
+[INFO: train_generator_only.py:  236]: Saving checkpoint to organized_cnn_models_multi/organized_cnn_zara2_4lay_12_no_model.pt
+[INFO: train_generator_only.py:  246]: Done.
+[INFO: train_generator_only.py:  163]: Starting epoch 138
+[INFO: train_generator_only.py:  174]: t = 9001 / 9900
+[INFO: train_generator_only.py:  179]:   [G] G_l2_loss_rel: 0.588
+[INFO: train_generator_only.py:  190]: Checking stats on val ...
+[INFO: train_generator_only.py:  194]: Checking stats on train ...
+[INFO: train_generator_only.py:  200]:   [val] ade: 1.003
+[INFO: train_generator_only.py:  200]:   [val] ade_l: 6.286
+[INFO: train_generator_only.py:  200]:   [val] ade_nl: 1.194
+[INFO: train_generator_only.py:  200]:   [val] fde: 2.149
+[INFO: train_generator_only.py:  200]:   [val] fde_l: 13.467
+[INFO: train_generator_only.py:  200]:   [val] fde_nl: 2.557
+[INFO: train_generator_only.py:  200]:   [val] g_l2_loss_abs: 0.663
+[INFO: train_generator_only.py:  200]:   [val] g_l2_loss_rel: 0.663
+[INFO: train_generator_only.py:  203]:   [train] ade: 0.982
+[INFO: train_generator_only.py:  203]:   [train] ade_l: 5.634
+[INFO: train_generator_only.py:  203]:   [train] ade_nl: 1.189
+[INFO: train_generator_only.py:  203]:   [train] fde: 2.104
+[INFO: train_generator_only.py:  203]:   [train] fde_l: 12.072
+[INFO: train_generator_only.py:  203]:   [train] fde_nl: 2.549
+[INFO: train_generator_only.py:  203]:   [train] g_l2_loss_abs: 0.614
+[INFO: train_generator_only.py:  203]:   [train] g_l2_loss_rel: 0.614
+[INFO: train_generator_only.py:  228]: Saving checkpoint to organized_cnn_models_multi/organized_cnn_zara2_4lay_12_with_model.pt
+[INFO: train_generator_only.py:  230]: Done.
+[INFO: train_generator_only.py:  236]: Saving checkpoint to organized_cnn_models_multi/organized_cnn_zara2_4lay_12_no_model.pt
+[INFO: train_generator_only.py:  246]: Done.
+[INFO: train_generator_only.py:  163]: Starting epoch 139
+[INFO: train_generator_only.py:  163]: Starting epoch 140
+[INFO: train_generator_only.py:  190]: Checking stats on val ...
+[INFO: train_generator_only.py:  194]: Checking stats on train ...
+[INFO: train_generator_only.py:  200]:   [val] ade: 1.026
+[INFO: train_generator_only.py:  200]:   [val] ade_l: 6.428
+[INFO: train_generator_only.py:  200]:   [val] ade_nl: 1.221
+[INFO: train_generator_only.py:  200]:   [val] fde: 2.199
+[INFO: train_generator_only.py:  200]:   [val] fde_l: 13.776
+[INFO: train_generator_only.py:  200]:   [val] fde_nl: 2.616
+[INFO: train_generator_only.py:  200]:   [val] g_l2_loss_abs: 0.663
+[INFO: train_generator_only.py:  200]:   [val] g_l2_loss_rel: 0.663
+[INFO: train_generator_only.py:  203]:   [train] ade: 1.016
+[INFO: train_generator_only.py:  203]:   [train] ade_l: 6.114
+[INFO: train_generator_only.py:  203]:   [train] ade_nl: 1.218
+[INFO: train_generator_only.py:  203]:   [train] fde: 2.173
+[INFO: train_generator_only.py:  203]:   [train] fde_l: 13.079
+[INFO: train_generator_only.py:  203]:   [train] fde_nl: 2.606
+[INFO: train_generator_only.py:  203]:   [train] g_l2_loss_abs: 0.637
+[INFO: train_generator_only.py:  203]:   [train] g_l2_loss_rel: 0.637
+[INFO: train_generator_only.py:  228]: Saving checkpoint to organized_cnn_models_multi/organized_cnn_zara2_4lay_12_with_model.pt
+[INFO: train_generator_only.py:  230]: Done.
+[INFO: train_generator_only.py:  236]: Saving checkpoint to organized_cnn_models_multi/organized_cnn_zara2_4lay_12_no_model.pt
+[INFO: train_generator_only.py:  246]: Done.
+[INFO: train_generator_only.py:  163]: Starting epoch 141
+[INFO: train_generator_only.py:  174]: t = 9201 / 9900
+[INFO: train_generator_only.py:  179]:   [G] G_l2_loss_rel: 0.513
+[INFO: train_generator_only.py:  190]: Checking stats on val ...
+[INFO: train_generator_only.py:  194]: Checking stats on train ...
+[INFO: train_generator_only.py:  200]:   [val] ade: 1.031
+[INFO: train_generator_only.py:  200]:   [val] ade_l: 6.462
+[INFO: train_generator_only.py:  200]:   [val] ade_nl: 1.227
+[INFO: train_generator_only.py:  200]:   [val] fde: 2.223
+[INFO: train_generator_only.py:  200]:   [val] fde_l: 13.928
+[INFO: train_generator_only.py:  200]:   [val] fde_nl: 2.645
+[INFO: train_generator_only.py:  200]:   [val] g_l2_loss_abs: 0.661
+[INFO: train_generator_only.py:  200]:   [val] g_l2_loss_rel: 0.661
+[INFO: train_generator_only.py:  203]:   [train] ade: 1.004
+[INFO: train_generator_only.py:  203]:   [train] ade_l: 5.398
+[INFO: train_generator_only.py:  203]:   [train] ade_nl: 1.234
+[INFO: train_generator_only.py:  203]:   [train] fde: 2.170
+[INFO: train_generator_only.py:  203]:   [train] fde_l: 11.663
+[INFO: train_generator_only.py:  203]:   [train] fde_nl: 2.666
+[INFO: train_generator_only.py:  203]:   [train] g_l2_loss_abs: 0.612
+[INFO: train_generator_only.py:  203]:   [train] g_l2_loss_rel: 0.612
+[INFO: train_generator_only.py:  228]: Saving checkpoint to organized_cnn_models_multi/organized_cnn_zara2_4lay_12_with_model.pt
+[INFO: train_generator_only.py:  230]: Done.
+[INFO: train_generator_only.py:  236]: Saving checkpoint to organized_cnn_models_multi/organized_cnn_zara2_4lay_12_no_model.pt
+[INFO: train_generator_only.py:  246]: Done.
+[INFO: train_generator_only.py:  163]: Starting epoch 142
+[INFO: train_generator_only.py:  163]: Starting epoch 143
+[INFO: train_generator_only.py:  190]: Checking stats on val ...
+[INFO: train_generator_only.py:  194]: Checking stats on train ...
+[INFO: train_generator_only.py:  200]:   [val] ade: 1.070
+[INFO: train_generator_only.py:  200]:   [val] ade_l: 6.705
+[INFO: train_generator_only.py:  200]:   [val] ade_nl: 1.273
+[INFO: train_generator_only.py:  200]:   [val] fde: 2.266
+[INFO: train_generator_only.py:  200]:   [val] fde_l: 14.195
+[INFO: train_generator_only.py:  200]:   [val] fde_nl: 2.696
+[INFO: train_generator_only.py:  200]:   [val] g_l2_loss_abs: 0.678
+[INFO: train_generator_only.py:  200]:   [val] g_l2_loss_rel: 0.678
+[INFO: train_generator_only.py:  203]:   [train] ade: 1.027
+[INFO: train_generator_only.py:  203]:   [train] ade_l: 6.041
+[INFO: train_generator_only.py:  203]:   [train] ade_nl: 1.238
+[INFO: train_generator_only.py:  203]:   [train] fde: 2.177
+[INFO: train_generator_only.py:  203]:   [train] fde_l: 12.798
+[INFO: train_generator_only.py:  203]:   [train] fde_nl: 2.623
+[INFO: train_generator_only.py:  203]:   [train] g_l2_loss_abs: 0.612
+[INFO: train_generator_only.py:  203]:   [train] g_l2_loss_rel: 0.612
+[INFO: train_generator_only.py:  228]: Saving checkpoint to organized_cnn_models_multi/organized_cnn_zara2_4lay_12_with_model.pt
+[INFO: train_generator_only.py:  230]: Done.
+[INFO: train_generator_only.py:  236]: Saving checkpoint to organized_cnn_models_multi/organized_cnn_zara2_4lay_12_no_model.pt
+[INFO: train_generator_only.py:  246]: Done.
+[INFO: train_generator_only.py:  163]: Starting epoch 144
+[INFO: train_generator_only.py:  174]: t = 9401 / 9900
+[INFO: train_generator_only.py:  179]:   [G] G_l2_loss_rel: 0.462
+[INFO: train_generator_only.py:  190]: Checking stats on val ...
+[INFO: train_generator_only.py:  194]: Checking stats on train ...
+[INFO: train_generator_only.py:  200]:   [val] ade: 1.016
+[INFO: train_generator_only.py:  200]:   [val] ade_l: 6.363
+[INFO: train_generator_only.py:  200]:   [val] ade_nl: 1.208
+[INFO: train_generator_only.py:  200]:   [val] fde: 2.159
+[INFO: train_generator_only.py:  200]:   [val] fde_l: 13.531
+[INFO: train_generator_only.py:  200]:   [val] fde_nl: 2.570
+[INFO: train_generator_only.py:  200]:   [val] g_l2_loss_abs: 0.654
+[INFO: train_generator_only.py:  200]:   [val] g_l2_loss_rel: 0.654
+[INFO: train_generator_only.py:  203]:   [train] ade: 0.985
+[INFO: train_generator_only.py:  203]:   [train] ade_l: 5.266
+[INFO: train_generator_only.py:  203]:   [train] ade_nl: 1.212
+[INFO: train_generator_only.py:  203]:   [train] fde: 2.100
+[INFO: train_generator_only.py:  203]:   [train] fde_l: 11.229
+[INFO: train_generator_only.py:  203]:   [train] fde_nl: 2.584
+[INFO: train_generator_only.py:  203]:   [train] g_l2_loss_abs: 0.602
+[INFO: train_generator_only.py:  203]:   [train] g_l2_loss_rel: 0.602
+[INFO: train_generator_only.py:  228]: Saving checkpoint to organized_cnn_models_multi/organized_cnn_zara2_4lay_12_with_model.pt
+[INFO: train_generator_only.py:  230]: Done.
+[INFO: train_generator_only.py:  236]: Saving checkpoint to organized_cnn_models_multi/organized_cnn_zara2_4lay_12_no_model.pt
+[INFO: train_generator_only.py:  246]: Done.
+[INFO: train_generator_only.py:  163]: Starting epoch 145

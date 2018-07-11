@@ -117,15 +117,15 @@ class Encoder(nn.Module):
             for i in range(num_layers):
             	self.convs.append(Conv1d(embedding_dim, embedding_dim, 3,  padding=1,dropout= 0)) # out = 8-3+1 = 6
         self.spatial_embedding = nn.Linear(2, embedding_dim)
-        self.hidden2pos = nn.Linear(embedding_dim*8 + 32, 2*8) #TODO change with seq_len
+        self.hidden2pos = nn.Linear(embedding_dim*8, 2*12) #TODO change with seq_len
         self.relu = nn.ReLU()
-        self.pool_net = PoolHiddenNet(
-                embedding_dim=self.embedding_dim,
-                h_dim=embedding_dim*8,
-                mlp_dim=64,
-                bottleneck_dim=32,
-                activation='relu'
-            )
+        # self.pool_net = PoolHiddenNet(
+        #         embedding_dim=self.embedding_dim,
+        #         h_dim=embedding_dim*8,
+        #         mlp_dim=64,
+        #         bottleneck_dim=32,
+        #         activation='relu'
+        #     )
 
     def forward(self, obs_traj, last_pos, last_pos_rel, seq_start_end, seq_len, epoch):
         """
@@ -154,14 +154,10 @@ class Encoder(nn.Module):
             else:
                 state = self.relu(conv(state))
         state = state.view(batch, -1)
-        if (epoch > 49):
-        	pool_h = self.pool_net(state, seq_start_end, end_pos)
-        else:
-        	pool_h =  torch.zeros(batch, 32).cuda()
-        mlp_decoder_context_input = torch.cat(
-                [state, pool_h], dim=1)
-        rel_pos = self.hidden2pos(mlp_decoder_context_input)
-        rel_pos = rel_pos.reshape(batch, 8, 2).permute(1,0,2)
+        # mlp_decoder_context_input = torch.cat(
+        #         [state, pool_h], dim=1)
+        rel_pos = self.hidden2pos(state)
+        rel_pos = rel_pos.reshape(batch, 12, 2).permute(1,0,2)
             # curr_pos = rel_pos + last_pos
             # rel_pos_embedding = self.spatial_embedding(rel_pos)
             
