@@ -1,0 +1,193 @@
+% last updated in April 2002 by Antje Endemann
+% Based on CVPR 07 and LNCS, with modifications by DAF, AZ and elle, 2008 and AA, 2010, and CC, 2011; TT, 2014; AAS, 2016
+
+\documentclass[runningheads]{llncs}
+\usepackage{graphicx}
+\usepackage{amsmath,amssymb} % define this before the line numbering.
+\usepackage{ruler}
+\usepackage{color}
+\usepackage{mathtools}
+\usepackage[width=122mm,left=12mm,paperwidth=146mm,height=193mm,top=12mm,paperheight=217mm]{geometry}
+\begin{document}
+% \renewcommand\thelinenumber{\color[rgb]{0.2,0.5,0.8}\normalfont\sffamily\scriptsize\arabic{linenumber}\color[rgb]{0,0,0}}
+% \renewcommand\makeLineNumber {\hss\thelinenumber\ \hspace{6mm} \rlap{\hskip\textwidth\ \hspace{6.5mm}\thelinenumber}}
+% \linenumbers
+\pagestyle{headings}
+\mainmatter
+\def\ECCV18SubNumber{***}  % Insert your submission number here
+
+\title{Convolutional Neural Network for Trajectory Prediction} % Replace with your title
+
+\titlerunning{ECCV-18 submission ID \ECCV18SubNumber}
+
+\authorrunning{ECCV-18 submission ID \ECCV18SubNumber}
+
+\author{Anonymous ECCV submission}
+\institute{Paper ID \ECCV18SubNumber}
+
+
+\maketitle
+
+
+
+\begin{abstract}
+Predicting trajectories of pedestrians is quintessential for autonomous robots which share the same environment with humans. They need to be precise and fast both at the same time. We propose a convolutional neural network based approach for the same. Unlike common LSTM based models which attend sequentially to each frame, our model support parallelism. It is faster than the current approaches and yields competitive results.
+\keywords{Convolutional Neural Network, Trajectory Prediction, Anticipating Human Behavior}
+
+
+\end{abstract}
+
+
+\section{Introduction}
+
+Autonomous robots like self-driving cars on a road or food-delivery robot in a restaurant share the same social scene with humans. Predicting the trajectory of fellow humans is of paramount importance for these robots to avoid a collision and maneuver smoothly. These trajectory prediction models would be used in diverse environments lacking internet connection and hence devoid of server access. That's why we need to innovate for simple models with better time complexity specifically for problems like these.
+
+Traditionally, hand-crafted features were used for trajectory prediction and modeling motion of a pedestrians' trajectory with respect to others surrounding them. \cite{Antonini:77712} propose a discrete choice framework for pedestrian dynamics, modeling short-term behavior of individuals as a response to the presence of other pedestrians. \cite{sforce} models the behavior with two interactive forces. Attractive forces guiding the pedestrians towards their goal and repulsive forces for encouraging collision avoidance in-between the pedestrians and in-between a pedestrian and borders. \cite{whoareyouwith} solves the same problem as an energy minimization problem.
+
+In recent years, Deep Neural Network (DNN) based approach have shown impressive results for the trajectory prediction task \cite{gupta2018social} \cite{Alahi_2016_CVPR} \cite{sadeghian2018sophie} \cite{DBLP:journals/corr/FernandoDSF17}. Almost all of these approaches are based on Recurrent Neural Networks (RNNs) \cite{mikolov2010recurrent}. As RNNs share parameters across time, they are capable of conditioning the model on all previous position of a trajectory. Although theoretically, it is correct that RNNs can retain information from all previous words of a sentence, but practically they fail at handling long-term dependencies. Also, RNNs are prone to the vanishing and exploding gradient problems when dealing with long sequences. Long Short-Term Memory networks \cite{Hochreiter:1997:LSM:1246443.1246450}, a special kind of RNN architecture, were designed to address these problems. 
+
+Although LSTMs have been found to address the sequence based problems effectively but they need quite a bit of task-specific engineering like clipping gradients. Also in RNNs, predictions for later time-steps must wait for the predictions from preceding time-steps and hence can't be parallelized during training or inference time.  
+
+Recently, Convolutional Neural Networks(CNNs) based architecture have provided encouraging results in sequence-to-sequence tasks like machine translation \cite{DBLP:journals/corr/GehringAGYD17} \cite{DBLP:journals/corr/VaswaniSPUJGKP17}, image generation \cite{Oord:2016:CIG:3157382.3157633} and Image Captioning \cite{AnejaConvImgCap17}. Inspired by these, we study CNNs for the task of trajectory prediction. \cite{Deo2018ConvolutionalSP} has used convolutional pooling for incorporating social context from hidden states of the LSTM network. But ours is an end-to-end convolutional architecture.
+
+
+The major contribution of the work can be summarized as a fast CNN based model for trajectory prediction. We discuss our methods in section 2. Section 3 contains the details about the experiments, training data and analysis of the results. Finally, in section 4, we conclude the paper with closing remarks.
+
+\section{Method}
+
+\subsection{Problem Setup}
+
+For trajectory prediction, we are given the trajectory of all the pedestrians. It is assumed that each scene is pre-processed and we have the spatial co-ordinates of every pedestrian as $(x_i^t, y_i^t)$. That is, we have the trajectory data as $X = X_1, X_2, X_3, X_4 ... X_n$ for time steps $t=1,2...T_{obs}$. We have to predict the trajectories of all the pedestrians for time steps $t= T_{obs+1}...T_{pred}$ as $\hat{Y} = \hat{Y}_1, \hat{Y}_2, \hat{Y}_3, \hat{Y}_4 ... \hat{Y}_n$, all at once.
+
+
+\subsection{LSTMs}
+
+A lot of the research in trajectory prediction has been done using LSTM cells for handling temporal dependencies. The working of LSTM cells are governed by the following equations:
+\begin{equation}
+f_t = \sigma_g(W_{f} x_t + U_{f} h_{t-1} + b_f) \\
+\end{equation}
+\begin{equation}
+i_t = \sigma_g(W_{i} x_t + U_{i} h_{t-1} + b_i) \\
+\end{equation}
+\begin{equation}
+o_t = \sigma_g(W_{o} x_t + U_{o} h_{t-1} + b_o) \\
+\end{equation}
+\begin{equation}
+c_t = f_t \circ c_{t-1} + i_t \circ \sigma_c(W_{c} x_t + U_{c} h_{t-1} + b_c) \\
+\end{equation}
+\begin{equation}
+h_t = o_t \circ \sigma_h(c_t)
+\end{equation}
+
+In these equations, $x_t$ is the input vector to the LSTM unit, $f_t$ is the forget gate's activation vector, $i_t$ is the input gate's activation vector, $o_t$ is the output gate's activation vector, $h_t$ is the output vector of the LSTM unit and $c_t$ is the cell state vector. $w, u, B $ are the parameters of weight matrices and bias vectors which are learned during the training.
+
+As $h_t$ is dependent on previous time-steps, the architectures dependent on LSTM cells can not be parallelized. 
+
+\subsection{Convolutional Neural Network}
+
+\begin{figure}[h!]
+
+\centering
+\includegraphics[width=0.9\textwidth]{model_dia}
+\caption{Our convolutional model for trajectory prediction. Note that all operations are feed-forward in nature and hence can be parallelized.}
+\end{figure}
+
+
+
+Our model is inspired from \cite{AnejaConvImgCap17}. Figure 1 provides an overview of our model. Like them, we use convolution in the temporal dimension, but there is one big difference from \cite{AnejaConvImgCap17} that we predict all the future time steps at once. \cite{AnejaConvImgCap17} has to predict a discrete output for the Neural Machine Translation task and the output at next time step is highly dependent on the current time step for grammatical coherency while we are not bounded by discreetness, our output space is continuous. By doing an ablation study we find that predicting one time step at a time leads to worse results, we believe this is due to the error in current prediction being added to the next prediction. Unlike LSTMs based model which have recurrent functions to compute, all the computations in our model are feed-forward. This results in a significant performance boost with respect to time taken at inference. 
+
+\subsection{Implementation Details}
+
+We use a four-layered convolutional network with a kernel size of 3 for all the kernels. The embedding layer which converts the geometrical coordinates to embedding has a dimension of 32. For optimization, we use Adam with a learning rate of 0.001. We use a batch size of 32. The model is trained until the validation loss(L2 loss) stops decreasing.
+
+\section{Experiments}
+
+We use similar infrastructure used by \cite{gupta2018social} to evaluate our model. They use two publicly available datasets: ETH \cite{Pellegrini:2010:IDA:1886063.1886098} and UCY \cite{lealcvpr2014}. These datasets provide us with trajectory information of 1536 pedestrians in different crowd settings. ETH consists of two sets namely Univ and Hotel. UCY consists of three sets: Zara1, Zara2, and Univ. These trajectories are rich with challenging human-human interaction scenarios like group behavior, non-linear trajectories, people crossing each other, collision avoidance and groups forming and dispersing. They have converted all the data to real-world coordinates and interpolated to obtain the geometrical two-dimensional coordinates at every 0.4 seconds.
+
+
+Similar to prior work \cite{Alahi_2016_CVPR} \cite{Lee2017DESIREDF} we use two metric for computing prediction error:
+
+1. Average Displacement Error (ADE): Computes the mean of euclidean distance between the points in predicted trajectory and the corresponding points in ground truth for all predicted time steps.
+$$
+\newcommand\norm[1]{\left\lVert#1\right\rVert}
+ADE = \frac{\sum_{t = obs + 1}^{T_{pred}} \norm{Y_t - \hat{Y}_t }}{T_{pred} - T_{obs}}
+$$
+
+2. Final Displacement Error (FDE): The euclidean distance between final destination as per the ground truth and the predicted destination at end of the prediction period $T_{pred}$.
+$$
+\newcommand\norm[1]{\left\lVert#1\right\rVert}
+FDE = \norm{Y_{T_{pred}} - \hat{Y}_{T_{pred}}}
+$$
+
+Similar to \cite{gupta2018social} \cite{Alahi_2016_CVPR}, we follow leave-one-out approach. We train on 4 crowd-sets and test on the remaining set. The trajectory is observed for 8-time steps (3.2 seconds), then the model makes the prediction for 12-time steps (4.8 seconds).
+
+\subsection{Evaluation}
+
+In Table 1, we compare against five different architectures:
+
+
+\begin{table}[h!]
+\centering
+
+
+\begin{tabular}{|c| c | c | c | c | c | c || c |} 
+ \hline
+ \textbf{Dataset} & \textbf{Linear} & \textbf{LSTM} & \textbf{S-LSTM} & \textbf{S-GAN} & \textbf{S-GAN-P} & \textbf{Ours} & \textbf{SoPhie}\\
+ \hline\hline
+ \textbf{ETH} & 1.33/2.94 & 1.09/2.41 & 1.09/2.35 & \textbf{0.81/1.52} & 0.87/1.62 & 1.04/2.07 & \textit{0.70/1.43}\\  
+ \textbf{HOTEL} & \textbf{0.39/0.72} & 0.86/1.91 & 0.79/1.76 & 0.72/1.61 & 0.67/1.37 & 0.59/1.17 & 0.76/1.67\\
+ \textbf{UNIV} & 0.82/1.59 & 0.61/1.31 & 0.67/1.40 & 0.60/1.26 & 0.76/1.52 & \textbf{0.57/1.21} & \textit{0.54/1.24}\\
+ \textbf{ZARA1} & 0.62/1.21 & 0.41/0.88 & 0.47/1.00 & \textbf{0.34/0.69} & 0.35/0.68 & 0.43/0.90 & \textit{0.30/0.63}\\
+ \textbf{ZARA2} & 0.77/1.48 & 0.52/1.11 & 0.56/1.17 & 0.42/0.84 & 0.42/0.84 & \textbf{0.34/0.75} & 0.38/0.78\\
+ \hline
+ \textbf{AVG} & 0.79/1.59 & 0.70/1.52 & 0.72/1.54 & \textbf{0.58/1.18} & 0.61/1.21 & 0.59/1.22 & \textit{0.54/1.15}\\
+ \hline
+\end{tabular}
+\caption{Quantitative results of all the models. ADE / FDE are reported for the task of predicting 12 future time steps, given 8 previous time steps. Our model constantly outperforms LSTM and is competitive with architectures which consider social context. Amongst these architectures, SoPhie also considers features extracted from raw images of scenes.}
+\label{table:1}
+\end{table}
+
+1. Linear:  A linear regressor that estimates parameters by minimizing the least square error.
+
+2. LSTM: A simple Long Short-Term Memory architecture without any pooling mechanism, i.e. it doesn't consider any social context.
+
+3. S-LSTM: This model combines LSTMs with a social pooling mechanism proposed by \cite{Alahi_2016_CVPR} and hence capture the social context.
+
+4. S-GAN: This model uses LSTM and pooling mechanism in a Generative Adversarial Network(GAN) architecture.
+
+5. SoPhie: Apart from having LSTM and pooling for features in a GAN setting, this model applies attention mechanism over the features extracted from images of the scene and the trajectory information.
+
+
+
+We find that our model constantly out-performs the LSTM baseline. We speculate that this happens because CNNs work better at handling long-term dependency than LSTMs. We also compare the run-time of few of the baselines and report the result in Table 2. Our method works the fastest. 
+
+
+
+
+\begin{table}[h]
+\centering
+\begin{tabular}{|c| c | c | c | c | c |} 
+ \hline
+  & \textbf{LSTM} & \textbf{S-LSTM} & \textbf{S-GAN} & \textbf{S-GAN-P} & \textbf{Ours} \\
+ \hline\hline
+Reported & 0.02 & 1.79  &0.04 & 0.12& -\\ 
+Experimented & - & - & 0.022 & 0.067 & 0.002 \\
+Speed-Up & 82x & 1x & 49x & 16x & 536x \\ 
+ \hline
+ \hline
+\end{tabular}
+\caption{Speed (in seconds) comparison with other architectures. The reported results are taken from \cite{gupta2018social} and those experiments were conducted on Tesla P100 GPU. We experimented on Nvidia GTX-1080Ti with available pre-trained models.}
+\label{table:2}
+\end{table}
+
+
+
+
+\section{Conclusions}
+
+We present a convolutional architecture based neural network model for trajectory prediction. It gives competitive results with the current state of art LSTM based models while providing a better inference time performance. Currently, we are not taking any social cues into consideration. One of the future works would be to incorporate social context in the model. We hope that following this work, more people would be interested in finding clever convolution based architecture for trajectory prediction. Ours is a simple architecture, we would be experimenting with different dilation factor to decrease the number of layers while maintaining the same receptive field.
+
+
+\bibliographystyle{splncs}
+\bibliography{egbib}
+\end{document}
