@@ -2,6 +2,13 @@ import argparse
 import os
 import torch
 import pickle
+
+torch.manual_seed(42)
+
+torch.cuda.manual_seed(42)
+torch.cuda.manual_seed_all(42)
+
+
 from attrdict import AttrDict
 
 from sgan.data.loader import data_loader
