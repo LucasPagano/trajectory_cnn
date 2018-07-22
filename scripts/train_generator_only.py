@@ -4,6 +4,7 @@ import logging
 import os
 import sys
 import time
+from tensorboardX import SummaryWriter
 
 from collections import defaultdict
 
@@ -28,38 +29,38 @@ logger = logging.getLogger(__name__)
 
 # Dataset options
 parser.add_argument('--dataset_name', default='zara1', type=str)
-parser.add_argument('--delim', default=' ')
-parser.add_argument('--loader_num_workers', default=6, type=int)
+parser.add_argument('--delim', default="tab")
+parser.add_argument('--loader_num_workers', default=1, type=int)
 parser.add_argument('--obs_len', default=8, type=int)
-parser.add_argument('--pred_len', default=8, type=int)
+parser.add_argument('--pred_len', default=12, type=int)
 parser.add_argument('--skip', default=1, type=int)
 
 # Optimization
-parser.add_argument('--batch_size', default=64, type=int)
-parser.add_argument('--num_epochs', default=200, type=int)
+parser.add_argument('--batch_size', default=32, type=int)
+parser.add_argument('--num_epochs', default=50, type=int)
 
 # Model Options
-parser.add_argument('--embedding_dim', default=64, type=int)
-parser.add_argument('--num_layers', default=1, type=int)
+parser.add_argument('--embedding_dim', default=32, type=int)
+parser.add_argument('--num_layers', default=4, type=int)
 parser.add_argument('--dropout', default=0, type=float)
 # parser.add_argument('--batch_norm', default=0, type=bool_flag)
 # parser.add_argument('--mlp_dim', default=1024, type=int)
 
 # Generator Options
-parser.add_argument('--encoder_h_dim_g', default=64, type=int)
+parser.add_argument('--encoder_h_dim_g', default=32, type=int)
 
-parser.add_argument('--g_learning_rate', default=5e-4, type=float)
+parser.add_argument('--g_learning_rate', default=1e-3, type=float)
 
 # Loss Options
-parser.add_argument('--l2_loss_weight', default=0, type=float)
+parser.add_argument('--l2_loss_weight', default=1, type=float)
 
 # Output
-parser.add_argument('--output_dir', default=os.getcwd())
+parser.add_argument('--output_dir', default="save")
 parser.add_argument('--print_every', default=100, type=int)
 parser.add_argument('--checkpoint_every', default=100, type=int)
 parser.add_argument('--checkpoint_name', default='checkpoint')
 parser.add_argument('--checkpoint_start_from', default=None)
-parser.add_argument('--restore_from_checkpoint', default=1, type=int)
+parser.add_argument('--restore_from_checkpoint', default=0, type=int)
 parser.add_argument('--num_samples_check', default=5000, type=int)
 
 # Misc
@@ -82,7 +83,16 @@ def get_dtypes(args):
     return long_dtype, float_dtype
 
 
-def main(args):
+def main():
+    logdir = "tensorboard/" + args.dataset_name + "/" + str(args.num_epochs) + "_epochs_" + str(args.g_learning_rate) + "_lr"
+    if os.path.exists(logdir):
+        for file in os.listdir(logdir):
+            os.unlink(os.path.join(logdir, file))
+
+    writer = SummaryWriter(logdir)
+
+    checkpoint_every = int(args.num_epochs * 0.6)
+
     os.environ["CUDA_VISIBLE_DEVICES"] = args.gpu_num
     train_path = get_dset_path(args.dataset_name, 'train')
     val_path = get_dset_path(args.dataset_name, 'val')
@@ -98,7 +108,7 @@ def main(args):
     args.num_iterations = int(iterations_per_epoch * args.num_epochs)
 
     logger.info(
-        'There are {} iterations per epoch'.format(iterations_per_epoch)
+        'There are {} iterations per epoch'.format(int(iterations_per_epoch))
     )
 
     generator = TrajectoryGenerator(
@@ -155,7 +165,6 @@ def main(args):
             'g_best_nl_state': None,
             'best_t_nl': None,
         }
-    t0 = None
     while t < args.num_iterations:
         gc.collect()
         
@@ -178,10 +187,11 @@ def main(args):
                 for k, v in sorted(losses_g.items()):
                     logger.info('  [G] {}: {:.3f}'.format(k, v))
                     checkpoint['G_losses'][k].append(v)
+                    writer.add_scalar("G_losses", v, t)
                 checkpoint['losses_ts'].append(t)
 
             # Maybe save a checkpoint
-            if t > 0 and t % args.checkpoint_every == 0:
+            if t > 0 and t % checkpoint_every == 0:
                 checkpoint['counters']['t'] = t
                 checkpoint['counters']['epoch'] = epoch
                 checkpoint['sample_ts'].append(t)
@@ -203,6 +213,13 @@ def main(args):
                     logger.info('  [train] {}: {:.3f}'.format(k, v))
                     checkpoint['metrics_train'][k].append(v)
 
+                writer.add_scalar("train_g_l2_loss_rel", checkpoint["metrics_train"]["g_l2_loss_rel"][-1], t)
+                writer.add_scalar("train_ade", checkpoint["metrics_train"]["ade"][-1], t)
+                writer.add_scalar("train_fde", checkpoint["metrics_train"]["fde"][-1], t)
+                writer.add_scalar("val_g_l2_loss_rel", checkpoint["metrics_val"]["g_l2_loss_rel"][-1], t)
+                writer.add_scalar("val_ade", checkpoint["metrics_val"]["ade"][-1], t)
+                writer.add_scalar("val_fde", checkpoint["metrics_val"]["fde"][-1], t)
+
                 min_ade = min(checkpoint['metrics_val']['ade'])
                 min_ade_nl = min(checkpoint['metrics_val']['ade_nl'])
 
@@ -210,7 +227,7 @@ def main(args):
                     logger.info('New low for avg_disp_error')
                     checkpoint['best_t'] = t
                     checkpoint['g_best_state'] = generator.state_dict()
-                    
+
 
                 if metrics_val['ade_nl'] == min_ade_nl:
                     logger.info('New low for avg_disp_error_nl')
@@ -250,8 +267,6 @@ def main(args):
                 break
 
 
-
-
 def generator_step(
     args, batch, generator, optimizer_g, epoch
 ):
@@ -263,7 +278,6 @@ def generator_step(
     g_l2_loss_rel = []
 
     loss_mask = loss_mask[:, args.obs_len:]
-
 
     pred_traj_fake_rel = generator(obs_traj, obs_traj_rel, seq_start_end, epoch)
 
@@ -411,4 +425,4 @@ def cal_fde(
 
 if __name__ == '__main__':
     args = parser.parse_args()
-    main(args)
+    main()
