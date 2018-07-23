@@ -1,6 +1,13 @@
 import argparse
 import os
 import torch
+import pickle
+
+torch.manual_seed(42)
+
+torch.cuda.manual_seed(42)
+torch.cuda.manual_seed_all(42)
+
 
 from attrdict import AttrDict
 
@@ -8,6 +15,8 @@ from sgan.data.loader import data_loader
 from sgan.models import TrajectoryGenerator
 from sgan.losses import displacement_error, final_displacement_error
 from sgan.utils import relative_to_abs, get_dset_path
+import numpy as np
+import time
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--model_path', type=str)
@@ -56,6 +65,8 @@ def evaluate_helper(error, seq_start_end):
 
 
 def evaluate(args, loader, generator, num_samples):
+    trajs = []
+    times = []
     ade_outer, fde_outer = [], []
     total_traj = 0
     with torch.no_grad():
@@ -68,12 +79,17 @@ def evaluate(args, loader, generator, num_samples):
             total_traj += pred_traj_gt.size(1)
 
             for _ in range(num_samples):
+                start = time.time()
                 pred_traj_fake_rel = generator(
                     obs_traj, obs_traj_rel, seq_start_end
                 )
+                end = time.time()
+                times.append(end-start)
                 pred_traj_fake = relative_to_abs(
                     pred_traj_fake_rel, obs_traj[-1]
                 )
+
+                trajs.append([obs_traj.cpu().numpy(), pred_traj_fake.cpu().numpy(), pred_traj_gt.cpu().numpy(), seq_start_end.cpu().numpy()])
                 ade.append(displacement_error(
                     pred_traj_fake, pred_traj_gt, mode='raw'
                 ))
@@ -88,7 +104,8 @@ def evaluate(args, loader, generator, num_samples):
             fde_outer.append(fde_sum)
         ade = sum(ade_outer) / (total_traj * args.pred_len)
         fde = sum(fde_outer) / (total_traj)
-        return ade, fde
+        return ade, fde, trajs, times
+
 
 
 def main(args):
@@ -107,9 +124,16 @@ def main(args):
         _args = AttrDict(checkpoint['args'])
         path = get_dset_path(_args.dataset_name, args.dset_type)
         _, loader = data_loader(_args, path)
-        ade, fde = evaluate(_args, loader, generator, args.num_samples)
+        
+        ade, fde, trajs, times = evaluate(_args, loader, generator, args.num_samples)
+        
+        print (times, np.mean(times))
+        
         print('Dataset: {}, Pred Len: {}, ADE: {:.2f}, FDE: {:.2f}'.format(
             _args.dataset_name, _args.pred_len, ade, fde))
+        with open("trajs_dumped/" + _args.dataset_name + "_" + args.dset_type + "_trajs.pkl", 'wb') as f:
+            pickle.dump(trajs, f)
+        print ("trajs dumped at ", _args.dataset_name + "_" + args.dset_type + "_trajs.pkl")
 
 
 if __name__ == '__main__':
