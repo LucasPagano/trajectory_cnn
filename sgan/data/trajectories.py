@@ -126,10 +126,9 @@ class TrajectoryDataset(Dataset):
                     curr_ped_seq = curr_seq_data[curr_seq_data[:, 1] ==
                                                  ped_id, :]
                     curr_ped_seq = np.around(curr_ped_seq, decimals=4)
-                    pad_front = frames.index(curr_ped_seq[0, 0]) - idx
-                    pad_end = frames.index(curr_ped_seq[-1, 0]) - idx + 1
-                    if pad_end - pad_front != self.seq_len:
+                    if len(curr_ped_seq[:, 0]) != self.seq_len:
                         continue
+
                     curr_ped_seq = np.transpose(curr_ped_seq[:, 2:])
                     curr_ped_seq = curr_ped_seq
                     # Make coordinates relative
@@ -137,12 +136,12 @@ class TrajectoryDataset(Dataset):
                     rel_curr_ped_seq[:, 1:] = \
                         curr_ped_seq[:, 1:] - curr_ped_seq[:, :-1]
                     _idx = num_peds_considered
-                    curr_seq[_idx, :, pad_front:pad_end] = curr_ped_seq
-                    curr_seq_rel[_idx, :, pad_front:pad_end] = rel_curr_ped_seq
+                    curr_seq[_idx, :, 0:self.seq_len] = curr_ped_seq
+                    curr_seq_rel[_idx, :, 0:self.seq_len] = rel_curr_ped_seq
                     # Linear vs Non-Linear Trajectory
                     _non_linear_ped.append(
                         poly_fit(curr_ped_seq, pred_len, threshold))
-                    curr_loss_mask[_idx, pad_front:pad_end] = 1
+                    curr_loss_mask[_idx, 0:self.seq_len] = 1
                     num_peds_considered += 1
 
                 if num_peds_considered > min_ped:
