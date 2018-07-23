@@ -91,8 +91,6 @@ def main():
 
     writer = SummaryWriter(logdir)
 
-    checkpoint_every = int(args.num_epochs * 0.6)
-
     os.environ["CUDA_VISIBLE_DEVICES"] = args.gpu_num
     train_path = get_dset_path(args.dataset_name, 'train')
     val_path = get_dset_path(args.dataset_name, 'val')
@@ -106,6 +104,8 @@ def main():
 
     iterations_per_epoch = len(train_dset) / args.batch_size
     args.num_iterations = int(iterations_per_epoch * args.num_epochs)
+    #log 100 points
+    log_tensorboard_every = int(args.num_iterations* 0.01) - 1
 
     logger.info(
         'There are {} iterations per epoch'.format(int(iterations_per_epoch))
@@ -171,7 +171,7 @@ def main():
         epoch += 1
         logger.info('Starting epoch {}'.format(epoch))
         for batch in train_loader:
-            
+
             losses_g = generator_step(args, batch, generator,
                                       optimizer_g, epoch)
             checkpoint['norm_g'].append(
@@ -181,17 +181,33 @@ def main():
             # Maybe save loss
             if t % args.print_every == 0:
                 logger.info('t = {} / {}'.format(t + 1, args.num_iterations))
-                # for k, v in sorted(losses_d.items()):
-                #     logger.info('  [D] {}: {:.3f}'.format(k, v))
-                #     checkpoint['D_losses'][k].append(v)
                 for k, v in sorted(losses_g.items()):
                     logger.info('  [G] {}: {:.3f}'.format(k, v))
                     checkpoint['G_losses'][k].append(v)
-                    writer.add_scalar("G_losses", v, t)
                 checkpoint['losses_ts'].append(t)
 
+            #Maybe save what we want for tensorboard
+            if t % log_tensorboard_every == 0:
+                for k, v in sorted(losses_g.items()):
+                    writer.add_scalar(k, v, t)
+
+                metrics_val = check_accuracy(
+                    args, val_loader, generator, epoch
+                )
+                metrics_train = check_accuracy(
+                    args, train_loader, generator, epoch, limit=True
+                )
+                to_keep = ["g_l2_loss_rel", "ade", "fde"]
+                for k, v in sorted(metrics_val.items()):
+                    if k in to_keep:
+                        writer.add_scalar("val_" + k, v, t)
+
+                for k, v in sorted(metrics_train.items()):
+                    if k in to_keep:
+                        writer.add_scalar("train_" + k, v, t)
+
             # Maybe save a checkpoint
-            if t > 0 and t % checkpoint_every == 0:
+            if t % args.checkpoint_every == 0 and t > 0:
                 checkpoint['counters']['t'] = t
                 checkpoint['counters']['epoch'] = epoch
                 checkpoint['sample_ts'].append(t)
@@ -213,12 +229,6 @@ def main():
                     logger.info('  [train] {}: {:.3f}'.format(k, v))
                     checkpoint['metrics_train'][k].append(v)
 
-                writer.add_scalar("train_g_l2_loss_rel", checkpoint["metrics_train"]["g_l2_loss_rel"][-1], t)
-                writer.add_scalar("train_ade", checkpoint["metrics_train"]["ade"][-1], t)
-                writer.add_scalar("train_fde", checkpoint["metrics_train"]["fde"][-1], t)
-                writer.add_scalar("val_g_l2_loss_rel", checkpoint["metrics_val"]["g_l2_loss_rel"][-1], t)
-                writer.add_scalar("val_ade", checkpoint["metrics_val"]["ade"][-1], t)
-                writer.add_scalar("val_fde", checkpoint["metrics_val"]["fde"][-1], t)
 
                 min_ade = min(checkpoint['metrics_val']['ade'])
                 min_ade_nl = min(checkpoint['metrics_val']['ade_nl'])
@@ -233,7 +243,7 @@ def main():
                     logger.info('New low for avg_disp_error_nl')
                     checkpoint['best_t_nl'] = t
                     checkpoint['g_best_nl_state'] = generator.state_dict()
-                    
+
 
                 # Save another checkpoint with model weights and
                 # optimizer state
@@ -248,19 +258,19 @@ def main():
 
                 # Save a checkpoint with no model weights by making a shallow
                 # copy of the checkpoint excluding some items
-                checkpoint_path = os.path.join(
-                    args.output_dir, '%s_no_model.pt' % args.checkpoint_name)
-                logger.info('Saving checkpoint to {}'.format(checkpoint_path))
-                key_blacklist = [
-                    'g_state', 'g_best_state', 'g_best_nl_state',
-                    'g_optim_state'
-                ]
-                small_checkpoint = {}
-                for k, v in checkpoint.items():
-                    if k not in key_blacklist:
-                        small_checkpoint[k] = v
-                torch.save(small_checkpoint, checkpoint_path)
-                logger.info('Done.')
+                # checkpoint_path = os.path.join(
+                #     args.output_dir, '%s_no_model.pt' % args.checkpoint_name)
+                # logger.info('Saving checkpoint to {}'.format(checkpoint_path))
+                # key_blacklist = [
+                #     'g_state', 'g_best_state', 'g_best_nl_state',
+                #     'g_optim_state'
+                # ]
+                # small_checkpoint = {}
+                # for k, v in checkpoint.items():
+                #     if k not in key_blacklist:
+                #         small_checkpoint[k] = v
+                # torch.save(small_checkpoint, checkpoint_path)
+                # logger.info('Done.')
 
             t += 1
             if t >= args.num_iterations:
