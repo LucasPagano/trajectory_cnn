@@ -68,10 +68,12 @@ def plot_person_both(start, end):
     plt.ylim(-15, 15)
     plt.show()
 
+#TODO : should we denormalize? How?
+#TODO : figure out how apply homography matrix
 def world_to_img(world_coordinates, hom_matrix):
     scaled_trajs = []
 
-    inv_t_matrix = np.linalg.inv(hom_matrix).transpose()
+    inv_matrix = np.linalg.inv(hom_matrix)
 
     #if several sequences
     if len(world_coordinates.shape) > 2:
@@ -81,45 +83,56 @@ def world_to_img(world_coordinates, hom_matrix):
         for traj in world_coordinates:
             ones = np.ones((len(traj), 1))
             P = np.hstack((traj, ones))
-            R = np.dot(P, inv_t_matrix)
-            x = (R[:, 0] / R[:, 2]).reshape(-1, 1)
-            y = (R[:, 1] / R[:, 2]).reshape(-1, 1)
-            scaled_traj = np.hstack((x, y))
-            scaled_trajs.append(scaled_traj)
+            R = np.dot(P, inv_matrix)
+            x = (R[:, 0] ).reshape(-1, 1)
+            y = (R[:, 1] ).reshape(-1, 1)
+            scaled_trajs.append(np.hstack((x, y)))
     else:
         ones = np.ones((len(world_coordinates), 1))
         P = np.hstack((world_coordinates, ones))
-        R = np.dot(P, inv_t_matrix)
-        x = (R[:, 0] / R[:, 2]).reshape(-1, 1)
-        y = (R[:, 1] / R[:, 2]).reshape(-1, 1)
-        scaled_traj = np.hstack((x, y))
-        scaled_trajs.append(scaled_traj)
-
+        R = np.dot(P, inv_matrix)
+        x = (R[:, 0]  ).reshape(-1, 1)
+        y = (R[:, 1] ).reshape(-1, 1)
+        scaled_trajs.append(np.hstack((x, y)))
     return scaled_trajs
 
 def img_to_world(input, matrix):
     return world_to_img(input, np.linalg.inv(matrix))
 
-if __name__ == "__main__":
-    img = cv.imread("scenes_and_matrices/univ.png")
 
-    univ_matrix = np.loadtxt("scenes_and_matrices/univ.txt")
-    input=pred_traj_fake_us[:,8,:]
-    scaled_sequences = world_to_img(input, univ_matrix)
-
+def print_to_img(start, end, image_path, matrix_path):
+    img = cv.imread(image_path)
+    matrix = np.loadtxt(matrix_path)
+    trajs = {}
+    trajs["obs"] = obs_traj[:, start:end, :]
+    trajs["pred_us"] = pred_traj_fake_us[:, start:end, :]
+    trajs["pred_gt"] = pred_traj_gt[:,start:end, :]
+    scaled_trajs = {}
+    for key, traj in trajs.items():
+        scaled_trajs[key] = world_to_img(traj, matrix)
 
     heigth, width, _ = img.shape
-    center = (int(heigth/2), int(width/2))
+    center = (int(heigth / 2), int(width / 2))
 
-    print((heigth, width))
-    #
-    # for point in a:
-    #     real_pt = tuple(map(int, center + point))
-    #     real_pt = tuple(map(int, point))
-    #     print(real_pt)
-    #     cv.circle(img, real_pt, 1, (0,0,0), thickness=5)
-    #
-    # cv.imshow('image', img)
-    # cv.waitKey(0)
-    # cv.destroyAllWindows()
-    #
+    print("Heigth x Width : {} x {}".format(heigth, width))
+
+    for key, sequences in scaled_trajs.items():
+        color = color_dict[key]
+        for sequence in sequences:
+            for point in sequence:
+                real_pt = tuple(map(int, center + point))
+                # real_pt = tuple(map(int, point))
+                cv.circle(img, real_pt, 1, color, thickness=5)
+
+    cv.imshow(image_path.split(".")[0], img)
+    cv.waitKey(0)
+    cv.destroyAllWindows()
+
+
+if __name__ == "__main__":
+    color_dict = {"obs": (0,0,0), "pred_us":(250,0,0), "pred_gt":(0,250,0)}
+
+    print_to_img(0, len(obs_traj[0]), "scenes_and_matrices/univ.png", "scenes_and_matrices/univ.txt")
+
+
+
