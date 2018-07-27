@@ -79,22 +79,6 @@ def world_to_img(world_coordinates, hom_matrix):
 def img_to_world(input, matrix):
     return world_to_img(input, np.linalg.inv(matrix))
 
-def update_mins(min_x, min_y, max_x, max_y, scaled_traj):
-    seq_min_x = min(scaled_traj[:, 0])
-    seq_min_y = min(scaled_traj[:, 1])
-    seq_max_x = max(scaled_traj[:, 0])
-    seq_max_y = max(scaled_traj[:, 1])
-    if seq_min_x < min_x:
-        min_x = seq_min_x
-    if seq_min_y < min_y:
-        min_y = seq_min_y
-    if seq_max_x > max_x:
-        max_x = seq_max_x
-    if seq_max_y > max_y:
-        max_y = seq_max_y
-
-    return min_x, min_y, max_x, max_y
-
 def get_frame(video_path, frame):
     cap = cv.VideoCapture(video_path)
     cap.set(1, frame)
@@ -106,7 +90,6 @@ def print_to_img(trajs, video_path, matrix_path, frame):
 
     matrix = np.loadtxt(matrix_path, dtype=float)
     heigth, width, _ = img.shape
-    # center = (int(heigth / 2), int(width / 2))
 
     scaled_trajs = {}
     for ped_id, ped in trajs.items():
