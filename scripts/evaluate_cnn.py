@@ -6,12 +6,12 @@ import pickle
 from attrdict import AttrDict
 
 from sgan.data.loader import data_loader
-from sgan.model_generator_only import TrajectoryGenerator
+from cnn.model_cnn import TrajEstimator
 from sgan.losses import displacement_error, final_displacement_error
 from sgan.utils import relative_to_abs, get_dset_path
 
 parser = argparse.ArgumentParser()
-parser.add_argument('--model_path', type=str)
+parser.add_argument('--model_path', default="save/eth_50epoch_with_model.pt", type=str)
 parser.add_argument('--num_samples', default=20, type=int)
 parser.add_argument('--dset_type', default='test', type=str)
 
@@ -20,7 +20,7 @@ import numpy as np
 
 def get_generator(checkpoint):
     args = AttrDict(checkpoint['args'])
-    generator = TrajectoryGenerator(
+    generator = TrajEstimator(
         obs_len=args.obs_len,
         pred_len=args.pred_len,
         embedding_dim=args.embedding_dim,
@@ -31,7 +31,6 @@ def get_generator(checkpoint):
     generator.cuda()
     generator.train()
     return generator
-
 
 def evaluate_helper(error, seq_start_end):
     sum_ = 0
@@ -45,7 +44,6 @@ def evaluate_helper(error, seq_start_end):
         _error = torch.min(_error)
         sum_ += _error
     return sum_
-
 
 def evaluate(args, loader, generator, num_samples):
     trajs = []
@@ -63,6 +61,7 @@ def evaluate(args, loader, generator, num_samples):
 
             for _ in range(num_samples):
                 start = time.time()
+
                 pred_traj_fake_rel = generator(
                     obs_traj, obs_traj_rel, seq_start_end
                 )
@@ -88,7 +87,6 @@ def evaluate(args, loader, generator, num_samples):
         ade = sum(ade_outer) / (total_traj * args.pred_len)
         fde = sum(fde_outer) / (total_traj)
         return ade, fde, trajs, times
-
 
 def main(args):
     if os.path.isdir(args.model_path):

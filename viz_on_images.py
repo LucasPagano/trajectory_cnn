@@ -4,7 +4,7 @@ import sys
 import cv2 as cv
 import pandas as pd
 from attrdict import AttrDict
-from sgan.model_generator_only import TrajectoryGenerator
+from cnn.model_cnn import TrajectoryGenerator
 from sgan.models import TrajectoryGenerator as TrajectoryGenerator_sgan
 from sgan.utils import relative_to_abs
 import torch

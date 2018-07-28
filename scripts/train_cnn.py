@@ -3,7 +3,6 @@ import gc
 import logging
 import os
 import sys
-import time
 from tensorboardX import SummaryWriter
 
 from collections import defaultdict
@@ -16,8 +15,8 @@ from sgan.data.loader import data_loader
 from sgan.losses import l2_loss
 from sgan.losses import displacement_error, final_displacement_error
 
-from sgan.model_generator_only import TrajectoryGenerator
-from sgan.utils import int_tuple, bool_flag, get_total_norm
+from cnn.model_cnn import TrajEstimator
+from sgan.utils import get_total_norm
 from sgan.utils import relative_to_abs, get_dset_path
 
 torch.backends.cudnn.benchmark = True
@@ -30,7 +29,7 @@ logger = logging.getLogger(__name__)
 # Dataset options
 parser.add_argument('--dataset_name', default='zara1', type=str)
 parser.add_argument('--delim', default="tab")
-parser.add_argument('--loader_num_workers', default=1, type=int)
+parser.add_argument('--loader_num_workers', default=0, type=int)
 parser.add_argument('--obs_len', default=8, type=int)
 parser.add_argument('--pred_len', default=12, type=int)
 parser.add_argument('--skip', default=1, type=int)
@@ -43,8 +42,6 @@ parser.add_argument('--num_epochs', default=50, type=int)
 parser.add_argument('--embedding_dim', default=32, type=int)
 parser.add_argument('--num_layers', default=4, type=int)
 parser.add_argument('--dropout', default=0, type=float)
-# parser.add_argument('--batch_norm', default=0, type=bool_flag)
-# parser.add_argument('--mlp_dim', default=1024, type=int)
 
 # Generator Options
 parser.add_argument('--encoder_h_dim_g', default=32, type=int)
@@ -72,7 +69,6 @@ def init_weights(m):
     classname = m.__class__.__name__
     if classname.find('Linear') != -1:
         nn.init.kaiming_normal_(m.weight)
-
 
 def get_dtypes(args):
     long_dtype = torch.LongTensor
@@ -104,14 +100,14 @@ def main():
 
     iterations_per_epoch = len(train_dset) / args.batch_size
     args.num_iterations = int(iterations_per_epoch * args.num_epochs)
-    #log 100 points
-    log_tensorboard_every = int(args.num_iterations* 0.01) - 1
+    # log 100 points
+    log_tensorboard_every = int(args.num_iterations * 0.01) - 1
 
     logger.info(
         'There are {} iterations per epoch'.format(int(iterations_per_epoch))
     )
 
-    generator = TrajectoryGenerator(
+    generator = TrajEstimator(
         obs_len=args.obs_len,
         pred_len=args.pred_len,
         embedding_dim=args.embedding_dim,
@@ -121,6 +117,7 @@ def main():
 
     generator.apply(init_weights)
     generator.type(float_dtype).train()
+
     logger.info('Here is the generator:')
     logger.info(generator)
 
@@ -167,7 +164,7 @@ def main():
         }
     while t < args.num_iterations:
         gc.collect()
-        
+
         epoch += 1
         logger.info('Starting epoch {}'.format(epoch))
         for batch in train_loader:
@@ -186,7 +183,7 @@ def main():
                     checkpoint['G_losses'][k].append(v)
                 checkpoint['losses_ts'].append(t)
 
-            #Maybe save what we want for tensorboard
+            # Maybe save what we want for tensorboard
             if t % log_tensorboard_every == 0:
                 for k, v in sorted(losses_g.items()):
                     writer.add_scalar(k, v, t)
@@ -229,7 +226,6 @@ def main():
                     logger.info('  [train] {}: {:.3f}'.format(k, v))
                     checkpoint['metrics_train'][k].append(v)
 
-
                 min_ade = min(checkpoint['metrics_val']['ade'])
                 min_ade_nl = min(checkpoint['metrics_val']['ade_nl'])
 
@@ -238,12 +234,10 @@ def main():
                     checkpoint['best_t'] = t
                     checkpoint['g_best_state'] = generator.state_dict()
 
-
                 if metrics_val['ade_nl'] == min_ade_nl:
                     logger.info('New low for avg_disp_error_nl')
                     checkpoint['best_t_nl'] = t
                     checkpoint['g_best_nl_state'] = generator.state_dict()
-
 
                 # Save another checkpoint with model weights and
                 # optimizer state
@@ -278,7 +272,7 @@ def main():
 
 
 def generator_step(
-    args, batch, generator, optimizer_g, epoch
+        args, batch, generator, optimizer_g, epoch
 ):
     batch = [tensor.cuda() for tensor in batch]
     (obs_traj, pred_traj_gt, obs_traj_rel, pred_traj_gt_rel, non_linear_ped,
@@ -291,8 +285,6 @@ def generator_step(
 
     pred_traj_fake_rel = generator(obs_traj, obs_traj_rel, seq_start_end, epoch)
 
-    pred_traj_fake = relative_to_abs(pred_traj_fake_rel, obs_traj[-1])
-
     if args.l2_loss_weight > 0:
         g_l2_loss_rel.append(args.l2_loss_weight * l2_loss(
             pred_traj_fake_rel,
@@ -302,6 +294,7 @@ def generator_step(
 
     g_l2_loss_sum_rel = torch.zeros(1).to(pred_traj_gt)
     if args.l2_loss_weight > 0:
+
         g_l2_loss_rel = torch.stack(g_l2_loss_rel, dim=1)
         for start, end in seq_start_end.data:
             _g_l2_loss_rel = g_l2_loss_rel[start:end]
@@ -312,17 +305,14 @@ def generator_step(
         losses['G_l2_loss_rel'] = g_l2_loss_sum_rel.item()
         loss += g_l2_loss_sum_rel
 
-    optimizer_g.zero_grad()
     loss.backward()
     optimizer_g.step()
+    optimizer_g.zero_grad()
 
     return losses
 
 
-def check_accuracy(
-    args, loader, generator, epoch, limit=False
-):
-    d_losses = []
+def check_accuracy(args, loader, generator, epoch, limit=False):
     metrics = {}
     g_l2_losses_abs, g_l2_losses_rel = ([],) * 2
     disp_error, disp_error_l, disp_error_nl = ([],) * 3
@@ -355,11 +345,6 @@ def check_accuracy(
                 pred_traj_gt, pred_traj_fake, linear_ped, non_linear_ped
             )
 
-            traj_real = torch.cat([obs_traj, pred_traj_gt], dim=0)
-            traj_real_rel = torch.cat([obs_traj_rel, pred_traj_gt_rel], dim=0)
-            traj_fake = torch.cat([obs_traj, pred_traj_fake], dim=0)
-            traj_fake_rel = torch.cat([obs_traj_rel, pred_traj_fake_rel], dim=0)
-
             g_l2_losses_abs.append(g_l2_loss_abs.item())
             g_l2_losses_rel.append(g_l2_loss_rel.item())
             disp_error.append(ade.item())
@@ -390,7 +375,7 @@ def check_accuracy(
         metrics['fde_l'] = 0
     if total_traj_nl != 0:
         metrics['ade_nl'] = sum(disp_error_nl) / (
-            total_traj_nl * args.pred_len)
+                total_traj_nl * args.pred_len)
         metrics['fde_nl'] = sum(f_disp_error_nl) / total_traj_nl
     else:
         metrics['ade_nl'] = 0
@@ -401,8 +386,8 @@ def check_accuracy(
 
 
 def cal_l2_losses(
-    pred_traj_gt, pred_traj_gt_rel, pred_traj_fake, pred_traj_fake_rel,
-    loss_mask
+        pred_traj_gt, pred_traj_gt_rel, pred_traj_fake, pred_traj_fake_rel,
+        loss_mask
 ):
     g_l2_loss_abs = l2_loss(
         pred_traj_fake, pred_traj_gt, loss_mask, mode='sum'
@@ -421,7 +406,7 @@ def cal_ade(pred_traj_gt, pred_traj_fake, linear_ped, non_linear_ped):
 
 
 def cal_fde(
-    pred_traj_gt, pred_traj_fake, linear_ped, non_linear_ped
+        pred_traj_gt, pred_traj_fake, linear_ped, non_linear_ped
 ):
     fde = final_displacement_error(pred_traj_fake[-1], pred_traj_gt[-1])
     fde_l = final_displacement_error(
