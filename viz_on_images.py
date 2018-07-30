@@ -4,7 +4,7 @@ import sys
 import cv2 as cv
 import pandas as pd
 from attrdict import AttrDict
-from cnn.model_cnn import TrajectoryGenerator
+from cnn.model_cnn import TrajEstimator
 from sgan.models import TrajectoryGenerator as TrajectoryGenerator_sgan
 from sgan.utils import relative_to_abs
 import torch
@@ -32,12 +32,12 @@ def get_generator_sgan(checkpoint):
         batch_norm=args.batch_norm)
     generator.load_state_dict(checkpoint['g_state'])
     generator.cuda()
-    generator.train()
+    generator.eval()
     return generator
 
 def get_generator_us(checkpoint):
     args = AttrDict(checkpoint['args'])
-    generator = TrajectoryGenerator(
+    generator = TrajEstimator(
         obs_len=args.obs_len,
         pred_len=args.pred_len,
         embedding_dim=args.embedding_dim,
@@ -46,7 +46,7 @@ def get_generator_us(checkpoint):
         dropout=args.dropout)
     generator.load_state_dict(checkpoint['g_best_state'])
     generator.cuda()
-    generator.train()
+    generator.eval()
     return generator
 
 def world_to_img(world_coordinates, hom_matrix):
@@ -180,7 +180,10 @@ def get_paths():
     mat_path = scenes_and_mat_path + dataset + ".txt"
     model_path_us = "scripts/save/" + dataset + "_50epoch_with_model.pt"
     model_path_sgan = "models/sgan-p-models/" + dataset + "_12_model.pt"
-    out_vid_path = "visualization/" + dataset + ".mp4"
+    if model_path_sgan.split("/")[1] == "sgan-p-models":
+        out_vid_path = "visualization/" + dataset + "_sgan-p.mp4"
+    else:
+        out_vid_path = "visualization/" + dataset + ".mp4"
     test_dataset_path = os.listdir("datasets/" + dataset + "/test")
     if len(test_dataset_path) > 1:
         print("Several test datasets found : {}".format(test_dataset_path))
@@ -213,6 +216,9 @@ if __name__ == "__main__":
     #opencv is BGR
     color_dict = {"obs": (0, 0, 0), "pred_us": (250, 0, 0), "pred_gt": (0, 250, 0), "pred_sgan": (0,0,250)}
     paths = get_paths()
+    print("Paths :")
+    for key, item in paths.items():
+        print("\t{} : {}".format(key, item))
 
     print("Loading models.")
     models = {}
@@ -232,15 +238,16 @@ if __name__ == "__main__":
 
     writer = skvideo.io.FFmpegWriter(paths["out_vid"])
 
-    max = data.frameID.iloc[-1]
-    for frame_number in range(0,max,10):
-        if frame_number%1000==0:
-            print("Frame {}/{}".format(frame_number, max))
+    frameList = data.frameID.unique()
+    max = frameList[-1]
+    thousand = 1000
+    for frame_number in frameList:
+        if frame_number>=thousand:
+            print("Frame {}/{}".format(thousand, max))
+            thousand+=1000
         trajs = get_trajs(frame_number)
         if trajs:
             img = print_to_img(trajs, paths["vid"], paths["mat"], frame_number)
-            writer.writeFrame(img)
         else:
             img = get_frame(paths["vid"], frame_number)
-            if img is not None:
-                writer.writeFrame(img)
+        writer.writeFrame(img)
