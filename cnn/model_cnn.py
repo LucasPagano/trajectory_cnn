@@ -28,7 +28,7 @@ class TrajEstimator(nn.Module):
         self.hidden2pos = nn.Linear(embedding_dim * self.obs_len, 2 * self.pred_len)
         self.relu = nn.ReLU()
 
-    def forward(self, obs_traj, obs_traj_rel, seq_start_end):
+    def forward(self, obs_traj, obs_traj_rel, seq_start_end, epoch=0):
         """
         Inputs:
         - obs_traj: Tensor of shape (obs_len, batch, 2)
