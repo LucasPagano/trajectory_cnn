@@ -1,5 +1,7 @@
+import torch
 import torch.nn as nn
 import math
+import collections
 
 def Conv1d(in_channels, out_channels, kernel_size, padding, dropout=0):
     m = nn.Conv1d(in_channels, out_channels, kernel_size, padding=padding)
@@ -20,13 +22,15 @@ class TrajEstimator(nn.Module):
         self.dropout = dropout
 
         #layers
-        self.convs = nn.ModuleList()
-        if num_layers >= 2:
-            for i in range(num_layers):
-                self.convs.append(Conv1d(in_channels=embedding_dim, out_channels=embedding_dim, kernel_size=3, padding=1, dropout=0))
         self.spatial_embedding = nn.Linear(2, embedding_dim)
-        self.hidden2pos = nn.Linear(embedding_dim * self.obs_len, 2 * self.pred_len)
         self.relu = nn.ReLU()
+        conv_dict = collections.OrderedDict()
+        if num_layers >= 2:
+            for i in range(0, num_layers * 2, 2):
+                conv_dict[str(i)] = Conv1d(in_channels=embedding_dim, out_channels=embedding_dim, kernel_size=3, padding=1, dropout=0)
+                conv_dict[str(i+1)] = nn.ReLU()
+        self.convs = nn.Sequential(conv_dict)
+        self.hidden2pos = nn.Linear(embedding_dim * self.obs_len, 2 * self.pred_len)
 
     def forward(self, obs_traj, obs_traj_rel, seq_start_end, epoch=0):
         """
@@ -39,17 +43,11 @@ class TrajEstimator(nn.Module):
         """
         batch_size = obs_traj.size(1)
         obs_traj_embedding = self.spatial_embedding(obs_traj_rel.view(-1, 2))
-        obs_traj_embedding = obs_traj_embedding.view(
-            -1, batch_size, self.embedding_dim
+        obs_traj_embedding = obs_traj_embedding.view(-1, batch_size, self.embedding_dim
         ).permute(1, 2, 0)
-
-        for i, conv in enumerate(self.convs):
-            if i == 0:
-                state = self.relu(conv(obs_traj_embedding))
-            else:
-                state = self.relu(conv(state))
-        state = state.view(batch_size, -1)
+        state = self.convs(obs_traj_embedding).view(batch_size, -1)
         rel_pos = self.hidden2pos(state)
-        rel_pos = rel_pos.reshape(batch_size, self.pred_len, 2).permute(1, 0, 2)
-        pred_traj_fake_rel = rel_pos
+        pred_traj_fake_rel = rel_pos.reshape(batch_size, self.pred_len, 2).permute(1, 0, 2)
         return pred_traj_fake_rel
+
+
