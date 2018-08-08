@@ -107,7 +107,7 @@ class TrajectoryDataset(Dataset):
             try :
                 frames = np.unique(data[:, 0]).tolist()
             except IndexError:
-                print(IndexError)
+                print("IndexError: too many indices for array")
                 print("File {} may be empty.".format(path))
                 continue
             frame_data = []
