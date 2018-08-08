@@ -81,7 +81,7 @@ def img_to_world(input, matrix):
 
 def get_frame(video_path, frame):
     cap = cv.VideoCapture(video_path)
-    cap.set(1, frame)
+    cap.set(cv.CAP_PROP_POS_FRAMES, frame)
     _, img = cap.read()
     return img
 
@@ -126,7 +126,6 @@ def get_trajs(frame, step=10):
     seq_range = [frame - (obs_len - 1) * step, frame + pred_len * step]
     obs_range = [frame - (obs_len - 1) * step, frame]
 
-    #no use to look in the pas
     raw_obs_seq = data.loc[data["frameID"].between(obs_range[0], obs_range[1], inclusive=True)]
     raw_pred_seq = data.loc[data["frameID"].between(obs_range[1] + step, seq_range[1], inclusive=True)]
     peds_in_seq = raw_obs_seq.pedID.unique()
@@ -173,27 +172,53 @@ def get_trajs(frame, step=10):
         return trajs_
 
 
-def get_paths():
+def get_paths(dset_):
     paths_ = {}
+
+    if dset_.split("/")[0] == "split_moving":
+        dset = dset_.split("/")[1]
+        model_path_us = os.path.join("scripts/save/", (dset_ + "_100epoch_with_model.pt"))
+        model_path_sgan = "models/sgan-p-models/" + dset + "_12_model.pt"
+        if model_path_sgan.split("/")[1] == "sgan-p-models":
+            out_vid_path = "visualization/" + dset + "_" + dset_.split("/")[-1] + "_sgan-p.mp4"
+        else:
+            out_vid_path = "visualization/" + dset + dset_.split("/")[-1] + ".mp4"
+
+        test_dataset_path = os.listdir("datasets/split_moving/" + dset +"/" + dset_.split("/")[-1] + "/test")
+        if len(test_dataset_path) > 1:
+            print("Several test datasets found : {}".format(test_dataset_path))
+            while True:
+                to_keep = input("Enter the name of the dataset you want to use :")
+                if to_keep in test_dataset_path:
+                    test_dataset_path = "datasets/" + dset + "/test/" + to_keep
+                    break
+        else:
+            test_dataset_path = "datasets/split_moving/" + dset +"/" + dset_.split("/")[-1] + "/test/" + test_dataset_path[0]
+
+
+    else:
+        dset = dset_
+        model_path_us = "scripts/save/" + dset + "_100epoch_with_model.pt"
+        model_path_sgan = "models/sgan-p-models/" + dset + "_12_model.pt"
+        if model_path_sgan.split("/")[1] == "sgan-p-models":
+            out_vid_path = "visualization/" + dset + "_sgan-p.mp4"
+        else:
+            out_vid_path = "visualization/" + dset + ".mp4"
+
+        test_dataset_path = os.listdir("datasets/" + dset + "/test")
+        if len(test_dataset_path) > 1:
+            print("Several test datasets found : {}".format(test_dataset_path))
+            while True:
+                to_keep = input("Enter the name of the dataset you want to use :")
+                if to_keep in test_dataset_path:
+                    test_dataset_path = "datasets/" + dset + "/test/" + to_keep
+                    break
+        else:
+            test_dataset_path = "datasets/" + dset + "/test/" + test_dataset_path[0]
+
     scenes_and_mat_path = "scenes_and_matrices/"
-    vid_path = scenes_and_mat_path + dataset + ".avi"
-    mat_path = scenes_and_mat_path + dataset + ".txt"
-    model_path_us = "scripts/save/" + dataset + "_50epoch_with_model.pt"
-    model_path_sgan = "models/sgan-p-models/" + dataset + "_12_model.pt"
-    if model_path_sgan.split("/")[1] == "sgan-p-models":
-        out_vid_path = "visualization/" + dataset + "_sgan-p.mp4"
-    else:
-        out_vid_path = "visualization/" + dataset + ".mp4"
-    test_dataset_path = os.listdir("datasets/" + dataset + "/test")
-    if len(test_dataset_path) > 1:
-        print("Several test datasets found : {}".format(test_dataset_path))
-        while True:
-            to_keep = input("Enter the name of the dataset you want to use :")
-            if to_keep in test_dataset_path:
-                test_dataset_path = "datasets/" + dataset + "/test/" + to_keep
-                break
-    else:
-        test_dataset_path = "datasets/" + dataset + "/test/" + test_dataset_path[0]
+    mat_path = scenes_and_mat_path + dset + ".txt"
+    vid_path = scenes_and_mat_path + dset + ".avi"
 
     paths_["vid"] = vid_path
     paths_["mat"] = mat_path
@@ -208,27 +233,24 @@ def get_paths():
     paths_["out_vid"] = out_vid_path
     return paths_
 
-
 if __name__ == "__main__":
-    dataset = "hotel"
+    dataset = "split_moving/hotel/not_moving"
     obs_len = 8
     pred_len = 12
-    #opencv is BGR
-    color_dict = {"obs": (0, 0, 0), "pred_us": (250, 0, 0), "pred_gt": (0, 250, 0), "pred_sgan": (0,0,250)}
-    paths = get_paths()
+    color_dict = {"obs": (0, 0, 0), "pred_us": (250, 250, 250), "pred_gt": (0, 250, 0), "pred_sgan": (0,0,250)}
+
+    paths = get_paths(dataset)
+
     print("Paths :")
-    for key, item in paths.items():
-        print("\t{} : {}".format(key, item))
+    for key in sorted(paths.keys()):
+        print("\t{}: {}".format(key, paths[key]))
 
     print("Loading models.")
     models = {}
     checkpoint_us = torch.load(paths["model_us"])
     models["us"] = get_generator_us(checkpoint_us)
-    try :
-        checkpoint_sgan =  torch.load(paths["model_sgan"])
-        models["sgan"] = get_generator_sgan(checkpoint_sgan )
-    except KeyError:
-        pass
+    checkpoint_sgan =  torch.load(paths["model_sgan"])
+    models["sgan"] = get_generator_sgan(checkpoint_sgan )
 
     print("Loading data.")
     data = pd.read_csv(paths["test_dataset"], sep="\t", header=None)
@@ -240,13 +262,15 @@ if __name__ == "__main__":
 
     frameList = data.frameID.unique()
     max = frameList[-1]
-    thousand = 1000
-    for frame_number in frameList:
-        if frame_number>=thousand:
-            print("Frame {}/{}".format(thousand, max))
-            thousand+=1000
-        trajs = get_trajs(frame_number)
-        if trajs:
+    #step every ten frame for watchable video
+    for frame_number in range(0,max,10):
+        if frame_number%1000 == 0:
+            print("Frame {}/{}".format(frame_number, max))
+
+        trajs = None
+        if frame_number in frameList:
+            trajs = get_trajs(frame_number)
+        if trajs is not None:
             img = print_to_img(trajs, paths["vid"], paths["mat"], frame_number)
         else:
             img = get_frame(paths["vid"], frame_number)
