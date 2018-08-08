@@ -106,8 +106,9 @@ class TrajectoryDataset(Dataset):
             data = read_file(path, delim)
             try :
                 frames = np.unique(data[:, 0]).tolist()
-            #file empty
             except IndexError:
+                print(IndexError)
+                print("File {} may be empty.".format(path))
                 continue
             frame_data = []
             for frame in frames:
