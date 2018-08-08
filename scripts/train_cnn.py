@@ -3,6 +3,7 @@ import gc
 import logging
 import os
 import sys
+import pathlib
 from tensorboardX import SummaryWriter
 
 from collections import defaultdict
@@ -27,7 +28,7 @@ logging.basicConfig(level=logging.INFO, format=FORMAT, stream=sys.stdout)
 logger = logging.getLogger(__name__)
 
 # Dataset options
-parser.add_argument('--dataset_name', default='zara1', type=str)
+parser.add_argument('--dataset_name', default='split_moving/eth/moving', type=str)
 parser.add_argument('--delim', default="tab")
 parser.add_argument('--loader_num_workers', default=0, type=int)
 parser.add_argument('--obs_len', default=8, type=int)
@@ -55,7 +56,7 @@ parser.add_argument('--l2_loss_weight', default=1, type=float)
 parser.add_argument('--output_dir', default="save")
 parser.add_argument('--print_every', default=100, type=int)
 parser.add_argument('--checkpoint_every', default=100, type=int)
-parser.add_argument('--checkpoint_name', default='checkpoint')
+parser.add_argument('--checkpoint_name', default='split_moving/eth/moving_50epochs')
 parser.add_argument('--checkpoint_start_from', default=None)
 parser.add_argument('--restore_from_checkpoint', default=0, type=int)
 parser.add_argument('--num_samples_check', default=5000, type=int)
@@ -79,7 +80,7 @@ def get_dtypes(args):
     return long_dtype, float_dtype
 
 
-def main():
+def main(args):
     logdir = "tensorboard/" + args.dataset_name + "/" + str(args.num_epochs) + "_epochs_" + str(args.g_learning_rate) + "_lr"
     if os.path.exists(logdir):
         for file in os.listdir(logdir):
@@ -90,8 +91,27 @@ def main():
     os.environ["CUDA_VISIBLE_DEVICES"] = args.gpu_num
     train_path = get_dset_path(args.dataset_name, 'train')
     val_path = get_dset_path(args.dataset_name, 'val')
+    if args.dataset_name.split("/")[0] == "split_moving":
+        checkpoint_path = os.path.join(args.output_dir, '%s_with_model.pt' % args.checkpoint_name)
+        save_dir = "/".join(checkpoint_path.split("/")[:-1])
+        pathlib.Path(save_dir).mkdir(parents=True, exist_ok=True)
 
     long_dtype, float_dtype = get_dtypes(args)
+
+    generator = TrajEstimator(
+        obs_len=args.obs_len,
+        pred_len=args.pred_len,
+        embedding_dim=args.embedding_dim,
+        encoder_h_dim=args.encoder_h_dim_g,
+        num_layers=args.num_layers,
+        dropout=args.dropout)
+
+    generator.apply(init_weights)
+    generator.type(float_dtype).train()
+    generator.train()
+
+    logger.info('Here is the generator:')
+    logger.info(generator)
 
     logger.info("Initializing train dataset")
     train_dset, train_loader = data_loader(args, train_path)
@@ -106,20 +126,6 @@ def main():
     logger.info(
         'There are {} iterations per epoch'.format(int(iterations_per_epoch))
     )
-
-    generator = TrajEstimator(
-        obs_len=args.obs_len,
-        pred_len=args.pred_len,
-        embedding_dim=args.embedding_dim,
-        encoder_h_dim=args.encoder_h_dim_g,
-        num_layers=args.num_layers,
-        dropout=args.dropout)
-
-    generator.apply(init_weights)
-    generator.type(float_dtype).train()
-
-    logger.info('Here is the generator:')
-    logger.info(generator)
 
     optimizer_g = optim.Adam(generator.parameters(), lr=args.g_learning_rate)
 
@@ -270,10 +276,7 @@ def main():
             if t >= args.num_iterations:
                 break
 
-
-def generator_step(
-        args, batch, generator, optimizer_g, epoch
-):
+def generator_step(args, batch, generator, optimizer_g, epoch):
     batch = [tensor.cuda() for tensor in batch]
     (obs_traj, pred_traj_gt, obs_traj_rel, pred_traj_gt_rel, non_linear_ped,
      loss_mask, seq_start_end) = batch
@@ -420,4 +423,4 @@ def cal_fde(
 
 if __name__ == '__main__':
     args = parser.parse_args()
-    main()
+    main(args)

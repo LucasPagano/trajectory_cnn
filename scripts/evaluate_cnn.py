@@ -2,6 +2,7 @@ import argparse
 import os
 import torch
 import pickle
+import pathlib
 
 from attrdict import AttrDict
 
@@ -10,8 +11,9 @@ from cnn.model_cnn import TrajEstimator
 from sgan.losses import displacement_error, final_displacement_error
 from sgan.utils import relative_to_abs, get_dset_path
 
+
 parser = argparse.ArgumentParser()
-parser.add_argument('--model_path', default="save/eth_50epoch_with_model.pt", type=str)
+parser.add_argument('--model_path', default="save/checkpoint_with_model.pt", type=str)
 parser.add_argument('--num_samples', default=20, type=int)
 parser.add_argument('--dset_type', default='test', type=str)
 
@@ -29,7 +31,7 @@ def get_generator(checkpoint):
         dropout=args.dropout)
     generator.load_state_dict(checkpoint['g_best_state'])
     generator.cuda()
-    generator.train()
+    generator.eval()
     return generator
 
 def evaluate_helper(error, seq_start_end):
@@ -109,7 +111,10 @@ def main(args):
         print (np.mean(times))
         print('Dataset: {}, Pred Len: {}, ADE: {:.2f}, FDE: {:.2f}'.format(
             _args.dataset_name, _args.pred_len, ade, fde))
-        with open("trajs_dumped/" + _args.dataset_name + "_" + args.dset_type + "_trajs.pkl", 'wb') as f:
+        if _args.dataset_name.split("/")[0] == "split_moving":
+            path = "trajs_dumped/" + "/".join(_args.dataset_name.split("/")[:-1])
+            pathlib.Path(path).mkdir(parents=True, exist_ok=True)
+        with open("trajs_dumped/" + _args.dataset_name + "_" + args.dset_type + "_trajs.pkl", 'wb+') as f:
             pickle.dump(trajs, f)
         print ("trajs dumped at ", _args.dataset_name + "_" + args.dset_type + "_trajs.pkl")
 
