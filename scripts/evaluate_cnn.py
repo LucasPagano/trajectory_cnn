@@ -11,20 +11,21 @@ from cnn.model_cnn import TrajEstimator
 from sgan.losses import displacement_error, final_displacement_error
 from sgan.utils import relative_to_abs, get_dset_path
 
-
 parser = argparse.ArgumentParser()
-parser.add_argument('--model_path', default="save/checkpoint_with_model.pt", type=str)
+parser.add_argument('--model_path', default="save/eth_50epoch_with_model.pt", type=str)
 parser.add_argument('--num_samples', default=20, type=int)
 parser.add_argument('--dset_type', default='test', type=str)
 
 import time
 import numpy as np
 
-def get_generator(checkpoint):
+
+def get_generator(checkpoint, obs_map):
     args = AttrDict(checkpoint['args'])
     generator = TrajEstimator(
         obs_len=args.obs_len,
         pred_len=args.pred_len,
+        obstacle_map=obs_map,
         embedding_dim=args.embedding_dim,
         encoder_h_dim=args.encoder_h_dim_g,
         num_layers=args.num_layers,
@@ -33,6 +34,7 @@ def get_generator(checkpoint):
     generator.cuda()
     generator.eval()
     return generator
+
 
 def evaluate_helper(error, seq_start_end):
     sum_ = 0
@@ -46,6 +48,7 @@ def evaluate_helper(error, seq_start_end):
         _error = torch.min(_error)
         sum_ += _error
     return sum_
+
 
 def evaluate(args, loader, generator, num_samples):
     trajs = []
@@ -68,7 +71,7 @@ def evaluate(args, loader, generator, num_samples):
                     obs_traj, obs_traj_rel, seq_start_end
                 )
                 end = time.time()
-                times.append(end-start)
+                times.append(end - start)
                 pred_traj_fake = relative_to_abs(
                     pred_traj_fake_rel, obs_traj[-1]
                 )
@@ -77,6 +80,7 @@ def evaluate(args, loader, generator, num_samples):
                 ade.append(displacement_error(
                     pred_traj_fake, pred_traj_gt, mode='raw'
                 ))
+
                 fde.append(final_displacement_error(
                     pred_traj_fake[-1], pred_traj_gt[-1], mode='raw'
                 ))
@@ -90,6 +94,7 @@ def evaluate(args, loader, generator, num_samples):
         fde = sum(fde_outer) / (total_traj)
         return ade, fde, trajs, times
 
+
 def main(args):
     if os.path.isdir(args.model_path):
         filenames = os.listdir(args.model_path)
@@ -102,22 +107,26 @@ def main(args):
 
     for path in paths:
         checkpoint = torch.load(path)
-        generator = get_generator(checkpoint)
         _args = AttrDict(checkpoint['args'])
         path = get_dset_path(_args.dataset_name, args.dset_type)
+        obstacle_map_path = os.path.join("/".join(path.split("/")[:-1]), "obs_map.pkl")
+        with open(obstacle_map_path, "rb") as obs_map:
+            obstacle_map = pickle.load(obs_map)
+
+        generator = get_generator(checkpoint, obstacle_map)
         _, loader = data_loader(_args, path)
+
         ade, fde, trajs, times = evaluate(_args, loader, generator, args.num_samples)
-        
-        print (np.mean(times))
+
+        print(np.mean(times))
         print('Dataset: {}, Pred Len: {}, ADE: {:.2f}, FDE: {:.2f}'.format(
             _args.dataset_name, _args.pred_len, ade, fde))
         if _args.dataset_name.split("/")[0] == "split_moving":
             path = "trajs_dumped/" + "/".join(_args.dataset_name.split("/")[:-1])
             pathlib.Path(path).mkdir(parents=True, exist_ok=True)
-        with open("trajs_dumped/" + _args.dataset_name + "_" + args.dset_type + "_trajs.pkl", 'wb+') as f:
+        with open("trajs_dumped/" + args.model_path.split("/")[-1].split(".")[0] + "_" + args.dset_type + "_trajs.pkl", 'wb+') as f:
             pickle.dump(trajs, f)
-        print ("trajs dumped at ", _args.dataset_name + "_" + args.dset_type + "_trajs.pkl")
-
+        print("trajs dumped at ", args.model_path.split("/")[-1].split(".")[0] + "_" + args.dset_type + "_trajs.pkl")
 
 
 if __name__ == '__main__':

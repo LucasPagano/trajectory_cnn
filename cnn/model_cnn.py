@@ -3,6 +3,8 @@ import torch.nn as nn
 import math
 import numpy as np
 import collections
+from scipy.spatial import minkowski_distance
+from scipy.spatial.distance import cdist
 
 def Conv1d(in_channels, out_channels, kernel_size, padding, dropout=0):
     m = nn.Conv1d(in_channels, out_channels, kernel_size, padding=padding)
@@ -11,22 +13,8 @@ def Conv1d(in_channels, out_channels, kernel_size, padding, dropout=0):
     m.bias.data.zero_()
     return nn.utils.weight_norm(m)
 
-def distance(positions):
-    '''
-    compute the distance between the first and last position in the positions array
-
-    :param positions: array of shape obs_len * 2
-    :return: distance between first and last position
-    '''
-    x1 = positions[0][0]
-    x2 = positions[-1][0]
-    y1 = positions[0][1]
-    y2 = positions[-1][1]
-    return ((positions[0][0] - positions[-1][0] )**2 + (positions[0][1] - positions[-1][1] )**2)**0.5
-
-
 class TrajEstimator(nn.Module):
-    def __init__(self, obs_len, pred_len, embedding_dim=16, encoder_h_dim=16, num_layers=3, dropout=0.0):
+    def __init__(self, obs_len, pred_len, obstacle_map, embedding_dim=16, encoder_h_dim=16, num_layers=3, dropout=0.0):
         super(TrajEstimator, self).__init__()
         #params
         self.obs_len = obs_len
@@ -35,6 +23,11 @@ class TrajEstimator(nn.Module):
         self.embedding_dim = embedding_dim
         self.num_layers = num_layers
         self.dropout = dropout
+
+        #image
+        self.obstacle_map = obstacle_map
+        self.flattened_obstacle_map_tensor = torch.Tensor(obstacle_map.flatten()).cuda()
+        flattened_size = obstacle_map.shape[0] * obstacle_map.shape[1]
 
         #layers
         self.spatial_embedding = nn.Linear(2, embedding_dim)
@@ -47,8 +40,8 @@ class TrajEstimator(nn.Module):
         self.convs = nn.Sequential(conv_dict)
         conv_out_size = embedding_dim * self.obs_len
         self.hidden2pos = nn.Sequential(
-            nn.Linear(conv_out_size + 1, int((conv_out_size+1)/2)),
-            nn.Linear(int((conv_out_size+1)/2), 2 * self.pred_len))
+            nn.Linear(conv_out_size + flattened_size, conv_out_size + flattened_size),
+            nn.Linear(conv_out_size + flattened_size, 2 * self.pred_len))
 
 
     def forward(self, obs_traj, obs_traj_rel, seq_start_end, epoch=0):
@@ -62,17 +55,19 @@ class TrajEstimator(nn.Module):
         """
         batch_size = obs_traj.size(1)
         #compute ade and fde for later
-        view_obs = np.swapaxes(obs_traj.detach().cpu().numpy(), 0, 1)
-        final_dist = torch.from_numpy(np.fromiter((distance(x) for x in view_obs), view_obs.dtype)).cuda().view(batch_size, -1)
+        # view_obs = np.swapaxes(obs_traj.detach().cpu().numpy(), 0, 1)
+        # final_dist = torch.from_numpy(np.fromiter((minkowski_distance(x[0], x[-1]) for x in view_obs), view_obs.dtype)).cuda().view(batch_size, -1)
+        # mean_disp = torch.from_numpy(np.fromiter((cdist(x, x).diagonal(offset=1).mean() for x in view_obs), view_obs.dtype)).cuda().view(batch_size, -1)
 
         obs_traj_embedding = self.spatial_embedding(obs_traj_rel.view(-1, 2))
-        debug_obs = obs_traj.detach().cpu().numpy()
         obs_traj_embedding = obs_traj_embedding.view(-1, batch_size, self.embedding_dim
         ).permute(1, 2, 0)
         state = self.convs(obs_traj_embedding).view(batch_size, self.obs_len * self.embedding_dim)
         #add ade and fde to state
-        state_fde = torch.cat((state, final_dist), dim=1)
-        rel_pos = self.hidden2pos(state_fde)
+        # state_fde_ade = torch.cat((state, final_dist, mean_disp), dim=1)
+        obstacle_map_to_cat = self.flattened_obstacle_map_tensor.repeat(batch_size, 1)
+        state_obstacles = torch.cat((state, obstacle_map_to_cat), dim=1)
+        rel_pos = self.hidden2pos(state_obstacles)
         pred_traj_fake_rel = rel_pos.reshape(batch_size, self.pred_len, 2).permute(1, 0, 2)
         return pred_traj_fake_rel
 
