@@ -16,6 +16,7 @@ def convert_to_obstacle_map(img):
     params:
     img : Image file path
     '''
+    print("Processing file : {}".format(img))
     im = plt.imread(img)
     # im is a numpy array of shape (w, h, 4)
     w = im.shape[0]
@@ -40,9 +41,9 @@ def convert_to_obstacle_map(img):
 
 
 def main():
-    data_dirs = ['../datasets/eth', '../datasets/eth/hotel',
+    data_dirs = ['../datasets/eth', '../datasets/hotel',
                  '../datasets/zara1', '../datasets/zara2',
-                 '../data/univ']
+                 '../datasets/univ']
 
     for x in data_dirs:
         image_file = x + '/annotated.png'
