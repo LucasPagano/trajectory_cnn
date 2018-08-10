@@ -16,6 +16,7 @@ parser.add_argument('--model_path', default="save/eth_50epoch_with_model.pt", ty
 parser.add_argument('--num_samples', default=20, type=int)
 parser.add_argument('--dset_type', default='test', type=str)
 
+from PIL import Image
 import time
 import numpy as np
 
@@ -25,7 +26,7 @@ def get_generator(checkpoint, obs_map):
     generator = TrajEstimator(
         obs_len=args.obs_len,
         pred_len=args.pred_len,
-        obstacle_map=obs_map,
+        obstacle_maps=obs_map,
         embedding_dim=args.embedding_dim,
         encoder_h_dim=args.encoder_h_dim_g,
         num_layers=args.num_layers,
@@ -57,7 +58,8 @@ def evaluate(args, loader, generator, num_samples):
     times = []
     with torch.no_grad():
         for batch in loader:
-            batch = [tensor.cuda() for tensor in batch]
+            dsets = batch[-1]
+            batch = [tensor.cuda() for tensor in batch[:-1]]
             (obs_traj, pred_traj_gt, obs_traj_rel, pred_traj_gt_rel,
              non_linear_ped, loss_mask, seq_start_end) = batch
 
@@ -68,7 +70,7 @@ def evaluate(args, loader, generator, num_samples):
                 start = time.time()
 
                 pred_traj_fake_rel = generator(
-                    obs_traj, obs_traj_rel, seq_start_end
+                    obs_traj, obs_traj_rel, seq_start_end, dsets
                 )
                 end = time.time()
                 times.append(end - start)
@@ -110,10 +112,15 @@ def main(args):
         _args = AttrDict(checkpoint['args'])
         path = get_dset_path(_args.dataset_name, args.dset_type)
         obstacle_map_path = os.path.join("/".join(path.split("/")[:-1]), "obs_map.pkl")
+        obstacle_maps = {}
         with open(obstacle_map_path, "rb") as obs_map:
             obstacle_map = pickle.load(obs_map)
+            im = Image.fromarray(obstacle_map)
+            resized_image = im.resize([50, 50], Image.ANTIALIAS)
+            obstacle_map = np.array(resized_image)
+            obstacle_maps[_args.dataset_name] = obstacle_map
 
-        generator = get_generator(checkpoint, obstacle_map)
+        generator = get_generator(checkpoint, obstacle_maps)
         _, loader = data_loader(_args, path)
 
         ade, fde, trajs, times = evaluate(_args, loader, generator, args.num_samples)

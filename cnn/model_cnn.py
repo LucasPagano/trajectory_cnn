@@ -14,7 +14,7 @@ def Conv1d(in_channels, out_channels, kernel_size, padding, dropout=0):
     return nn.utils.weight_norm(m)
 
 class TrajEstimator(nn.Module):
-    def __init__(self, obs_len, pred_len, obstacle_map, embedding_dim=16, encoder_h_dim=16, num_layers=3, dropout=0.0):
+    def __init__(self, obs_len, pred_len, obstacle_maps, embedding_dim=16, encoder_h_dim=16, num_layers=3, dropout=0.0):
         super(TrajEstimator, self).__init__()
         #params
         self.obs_len = obs_len
@@ -25,9 +25,8 @@ class TrajEstimator(nn.Module):
         self.dropout = dropout
 
         #image
-        self.obstacle_map = obstacle_map
-        self.flattened_obstacle_map_tensor = torch.Tensor(obstacle_map.flatten()).cuda()
-        flattened_size = obstacle_map.shape[0] * obstacle_map.shape[1]
+        self.obstacle_maps = obstacle_maps
+        self.flattened_size = 50*50 #obstacle maps dimensions
 
         #layers
         self.spatial_embedding = nn.Linear(2, embedding_dim)
@@ -40,11 +39,10 @@ class TrajEstimator(nn.Module):
         self.convs = nn.Sequential(conv_dict)
         conv_out_size = embedding_dim * self.obs_len
         self.hidden2pos = nn.Sequential(
-            nn.Linear(conv_out_size + flattened_size, conv_out_size + flattened_size),
-            nn.Linear(conv_out_size + flattened_size, 2 * self.pred_len))
+            nn.Linear(conv_out_size + self.flattened_size , conv_out_size + self.flattened_size ),
+            nn.Linear(conv_out_size + self.flattened_size , 2 * self.pred_len))
 
-
-    def forward(self, obs_traj, obs_traj_rel, seq_start_end, epoch=0):
+    def forward(self, obs_traj, obs_traj_rel, seq_start_end, dsets, epoch=0):
         """
         Inputs:
         - obs_traj: Tensor of shape (obs_len, batch, 2)
@@ -65,7 +63,14 @@ class TrajEstimator(nn.Module):
         state = self.convs(obs_traj_embedding).view(batch_size, self.obs_len * self.embedding_dim)
         #add ade and fde to state
         # state_fde_ade = torch.cat((state, final_dist, mean_disp), dim=1)
-        obstacle_map_to_cat = self.flattened_obstacle_map_tensor.repeat(batch_size, 1)
+        #add map to state
+        obstacle_map_to_cat = np.zeros((batch_size, self.flattened_size ))
+        for index, dset_group in enumerate(dsets):
+            flattened_obstacle_maps = [self.obstacle_maps[dataset].flatten() for dataset in dset_group]
+            ped_group = seq_start_end[index]
+            obstacle_map_to_cat[ped_group[0]:ped_group[1]] = flattened_obstacle_maps
+
+        obstacle_map_to_cat = torch.Tensor(obstacle_map_to_cat).cuda()
         state_obstacles = torch.cat((state, obstacle_map_to_cat), dim=1)
         rel_pos = self.hidden2pos(state_obstacles)
         pred_traj_fake_rel = rel_pos.reshape(batch_size, self.pred_len, 2).permute(1, 0, 2)

@@ -12,8 +12,7 @@ logger = logging.getLogger(__name__)
 
 def seq_collate(data):
     (obs_seq_list, pred_seq_list, obs_seq_rel_list, pred_seq_rel_list,
-     non_linear_ped_list, loss_mask_list) = zip(*data)
-
+     non_linear_ped_list, loss_mask_list, dsets) = zip(*data)
     _len = [len(seq) for seq in obs_seq_list]
     cum_start_idx = [0] + np.cumsum(_len).tolist()
     seq_start_end = [[start, end]
@@ -30,7 +29,7 @@ def seq_collate(data):
     seq_start_end = torch.LongTensor(seq_start_end)
     out = [
         obs_traj, pred_traj, obs_traj_rel, pred_traj_rel, non_linear_ped,
-        loss_mask, seq_start_end
+        loss_mask, seq_start_end, dsets
     ]
 
     return tuple(out)
@@ -102,6 +101,20 @@ class TrajectoryDataset(Dataset):
         seq_list_rel = []
         loss_mask_list = []
         non_linear_ped = []
+        dsets = []
+        #link file name to dataset
+        file_name_dict = {
+            "biwi_eth.txt" : "eth",
+            "biwi_hotel.txt" : "hotel",
+            "crowds_zara01.txt" : "zara1",
+            "crowds_zara02.txt" : "zara2",
+            #since it's for annotation file, we actually don't care about which zara we point to
+            "crowds_zara03.txt" : "zara2",
+            "uni_examples.txt" : "univ",
+            "students003.txt" : "univ",
+            "students001.txt" : "univ"
+        }
+
         for path in all_files:
             data = read_file(path, delim)
             try :
@@ -127,6 +140,7 @@ class TrajectoryDataset(Dataset):
                                            self.seq_len))
                 num_peds_considered = 0
                 _non_linear_ped = []
+
                 for _, ped_id in enumerate(peds_in_curr_seq):
                     curr_ped_seq = curr_seq_data[curr_seq_data[:, 1] ==
                                                  ped_id, :]
@@ -134,8 +148,9 @@ class TrajectoryDataset(Dataset):
                     if len(curr_ped_seq[:, 0]) != self.seq_len:
                         continue
 
+                    key = path.split("/")[-1].replace("_train", "").replace("_val", "")
+                    dsets.append(file_name_dict[key])
                     curr_ped_seq = np.transpose(curr_ped_seq[:, 2:])
-                    curr_ped_seq = curr_ped_seq
                     # Make coordinates relative
                     rel_curr_ped_seq = np.zeros(curr_ped_seq.shape)
                     rel_curr_ped_seq[:, 1:] = \
@@ -149,7 +164,8 @@ class TrajectoryDataset(Dataset):
                     curr_loss_mask[_idx, 0:self.seq_len] = 1
                     num_peds_considered += 1
 
-                if num_peds_considered > min_ped:
+
+                if num_peds_considered >= min_ped:
                     non_linear_ped += _non_linear_ped
                     num_peds_in_seq.append(num_peds_considered)
                     loss_mask_list.append(curr_loss_mask[:num_peds_considered])
@@ -163,6 +179,7 @@ class TrajectoryDataset(Dataset):
         non_linear_ped = np.asarray(non_linear_ped)
 
         # Convert numpy -> Torch Tensor
+        self.dsets = dsets
         self.obs_traj = torch.from_numpy(
             seq_list[:, :, :self.obs_len]).type(torch.float)
         self.pred_traj = torch.from_numpy(
@@ -187,6 +204,6 @@ class TrajectoryDataset(Dataset):
         out = [
             self.obs_traj[start:end, :], self.pred_traj[start:end, :],
             self.obs_traj_rel[start:end, :], self.pred_traj_rel[start:end, :],
-            self.non_linear_ped[start:end], self.loss_mask[start:end, :]
+            self.non_linear_ped[start:end], self.loss_mask[start:end, :], self.dsets[start:end]
         ]
         return out

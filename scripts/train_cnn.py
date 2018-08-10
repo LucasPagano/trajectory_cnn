@@ -19,7 +19,7 @@ from sgan.losses import displacement_error, final_displacement_error
 
 from cnn.model_cnn import TrajEstimator
 from sgan.utils import get_total_norm
-from sgan.utils import relative_to_abs, get_dset_path
+from sgan.utils import relative_to_abs, get_dset_path, get_obstacle_maps
 
 torch.backends.cudnn.benchmark = True
 
@@ -82,7 +82,7 @@ def get_dtypes(args):
 
 
 def main(args):
-    logdir = "tensorboard/" + args.dataset_name + "/" + str(args.num_epochs) + "_epochs_" + str(args.g_learning_rate) + "_lr"
+    logdir = "tensorboard/" + args.dataset_name + "/" + str(args.num_epochs) + "_epoch_" + str(args.g_learning_rate) + "_lr"
     if os.path.exists(logdir):
         for file in os.listdir(logdir):
             os.unlink(os.path.join(logdir, file))
@@ -99,14 +99,12 @@ def main(args):
 
     long_dtype, float_dtype = get_dtypes(args)
 
-    obstacle_map_path = os.path.join("/".join(train_path.split("/")[:-1]), "obs_map.pkl")
-    with open(obstacle_map_path, "rb") as obs_map:
-        obstacle_map = pickle.load(obs_map)
+    obstacle_maps = get_obstacle_maps()
 
     generator = TrajEstimator(
         obs_len=args.obs_len,
         pred_len=args.pred_len,
-        obstacle_map=obstacle_map,
+        obstacle_maps=obstacle_maps,
         embedding_dim=args.embedding_dim,
         encoder_h_dim=args.encoder_h_dim_g,
         num_layers=args.num_layers,
@@ -286,7 +284,8 @@ def main(args):
                 break
 
 def generator_step(args, batch, generator, optimizer_g, epoch):
-    batch = [tensor.cuda() for tensor in batch]
+    dsets = batch[-1]
+    batch = [tensor.cuda() for tensor in batch[:-1]]
     (obs_traj, pred_traj_gt, obs_traj_rel, pred_traj_gt_rel, non_linear_ped,
      loss_mask, seq_start_end) = batch
     losses = {}
@@ -295,7 +294,7 @@ def generator_step(args, batch, generator, optimizer_g, epoch):
 
     loss_mask = loss_mask[:, args.obs_len:]
 
-    pred_traj_fake_rel = generator(obs_traj, obs_traj_rel, seq_start_end, epoch)
+    pred_traj_fake_rel = generator(obs_traj, obs_traj_rel, seq_start_end, dsets, epoch)
 
     if args.l2_loss_weight > 0:
         g_l2_loss_rel.append(args.l2_loss_weight * l2_loss(
@@ -334,14 +333,15 @@ def check_accuracy(args, loader, generator, epoch, limit=False):
     generator.eval()
     with torch.no_grad():
         for batch in loader:
-            batch = [tensor.cuda() for tensor in batch]
+            dsets = batch[-1]
+            batch = [tensor.cuda() for tensor in batch[:-1]]
             (obs_traj, pred_traj_gt, obs_traj_rel, pred_traj_gt_rel,
              non_linear_ped, loss_mask, seq_start_end) = batch
             linear_ped = 1 - non_linear_ped
             loss_mask = loss_mask[:, args.obs_len:]
 
             pred_traj_fake_rel = generator(
-                obs_traj, obs_traj_rel, seq_start_end, epoch
+                obs_traj, obs_traj_rel, seq_start_end, dsets, epoch
             )
             pred_traj_fake = relative_to_abs(pred_traj_fake_rel, obs_traj[-1])
 
