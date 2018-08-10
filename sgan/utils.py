@@ -3,19 +3,19 @@ import time
 import torch
 import numpy as np
 import inspect
+import pickle
 from contextlib import contextmanager
 import subprocess
-
+from scipy.misc import imresize
+from PIL import Image
 
 def int_tuple(s):
     return tuple(int(i) for i in s.split(','))
-
 
 def find_nan(variable, var_name):
     variable_n = variable.data.cpu().numpy()
     if np.isnan(variable_n).any():
         exit('%s has nan' % var_name)
-
 
 def bool_flag(s):
     if s == '1':
@@ -25,10 +25,8 @@ def bool_flag(s):
     msg = 'Invalid value "%s" for bool flag (should be 0 or 1)'
     raise ValueError(msg % s)
 
-
 def lineno():
     return str(inspect.currentframe().f_back.f_lineno)
-
 
 def get_total_norm(parameters, norm_type=2):
     if norm_type == float('inf'):
@@ -43,7 +41,6 @@ def get_total_norm(parameters, norm_type=2):
             except:
                 continue
     return total_norm
-
 
 @contextmanager
 def timeit(msg, should_time=True):
@@ -77,6 +74,20 @@ def get_dset_path(dset_name, dset_type):
     _dir = _dir.split("/")[:-1]
     _dir = "/".join(_dir)
     return os.path.join(_dir, 'datasets', dset_name, dset_type)
+
+def get_obstacle_maps():
+    datasets = ["eth", "hotel", "univ", "zara1", "zara2"]
+    obstacle_maps = {}
+    for dataset in datasets:
+        obstacle_map_path = os.path.join("../datasets", dataset, "obs_map.pkl")
+        with open(obstacle_map_path, "rb") as obs_map:
+            obstacle_maps[dataset] = pickle.load(obs_map)
+
+    for dset, obstacle_map in obstacle_maps.items():
+        im = Image.fromarray(obstacle_map)
+        resized_image = im.resize([50,50], Image.ANTIALIAS)
+        obstacle_maps[dset] = np.array(resized_image)
+    return obstacle_maps
 
 
 def relative_to_abs(rel_traj, start_pos):
