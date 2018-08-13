@@ -75,7 +75,7 @@ def get_dset_path(dset_name, dset_type):
     _dir = "/".join(_dir)
     return os.path.join(_dir, 'datasets', dset_name, dset_type)
 
-def get_obstacle_maps():
+def get_resized_obstacle_maps():
     datasets = ["eth", "hotel", "univ", "zara1", "zara2"]
     obstacle_maps = {}
     for dataset in datasets:

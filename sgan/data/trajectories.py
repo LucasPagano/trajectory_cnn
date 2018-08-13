@@ -6,13 +6,14 @@ import numpy as np
 
 import torch
 from torch.utils.data import Dataset
+from sgan.utils import get_resized_obstacle_maps
 
 logger = logging.getLogger(__name__)
 
 
 def seq_collate(data):
     (obs_seq_list, pred_seq_list, obs_seq_rel_list, pred_seq_rel_list,
-     non_linear_ped_list, loss_mask_list, dsets) = zip(*data)
+     non_linear_ped_list, loss_mask_list, obstacle_maps) = zip(*data)
     _len = [len(seq) for seq in obs_seq_list]
     cum_start_idx = [0] + np.cumsum(_len).tolist()
     seq_start_end = [[start, end]
@@ -27,9 +28,10 @@ def seq_collate(data):
     non_linear_ped = torch.cat(non_linear_ped_list)
     loss_mask = torch.cat(loss_mask_list, dim=0)
     seq_start_end = torch.LongTensor(seq_start_end)
+    obstacle_maps = torch.cat(obstacle_maps, dim=0)
     out = [
         obs_traj, pred_traj, obs_traj_rel, pred_traj_rel, non_linear_ped,
-        loss_mask, seq_start_end, dsets
+        loss_mask, seq_start_end, obstacle_maps
     ]
 
     return tuple(out)
@@ -56,7 +58,8 @@ def poly_fit(traj, traj_len, threshold):
     - traj_len: Len of trajectory
     - threshold: Minimum error to be considered for non linear traj
     Output:
-    - int: 1 -> Non Linear 0-> Linear
+    - int: 0 ->  Linear
+           1 -> Non Linear
     """
     t = np.linspace(0, traj_len - 1, traj_len)
     res_x = np.polyfit(t, traj[0, -traj_len:], 2, full=True)[1]
@@ -179,7 +182,6 @@ class TrajectoryDataset(Dataset):
         non_linear_ped = np.asarray(non_linear_ped)
 
         # Convert numpy -> Torch Tensor
-        self.dsets = dsets
         self.obs_traj = torch.from_numpy(
             seq_list[:, :, :self.obs_len]).type(torch.float)
         self.pred_traj = torch.from_numpy(
@@ -196,6 +198,13 @@ class TrajectoryDataset(Dataset):
             for start, end in zip(cum_start_idx, cum_start_idx[1:])
         ]
 
+        obstacle_maps_dict = get_resized_obstacle_maps()
+        obstacle_maps = []
+        for index, dset in enumerate(dsets):
+            obstacle_map = obstacle_maps_dict[dset]
+            obstacle_maps.append(obstacle_map)
+        self.obstacle_maps = torch.from_numpy(np.array(obstacle_maps))
+
     def __len__(self):
         return self.num_seq
 
@@ -204,6 +213,6 @@ class TrajectoryDataset(Dataset):
         out = [
             self.obs_traj[start:end, :], self.pred_traj[start:end, :],
             self.obs_traj_rel[start:end, :], self.pred_traj_rel[start:end, :],
-            self.non_linear_ped[start:end], self.loss_mask[start:end, :], self.dsets[start:end]
+            self.non_linear_ped[start:end], self.loss_mask[start:end, :], self.obstacle_maps[start:end]
         ]
         return out

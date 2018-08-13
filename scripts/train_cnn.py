@@ -19,7 +19,7 @@ from sgan.losses import displacement_error, final_displacement_error
 
 from cnn.model_cnn import TrajEstimator
 from sgan.utils import get_total_norm
-from sgan.utils import relative_to_abs, get_dset_path, get_obstacle_maps
+from sgan.utils import relative_to_abs, get_dset_path
 
 torch.backends.cudnn.benchmark = True
 
@@ -99,12 +99,9 @@ def main(args):
 
     long_dtype, float_dtype = get_dtypes(args)
 
-    obstacle_maps = get_obstacle_maps()
-
     generator = TrajEstimator(
         obs_len=args.obs_len,
         pred_len=args.pred_len,
-        obstacle_maps=obstacle_maps,
         embedding_dim=args.embedding_dim,
         encoder_h_dim=args.encoder_h_dim_g,
         num_layers=args.num_layers,
@@ -284,17 +281,16 @@ def main(args):
                 break
 
 def generator_step(args, batch, generator, optimizer_g, epoch):
-    dsets = batch[-1]
-    batch = [tensor.cuda() for tensor in batch[:-1]]
+    batch = [tensor.cuda() for tensor in batch]
     (obs_traj, pred_traj_gt, obs_traj_rel, pred_traj_gt_rel, non_linear_ped,
-     loss_mask, seq_start_end) = batch
+     loss_mask, seq_start_end, obstacle_maps) = batch
     losses = {}
     loss = torch.zeros(1).to(pred_traj_gt)
     g_l2_loss_rel = []
 
     loss_mask = loss_mask[:, args.obs_len:]
 
-    pred_traj_fake_rel = generator(obs_traj, obs_traj_rel, seq_start_end, dsets, epoch)
+    pred_traj_fake_rel = generator(obs_traj, obs_traj_rel, seq_start_end, obstacle_maps, epoch)
 
     if args.l2_loss_weight > 0:
         g_l2_loss_rel.append(args.l2_loss_weight * l2_loss(
@@ -333,15 +329,14 @@ def check_accuracy(args, loader, generator, epoch, limit=False):
     generator.eval()
     with torch.no_grad():
         for batch in loader:
-            dsets = batch[-1]
-            batch = [tensor.cuda() for tensor in batch[:-1]]
+            batch = [tensor.cuda() for tensor in batch]
             (obs_traj, pred_traj_gt, obs_traj_rel, pred_traj_gt_rel,
-             non_linear_ped, loss_mask, seq_start_end) = batch
+             non_linear_ped, loss_mask, seq_start_end, obstacle_maps) = batch
             linear_ped = 1 - non_linear_ped
             loss_mask = loss_mask[:, args.obs_len:]
 
             pred_traj_fake_rel = generator(
-                obs_traj, obs_traj_rel, seq_start_end, dsets, epoch
+                obs_traj, obs_traj_rel, seq_start_end, obstacle_maps, epoch
             )
             pred_traj_fake = relative_to_abs(pred_traj_fake_rel, obs_traj[-1])
 

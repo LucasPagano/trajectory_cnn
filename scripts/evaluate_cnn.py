@@ -26,7 +26,6 @@ def get_generator(checkpoint, obs_map):
     generator = TrajEstimator(
         obs_len=args.obs_len,
         pred_len=args.pred_len,
-        obstacle_maps=obs_map,
         embedding_dim=args.embedding_dim,
         encoder_h_dim=args.encoder_h_dim_g,
         num_layers=args.num_layers,
@@ -58,34 +57,24 @@ def evaluate(args, loader, generator, num_samples):
     times = []
     with torch.no_grad():
         for batch in loader:
-            dsets = batch[-1]
-            batch = [tensor.cuda() for tensor in batch[:-1]]
+            batch = [tensor.cuda() for tensor in batch]
             (obs_traj, pred_traj_gt, obs_traj_rel, pred_traj_gt_rel,
-             non_linear_ped, loss_mask, seq_start_end) = batch
+             non_linear_ped, loss_mask, seq_start_end, obstacle_maps) = batch
 
             ade, fde = [], []
             total_traj += pred_traj_gt.size(1)
 
             for _ in range(num_samples):
                 start = time.time()
-
-                pred_traj_fake_rel = generator(
-                    obs_traj, obs_traj_rel, seq_start_end, dsets
-                )
+                pred_traj_fake_rel = generator(obs_traj, obs_traj_rel, seq_start_end, obstacle_maps)
                 end = time.time()
                 times.append(end - start)
-                pred_traj_fake = relative_to_abs(
-                    pred_traj_fake_rel, obs_traj[-1]
-                )
+                pred_traj_fake = relative_to_abs(pred_traj_fake_rel, obs_traj[-1])
 
                 trajs.append([obs_traj.cpu().numpy(), pred_traj_fake.cpu().numpy(), pred_traj_gt.cpu().numpy(), seq_start_end.cpu().numpy()])
-                ade.append(displacement_error(
-                    pred_traj_fake, pred_traj_gt, mode='raw'
-                ))
+                ade.append(displacement_error(pred_traj_fake, pred_traj_gt, mode='raw'))
 
-                fde.append(final_displacement_error(
-                    pred_traj_fake[-1], pred_traj_gt[-1], mode='raw'
-                ))
+                fde.append(final_displacement_error(pred_traj_fake[-1], pred_traj_gt[-1], mode='raw'))
 
             ade_sum = evaluate_helper(ade, seq_start_end)
             fde_sum = evaluate_helper(fde, seq_start_end)
