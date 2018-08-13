@@ -14,20 +14,20 @@ def distance(positions):
 
 def split(dataset_path):
     acceptable_dirs = ["test", "val", "train"]
-    for dir in os.listdir(dataset_path):
-        if dir in acceptable_dirs:
-            print("\t\t{}".format(dir))
-            move_dir = os.path.join(dataset_path, "moving", dir)
-            not_move_dir = os.path.join(dataset_path, "not_moving", dir)
+    for dir_ in os.listdir(dataset_path):
+        if dir_ in acceptable_dirs:
+            print("\t\t{}".format(dir_))
+            move_dir = os.path.join(dataset_path, "moving", dir_)
+            not_move_dir = os.path.join(dataset_path, "not_moving", dir_)
             pathlib.Path(move_dir).mkdir(parents=True, exist_ok=True)
             pathlib.Path(not_move_dir).mkdir(parents=True, exist_ok=True)
-            for file in os.listdir(os.path.join(dataset_path, dir)):
+            for file in os.listdir(os.path.join(dataset_path, dir_)):
                 if file.endswith(".txt"):
                     move_file = os.path.join(move_dir, file)
                     not_move_file = os.path.join(not_move_dir, file)
                     pathlib.Path(move_file).touch(exist_ok=True)
                     pathlib.Path(not_move_file).touch(exist_ok=True)
-                    data = pd.read_csv(os.path.join(dataset_path, dir, file), sep="\t", header=None)
+                    data = pd.read_csv(os.path.join(dataset_path, dir_, file), sep="\t", header=None)
                     data.columns = ["frameID", "pedID", "x", "y"]
                     data.sort_values(by=["frameID", "pedID"])
                     data.reset_index(drop=True)
@@ -36,7 +36,6 @@ def split(dataset_path):
                     not_move_df = pd.DataFrame(columns=["frameID", "pedID", "x", "y"])
                     for frame in frames:
                         seq_range = [frame - (obs_len - 1) * step, frame + pred_len * step]
-
                         raw_seq = data.loc[data["frameID"].between(seq_range[0], seq_range[1], inclusive=True)]
                         peds_in_seq = raw_seq.pedID.unique()
 
@@ -61,7 +60,8 @@ if __name__ == "__main__":
     seq_len = obs_len + pred_len
     step = 10
     distance_threshold = 0.5
-    print("Processing dataset : {}")
-    for file in os.listdir("../datasets/split_moving"):
-        print("\t{}".format(file))
-        split(os.path.join("../datasets/split_moving", file))
+    data_dir = "../../datasets/split_moving"
+    print("Processing dataset :")
+    for dset in os.listdir(data_dir):
+        print("\t{}".format(dset))
+        split(os.path.join(data_dir, dset))

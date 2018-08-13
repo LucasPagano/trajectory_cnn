@@ -69,9 +69,9 @@ def world_to_img(world_coordinates, hom_matrix):
     else:
         ones = np.ones((len(world_coordinates), 1))
         P = np.hstack((world_coordinates, ones))
-        R = np.dot(inv_matrix, P.transpose()).transpose()
-        y = (R[:, 0]/R[:, 2]).reshape(-1, 1)
-        x = (R[:, 1]/R[:, 2]).reshape(-1, 1)
+        R = np.dot(inv_matrix, P.transpose())
+        y = (R[0, :]/R[2, :]).reshape(-1, 1)
+        x = (R[1, :]/R[2, :]).reshape(-1, 1)
         scaled_trajs.append(np.hstack((x, y)))
     return scaled_trajs
 
@@ -87,30 +87,30 @@ def get_frame(video_path, frame):
 
 def print_to_img(trajs, video_path, matrix_path, frame):
     img = get_frame(video_path, frame)
+    if trajs is not None:
+        matrix = np.loadtxt(matrix_path, dtype=float)
+        heigth, width, _ = img.shape
 
-    matrix = np.loadtxt(matrix_path, dtype=float)
-    heigth, width, _ = img.shape
+        scaled_trajs = {}
+        for ped_id, ped in trajs.items():
+            scaled_trajs[ped_id] = {}
+            for traj_name, traj in ped.items():
+                scaled_traj = []
+                if traj.size != 0:
+                    scaled_traj = world_to_img(traj, matrix)[0]
+                scaled_trajs[ped_id][traj_name] = scaled_traj
 
-    scaled_trajs = {}
-    for ped_id, ped in trajs.items():
-        scaled_trajs[ped_id] = {}
-        for traj_name, traj in ped.items():
-            scaled_traj = []
-            if traj.size != 0:
-                scaled_traj = world_to_img(traj, matrix)[0]
-            scaled_trajs[ped_id][traj_name] = scaled_traj
+        for ped_id, ped in scaled_trajs.items():
+            for ped_seq_name, ped_sequence in ped.items():
+                color = color_dict[ped_seq_name]
+                if len(ped_sequence) > 0:
+                    #draw pred_gt thicker if we can compute ade/fde on it
+                    thick = 3 if ped_seq_name == "pred_gt" and len(ped_sequence) == 12 else 1
 
-    for ped_id, ped in scaled_trajs.items():
-        for ped_seq_name, ped_sequence in ped.items():
-            color = color_dict[ped_seq_name]
-            if len(ped_sequence) > 0:
-                #draw pred_gt thicker if we can compute ade/fde on it
-                thick = 3 if ped_seq_name == "pred_gt" and len(ped_sequence) == 12 else 1
-
-                for index, point in enumerate(ped_sequence[:-1, :]):
-                    real_pt_1 = tuple([int(round(x)) for x in point])
-                    real_pt_2 = tuple([int(round(x)) for x in ped_sequence[index + 1]])
-                    cv.line(img, real_pt_1, real_pt_2, color, thick)
+                    for index, point in enumerate(ped_sequence[:-1, :]):
+                        real_pt_1 = tuple([int(round(x)) for x in point])
+                        real_pt_2 = tuple([int(round(x)) for x in ped_sequence[index + 1]])
+                        cv.line(img, real_pt_1, real_pt_2, color, thick)
     return img
 
 def get_trajs(frame, step=10):
@@ -198,7 +198,7 @@ def get_paths(dset_):
 
     else:
         dset = dset_
-        model_path_us = "scripts/save/" + dset + "_100epoch_with_model.pt"
+        model_path_us = "scripts/save/" + dset + "_50epoch_with_model.pt"
         model_path_sgan = "models/sgan-p-models/" + dset + "_12_model.pt"
         if model_path_sgan.split("/")[1] == "sgan-p-models":
             out_vid_path = "visualization/" + dset + "_sgan-p.mp4"
@@ -234,7 +234,9 @@ def get_paths(dset_):
     return paths_
 
 if __name__ == "__main__":
-    dataset = "split_moving/hotel/not_moving"
+    #paths are relative from sgan dir
+    os.chdir("../../")
+    dataset = "eth"
     obs_len = 8
     pred_len = 12
     color_dict = {"obs": (0, 0, 0), "pred_us": (250, 250, 250), "pred_gt": (0, 250, 0), "pred_sgan": (0,0,250)}
@@ -257,7 +259,6 @@ if __name__ == "__main__":
     data.columns = ["frameID", "pedID", "x", "y"]
     data.sort_values(by=["frameID", "pedID"])
     data.reset_index(drop=True)
-
     writer = skvideo.io.FFmpegWriter(paths["out_vid"])
 
     frameList = data.frameID.unique()
@@ -270,8 +271,5 @@ if __name__ == "__main__":
         trajs = None
         if frame_number in frameList:
             trajs = get_trajs(frame_number)
-        if trajs is not None:
-            img = print_to_img(trajs, paths["vid"], paths["mat"], frame_number)
-        else:
-            img = get_frame(paths["vid"], frame_number)
+        img = print_to_img(trajs, paths["vid"], paths["mat"], frame_number)
         writer.writeFrame(img)

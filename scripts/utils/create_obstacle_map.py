@@ -8,7 +8,7 @@ Date : 29th November 2016
 import numpy as np
 import pickle
 import matplotlib.pyplot as plt
-
+from sgan.utils import get_dset_path
 
 def convert_to_obstacle_map(img):
     '''
@@ -36,14 +36,12 @@ def convert_to_obstacle_map(img):
             elif rgba[0] == 0 and rgba[1] == 0:
                 # print "Partially traversable found"
                 obs_map[i, j] = 0.5
-
     return obs_map
 
-
 def main():
-    data_dirs = ['../datasets/eth', '../datasets/hotel',
-                 '../datasets/zara1', '../datasets/zara2',
-                 '../datasets/univ']
+    data_dirs = ['eth', 'hotel','zara1', 'zara2','univ']
+    path_to_data_dirs = "/".join(get_dset_path("eth", "train").split("/")[:-2])
+    data_dirs = [path_to_data_dirs + "/" + data_dir for data_dir in data_dirs]
 
     for x in data_dirs:
         image_file = x + '/annotated.png'
