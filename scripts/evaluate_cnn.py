@@ -16,20 +16,18 @@ parser.add_argument('--model_path', default="save/eth_50epoch_with_model.pt", ty
 parser.add_argument('--num_samples', default=20, type=int)
 parser.add_argument('--dset_type', default='test', type=str)
 
-from PIL import Image
 import time
 import numpy as np
 
-
-def get_generator(checkpoint, obs_map):
-    args = AttrDict(checkpoint['args'])
+def get_generator(checkpoint):
+    args_ = AttrDict(checkpoint['args'])
     generator = TrajEstimator(
-        obs_len=args.obs_len,
-        pred_len=args.pred_len,
-        embedding_dim=args.embedding_dim,
-        encoder_h_dim=args.encoder_h_dim_g,
-        num_layers=args.num_layers,
-        dropout=args.dropout)
+        obs_len=args_.obs_len,
+        pred_len=args_.pred_len,
+        embedding_dim=args_.embedding_dim,
+        encoder_h_dim=args_.encoder_h_dim_g,
+        num_layers=args_.num_layers,
+        dropout=args_.dropout)
     generator.load_state_dict(checkpoint['g_best_state'])
     generator.cuda()
     generator.eval()
@@ -39,7 +37,6 @@ def get_generator(checkpoint, obs_map):
 def evaluate_helper(error, seq_start_end):
     sum_ = 0
     error = torch.stack(error, dim=1)
-
     for (start, end) in seq_start_end:
         start = start.item()
         end = end.item()
@@ -100,16 +97,8 @@ def main(args):
         checkpoint = torch.load(path)
         _args = AttrDict(checkpoint['args'])
         path = get_dset_path(_args.dataset_name, args.dset_type)
-        obstacle_map_path = os.path.join("/".join(path.split("/")[:-1]), "obs_map.pkl")
-        obstacle_maps = {}
-        with open(obstacle_map_path, "rb") as obs_map:
-            obstacle_map = pickle.load(obs_map)
-            im = Image.fromarray(obstacle_map)
-            resized_image = im.resize([50, 50], Image.ANTIALIAS)
-            obstacle_map = np.array(resized_image)
-            obstacle_maps[_args.dataset_name] = obstacle_map
 
-        generator = get_generator(checkpoint, obstacle_maps)
+        generator = get_generator(checkpoint)
         _, loader = data_loader(_args, path)
 
         ade, fde, trajs, times = evaluate(_args, loader, generator, args.num_samples)
@@ -124,6 +113,7 @@ def main(args):
             pickle.dump(trajs, f)
         print("trajs dumped at ", args.model_path.split("/")[-1].split(".")[0] + "_" + args.dset_type + "_trajs.pkl")
 
+    return ade.item(), fde.item()
 
 if __name__ == '__main__':
     args = parser.parse_args()
