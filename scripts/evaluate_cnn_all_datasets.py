@@ -18,4 +18,4 @@ if __name__ == "__main__":
         results.append([dataset, ade, fde])
 
     df = pd.DataFrame(results, columns=["Dataset", "ADE", "FDE"])
-    df.to_csv("evals.csv", index=False)
+    df.to_csv("ade_fde_all.csv", index=False)
