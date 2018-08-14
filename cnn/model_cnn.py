@@ -1,8 +1,8 @@
-import torch
-import torch.nn as nn
-import math
-import numpy as np
 import collections
+import math
+
+import torch.nn as nn
+
 
 def Conv1d(in_channels, out_channels, kernel_size, padding, dropout=0):
     m = nn.Conv1d(in_channels, out_channels, kernel_size, padding=padding)
@@ -22,9 +22,6 @@ class TrajEstimator(nn.Module):
         self.num_layers = num_layers
         self.dropout = dropout
 
-        #image
-        self.flattened_size = 50*50 #obstacle maps dimensions
-
         #layers
         self.spatial_embedding = nn.Linear(2, embedding_dim)
         self.relu = nn.ReLU()
@@ -35,11 +32,9 @@ class TrajEstimator(nn.Module):
                 conv_dict[str(i+1)] = nn.ReLU()
         self.convs = nn.Sequential(conv_dict)
         conv_out_size = embedding_dim * self.obs_len
-        self.hidden2pos = nn.Sequential(
-            nn.Linear(conv_out_size + self.flattened_size , conv_out_size + self.flattened_size ),
-            nn.Linear(conv_out_size + self.flattened_size , 2 * self.pred_len))
+        self.hidden2pos = nn.Linear(conv_out_size, 2 * self.pred_len)
 
-    def forward(self, obs_traj, obs_traj_rel, seq_start_end, obstacle_maps, epoch=0):
+    def forward(self, obs_traj, obs_traj_rel, seq_start_end, epoch=0):
         """
         Inputs:
         - obs_traj: Tensor of shape (obs_len, batch, 2)
@@ -50,7 +45,6 @@ class TrajEstimator(nn.Module):
         """
         batch_size = obs_traj.size(1)
         #compute ade and fde for later
-        # view_obs = np.swapaxes(obs_traj.detach().cpu().numpy(), 0, 1)
         # final_dist = torch.from_numpy(np.fromiter((minkowski_distance(x[0], x[-1]) for x in view_obs), view_obs.dtype)).cuda().view(batch_size, -1)
         # mean_disp = torch.from_numpy(np.fromiter((cdist(x, x).diagonal(offset=1).mean() for x in view_obs), view_obs.dtype)).cuda().view(batch_size, -1)
 
@@ -58,13 +52,7 @@ class TrajEstimator(nn.Module):
         obs_traj_embedding = obs_traj_embedding.view(-1, batch_size, self.embedding_dim
         ).permute(1, 2, 0)
         state = self.convs(obs_traj_embedding).view(batch_size, self.obs_len * self.embedding_dim)
-        #add ade and fde to state
-        # state_fde_ade = torch.cat((state, final_dist, mean_disp), dim=1)
-        #add map to state
-        obstacle_maps = obstacle_maps.view(batch_size, -1)
-        state_obstacles = torch.cat((state, obstacle_maps), dim=1)
-        rel_pos = self.hidden2pos(state_obstacles)
-        pred_traj_fake_rel = rel_pos.reshape(batch_size, self.pred_len, 2).permute(1, 0, 2)
+        pred_traj_fake_rel = self.hidden2pos(state).reshape(batch_size, self.pred_len, 2).permute(1, 0, 2)
         return pred_traj_fake_rel
 
 

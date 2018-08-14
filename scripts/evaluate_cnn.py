@@ -1,13 +1,13 @@
 import argparse
 import os
-import torch
-import pickle
 import pathlib
+import pickle
 
+import torch
 from attrdict import AttrDict
 
-from sgan.data.loader import data_loader
 from cnn.model_cnn import TrajEstimator
+from sgan.data.loader import data_loader
 from sgan.losses import displacement_error, final_displacement_error
 from sgan.utils import relative_to_abs, get_dset_path
 
@@ -56,14 +56,14 @@ def evaluate(args, loader, generator, num_samples):
         for batch in loader:
             batch = [tensor.cuda() for tensor in batch]
             (obs_traj, pred_traj_gt, obs_traj_rel, pred_traj_gt_rel,
-             non_linear_ped, loss_mask, seq_start_end, obstacle_maps) = batch
+             non_linear_ped, loss_mask, seq_start_end) = batch
 
             ade, fde = [], []
             total_traj += pred_traj_gt.size(1)
 
             for _ in range(num_samples):
                 start = time.time()
-                pred_traj_fake_rel = generator(obs_traj, obs_traj_rel, seq_start_end, obstacle_maps)
+                pred_traj_fake_rel = generator(obs_traj, obs_traj_rel, seq_start_end)
                 end = time.time()
                 times.append(end - start)
                 pred_traj_fake = relative_to_abs(pred_traj_fake_rel, obs_traj[-1])
@@ -79,7 +79,7 @@ def evaluate(args, loader, generator, num_samples):
             ade_outer.append(ade_sum)
             fde_outer.append(fde_sum)
         ade = sum(ade_outer) / (total_traj * args.pred_len)
-        fde = sum(fde_outer) / (total_traj)
+        fde = sum(fde_outer) / total_traj
         return ade, fde, trajs, times
 
 
