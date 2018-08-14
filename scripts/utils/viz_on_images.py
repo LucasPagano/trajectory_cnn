@@ -6,7 +6,7 @@ import pandas as pd
 from attrdict import AttrDict
 from cnn.model_cnn import TrajEstimator
 from sgan.models import TrajectoryGenerator as TrajectoryGenerator_sgan
-from sgan.utils import relative_to_abs
+from sgan.utils import relative_to_abs, get_resized_obstacle_maps
 import torch
 import skvideo.io
 
@@ -134,6 +134,7 @@ def get_trajs(frame, step=10):
     curr_seq_rel = np.zeros((len(peds_in_seq), 2, obs_len))
     id_list = []
     considered_ped = 0
+    dsets = []
 
     for ped_id in peds_in_seq:
         obs_ped_seq = raw_obs_seq.loc[raw_obs_seq.pedID == ped_id]
@@ -155,14 +156,23 @@ def get_trajs(frame, step=10):
             trajs_[ped_id]["pred_gt"] = pred_ped_seq[["x", "y"]].values
 
             considered_ped += 1
+    # only one dataset here
+    obstacle_map_dict = get_resized_obstacle_maps()
+    obstacle_maps = []
+    for i in range(considered_ped):
+        obstacle_maps.append(obstacle_map_dict[dataset])
 
     if considered_ped > 0:
         obs_list_tensor = torch.from_numpy(curr_seq[:considered_ped, :]).permute(2, 0, 1).cuda().float()
         obs_list_rel_tensor = torch.from_numpy(curr_seq_rel[:considered_ped, :]).permute(2, 0, 1).cuda().float()
         seq_start_end_tensor = torch.tensor([[0, considered_ped]])
+        obstacle_map_tensor = torch.from_numpy(np.array(obstacle_maps)).cuda().float()
 
         for model_name, model in models.items():
-            pred_rel = model(obs_list_tensor, obs_list_rel_tensor, seq_start_end_tensor)
+            if model_name == "us":
+                pred_rel = model(obs_list_tensor, obs_list_rel_tensor, seq_start_end_tensor, obstacle_map_tensor)
+            else:
+                pred_rel = model(obs_list_tensor, obs_list_rel_tensor, seq_start_end_tensor)
             pred_abs = relative_to_abs(pred_rel, obs_list_tensor[-1]).detach().cpu().numpy()
             pred_abs_reorder = np.swapaxes(pred_abs, 0, 1)
             key = "pred_" + model_name
