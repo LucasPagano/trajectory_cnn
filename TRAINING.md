@@ -18,7 +18,6 @@ python scripts/train.py
 ```
 
 By default this will train a model on Zara1, periodically saving checkpoint files `checkpoint_with_model.pt` and `checkpoint_no_model.pt` to the current working directory. The training script has a number of command-line flags that you can use to configure the model architecture, hyperparameters, and input / output settings:
-
 ### Optimization
 
 - `--batch_size`: How many sequences to use in each minibatch during training. Default is 64.
@@ -36,7 +35,7 @@ By default this will train a model on Zara1, periodically saving checkpoint file
 
 ### Model options
 Our model consists of three components 1) Generator 2) Pooling Module 3) Discriminator. These flags control the architecture hyperparameters for both generator and discriminator.
-
+- `--moving_threshold`: Predict non-moving pedestrians to stand still.
 - `--embedding_dim`: Integer giving the dimension for the embedding layer for input (x, y) coordinates. Default is 64.
 - `--num_layers`: Number of layers in LSTM. We only support num_layers = 1.
 - `--dropout`: Float value specifying the amount of dropout. Default is 0 (no dropout).
