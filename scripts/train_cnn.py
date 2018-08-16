@@ -12,6 +12,7 @@ import torch.optim as optim
 from tensorboardX import SummaryWriter
 
 from cnn.model_cnn import TrajEstimator
+from cnn.model_cnn_moving_threshold import TrajEstimatorThreshold
 from sgan.data.loader import data_loader
 from sgan.losses import displacement_error, final_displacement_error
 from sgan.losses import l2_loss
@@ -26,6 +27,7 @@ logging.basicConfig(level=logging.INFO, format=FORMAT, stream=sys.stdout)
 logger = logging.getLogger(__name__)
 
 # Dataset options
+parser.add_argument('--moving_threshold', default='1', type=int)
 parser.add_argument('--dataset_name', default='eth', type=str)
 parser.add_argument('--delim', default="tab")
 parser.add_argument('--loader_num_workers', default=0, type=int)
@@ -35,7 +37,7 @@ parser.add_argument('--skip', default=1, type=int)
 
 # Optimization
 parser.add_argument('--batch_size', default=32, type=int)
-parser.add_argument('--num_epochs', default=50, type=int)
+parser.add_argument('--num_epochs', default=1, type=int)
 
 # Model Options
 parser.add_argument('--embedding_dim', default=32, type=int)
@@ -96,13 +98,22 @@ def main(args):
 
     long_dtype, float_dtype = get_dtypes(args)
 
-    generator = TrajEstimator(
-        obs_len=args.obs_len,
-        pred_len=args.pred_len,
-        embedding_dim=args.embedding_dim,
-        encoder_h_dim=args.encoder_h_dim_g,
-        num_layers=args.num_layers,
-        dropout=args.dropout)
+    if args.moving_threshold:
+        generator = TrajEstimatorThreshold(
+            obs_len=args.obs_len,
+            pred_len=args.pred_len,
+            embedding_dim=args.embedding_dim,
+            encoder_h_dim=args.encoder_h_dim_g,
+            num_layers=args.num_layers,
+            dropout=args.dropout)
+    else:
+        generator = TrajEstimator(
+            obs_len=args.obs_len,
+            pred_len=args.pred_len,
+            embedding_dim=args.embedding_dim,
+            encoder_h_dim=args.encoder_h_dim_g,
+            num_layers=args.num_layers,
+            dropout=args.dropout)
 
     generator.apply(init_weights)
     generator.type(float_dtype).train()
@@ -270,8 +281,9 @@ def main(args):
                 #     if k not in key_blacklist:
                 #         small_checkpoint[k] = v
                 # torch.save(small_checkpoint, checkpoint_path)
-                # logger.info('Done.')
-
+            logger.info('Done.')
+            logger.info("Non-moving trajectories : {}%, threshold : {}".format(round((float(generator.total_trajs_under_threshold) / generator.total_trajs)*100), generator.threshold))            # 
+	    
             t += 1
             if t >= args.num_iterations:
                 break
