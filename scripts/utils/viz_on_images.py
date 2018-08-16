@@ -5,6 +5,7 @@ import cv2 as cv
 import pandas as pd
 from attrdict import AttrDict
 from cnn.model_cnn import TrajEstimator
+from cnn.model_cnn_moving_threshold import TrajEstimatorThreshold
 from sgan.models import TrajectoryGenerator as TrajectoryGenerator_sgan
 from sgan.utils import relative_to_abs
 import torch
@@ -35,9 +36,23 @@ def get_generator_sgan(checkpoint):
     generator.eval()
     return generator
 
-def get_generator_us(checkpoint):
+def get_generator_cnn(checkpoint):
     args = AttrDict(checkpoint['args'])
     generator = TrajEstimator(
+        obs_len=args.obs_len,
+        pred_len=args.pred_len,
+        embedding_dim=args.embedding_dim,
+        encoder_h_dim=args.encoder_h_dim_g,
+        num_layers=args.num_layers,
+        dropout=args.dropout)
+    generator.load_state_dict(checkpoint['g_best_state'])
+    generator.cuda()
+    generator.eval()
+    return generator
+
+def get_generator_cnn_moving(checkpoint):
+    args = AttrDict(checkpoint['args'])
+    generator = TrajEstimatorThreshold(
         obs_len=args.obs_len,
         pred_len=args.pred_len,
         embedding_dim=args.embedding_dim,
@@ -239,7 +254,7 @@ if __name__ == "__main__":
     dataset = "eth"
     obs_len = 8
     pred_len = 12
-    color_dict = {"obs": (0, 0, 0), "pred_us": (250, 250, 250), "pred_gt": (0, 250, 0), "pred_sgan": (0,0,250)}
+    color_dict = {"obs": (0, 0, 0), "pred_cnn": (250, 250, 0), "pred_cnn_moving": (250, 250, 250), "pred_gt": (0, 250, 0), "pred_sgan": (0,0,250)}
 
     paths = get_paths(dataset)
 
@@ -249,8 +264,9 @@ if __name__ == "__main__":
 
     print("Loading models.")
     models = {}
-    checkpoint_us = torch.load(paths["model_us"])
-    models["us"] = get_generator_us(checkpoint_us)
+    checkpoint_cnn = torch.load(paths["model_us"])
+    models["cnn"] = get_generator_cnn(checkpoint_cnn)
+    models["cnn_moving"] = get_generator_cnn_moving(checkpoint_cnn)
     checkpoint_sgan =  torch.load(paths["model_sgan"])
     models["sgan"] = get_generator_sgan(checkpoint_sgan )
 
