@@ -6,7 +6,7 @@ import pickle
 import torch
 from attrdict import AttrDict
 
-from cnn.model_cnn import TrajEstimator
+from cnn.model_cnn_moving_threshold import TrajEstimator
 from sgan.data.loader import data_loader
 from sgan.losses import displacement_error, final_displacement_error
 from sgan.utils import relative_to_abs, get_dset_path
