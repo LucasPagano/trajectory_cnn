@@ -12,9 +12,9 @@ def Conv1d(in_channels, out_channels, kernel_size, padding, dropout=0):
     m.bias.data.zero_()
     return nn.utils.weight_norm(m)
 
-class TrajEstimator(nn.Module):
+class TrajEstimatorThreshold(nn.Module):
     def __init__(self, obs_len, pred_len, embedding_dim=16, encoder_h_dim=16, num_layers=3, dropout=0.0, threshold=0.5):
-        super(TrajEstimator, self).__init__()
+        super(TrajEstimatorThreshold, self).__init__()
         #params
         self.obs_len = obs_len
         self.pred_len = pred_len
