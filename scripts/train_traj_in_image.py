@@ -12,13 +12,12 @@ import torch
 import torch.nn as nn
 import torch.optim as optim
 
-from traj_in_image.data.loader import data_loader
-from sgan.losses import l2_loss
+from traj_in_img.data.loader import data_loader
+from traj_in_img.losses import MSE
 from sgan.losses import displacement_error, final_displacement_error
 
 from cnn.model_cnn import TrajEstimator
-from sgan.utils import get_total_norm
-from traj_in_image.utils import get_dset_path
+from traj_in_img.utils import get_dset_path
 
 torch.backends.cudnn.benchmark = True
 
@@ -28,9 +27,9 @@ logging.basicConfig(level=logging.INFO, format=FORMAT, stream=sys.stdout)
 logger = logging.getLogger(__name__)
 
 # Dataset options
-parser.add_argument('--dataset_name', default='trajnet_stanford/image_plane_val_as_test', type=str)
+parser.add_argument('--dataset_name', default='trajnet_stanford/img_plane_val_as_test', type=str)
 parser.add_argument('--delim', default="space")
-parser.add_argument('--loader_num_workers', default=0, type=int)
+parser.add_argument('--loader_num_workers', default=1, type=int)
 parser.add_argument('--obs_len', default=8, type=int)
 parser.add_argument('--pred_len', default=12, type=int)
 parser.add_argument('--skip', default=1, type=int)
@@ -62,7 +61,7 @@ parser.add_argument('--restore_from_checkpoint', default=0, type=int)
 parser.add_argument('--num_samples_check', default=5000, type=int)
 
 # Misc
-parser.add_argument('--use_gpu', default=1, type=int)
+parser.add_argument('--use_gpu', default=0, type=int)
 parser.add_argument('--gpu_num', default="0", type=str)
 
 

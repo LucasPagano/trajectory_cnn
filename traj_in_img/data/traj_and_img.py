@@ -169,33 +169,49 @@ class TrajectoryDataset(Dataset):
 
         obstacle_maps_dict = get_resized_obstacle_maps_and_dimensions()
         obs_maps = []
+        dims = []
         target_maps = []
         obs_trajs = seq_list[:, :, :self.obs_len]
         pred_trajs = seq_list[:, :, self.obs_len:]
-        for ped in range(total_peds):
-            dset = dsets[ped]
-            obstacle_map = obstacle_maps_dict[dset]
-            obs_traj = obs_trajs[ped, :, :]
-            pred_traj = pred_trajs[ped, :, :]
-            obs_map, target_map = trajs_to_map(obstacle_map, obs_traj, pred_traj)
-            obs_maps.append(obs_map)
-            target_maps.append(target_map)
-
         trainA_path = os.path.join(os.path.dirname(self.data_dir), "trainA")
         trainB_path = os.path.join(os.path.dirname(self.data_dir), "trainB")
         if not os.path.exists(trainA_path):
             os.mkdir(trainA_path)
         if not os.path.exists(trainB_path):
             os.mkdir(trainB_path)
+        dims_path = os.path.join(os.path.dirname(trainA_path), "dims.txt")
+        dims_file = open(dims_path, "w+")
 
-        for i, obs_map in enumerate(obs_maps):
-            obs_file_path = os.path.join(trainA_path, str(i) + ".png")
-            target_file_path = os.path.join(trainB_path, str(i) + ".png")
-            target_map = target_maps[i]
+        for key in obstacle_maps_dict.keys():
+            dims_file.write("{}:{}\n".format(key, obstacle_maps_dict[key][1]))
+        dims_file.close()
+
+        counter = {key:0 for key in obstacle_maps_dict.keys()}
+
+        for ped in range(total_peds):
+            dset = dsets[ped]
+            obstacle_map = obstacle_maps_dict[dset]
+            obs_traj = obs_trajs[ped, :, :]
+            pred_traj = pred_trajs[ped, :, :]
+            obs_map, target_map = trajs_to_map(obstacle_map, obs_traj, pred_traj)
+            dims.append(obstacle_map[1])
+            obs_maps.append(obs_map)
+            target_maps.append(target_map)
+
+            file_name = dset + "_" + str(counter[dset]) + ".png"
+            obs_file_path = os.path.join(trainA_path, file_name)
+            target_file_path = os.path.join(trainB_path, file_name)
+            counter[dset] += 1
+
+            #rescale to [0,255] range
             obs_scaling = 255.0 / obs_map.max()
             target_scaling = 255.0 / target_map.max()
-            obs_map = Image.fromarray(np.uint8(obs_map * obs_scaling), "L")
-            target_map = Image.fromarray(np.uint8(target_map * target_scaling), "L")
+
+            obs_map = np.uint8(obs_map * obs_scaling)
+            target_map = np.uint8(target_map * target_scaling)
+            #save to image
+            obs_map = Image.fromarray(obs_map, "L")
+            target_map = Image.fromarray(target_map, "L")
             obs_map.save(obs_file_path, "PNG")
             target_map.save(target_file_path, "PNG")
 

@@ -13,7 +13,7 @@ logger = logging.getLogger(__name__)
 
 def seq_collate(data):
     (obs_seq_list, pred_seq_list, obs_seq_rel_list, pred_seq_rel_list,
-     non_linear_ped_list, loss_mask_list, obstacle_maps) = zip(*data)
+     non_linear_ped_list, loss_mask_list) = zip(*data)
     _len = [len(seq) for seq in obs_seq_list]
     cum_start_idx = [0] + np.cumsum(_len).tolist()
     seq_start_end = [[start, end]
@@ -28,10 +28,9 @@ def seq_collate(data):
     non_linear_ped = torch.cat(non_linear_ped_list)
     loss_mask = torch.cat(loss_mask_list, dim=0)
     seq_start_end = torch.LongTensor(seq_start_end)
-    obstacle_maps = torch.cat(obstacle_maps, dim=0)
     out = [
         obs_traj, pred_traj, obs_traj_rel, pred_traj_rel, non_linear_ped,
-        loss_mask, seq_start_end, obstacle_maps
+        loss_mask, seq_start_end
     ]
 
     return tuple(out)
@@ -213,6 +212,6 @@ class TrajectoryDataset(Dataset):
         out = [
             self.obs_traj[start:end, :], self.pred_traj[start:end, :],
             self.obs_traj_rel[start:end, :], self.pred_traj_rel[start:end, :],
-            self.non_linear_ped[start:end], self.loss_mask[start:end, :], self.obstacle_maps[start:end]
+            self.non_linear_ped[start:end], self.loss_mask[start:end, :]
         ]
         return out

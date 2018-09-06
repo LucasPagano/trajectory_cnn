@@ -56,22 +56,23 @@ def evaluate(args, loader, generator, num_samples):
         for batch in loader:
             batch = [tensor.cuda() for tensor in batch]
             (obs_traj, pred_traj_gt, obs_traj_rel, pred_traj_gt_rel,
-             non_linear_ped, loss_mask, seq_start_end, obstacle_maps) = batch
+             non_linear_ped, loss_mask, seq_start_end) = batch
 
             ade, fde = [], []
             total_traj += pred_traj_gt.size(1)
 
             for _ in range(num_samples):
                 start = time.time()
-                pred_traj_fake_rel = generator(obs_traj, obs_traj_rel, seq_start_end, obstacle_maps)
+                pred_traj_fake_rel = generator(obs_traj, obs_traj_rel, seq_start_end)
                 end = time.time()
                 times.append(end - start)
                 pred_traj_fake = relative_to_abs(pred_traj_fake_rel, obs_traj[-1])
 
                 trajs.append([obs_traj.cpu().numpy(), pred_traj_fake.cpu().numpy(), pred_traj_gt.cpu().numpy(), seq_start_end.cpu().numpy()])
-                ade.append(displacement_error(pred_traj_fake, pred_traj_gt, mode='raw'))
-
-                fde.append(final_displacement_error(pred_traj_fake[-1], pred_traj_gt[-1], mode='raw'))
+                ade_ = displacement_error(pred_traj_fake, pred_traj_gt, mode='raw')
+                ade.append(ade_)
+                fde_ = final_displacement_error(pred_traj_fake[-1], pred_traj_gt[-1], mode='raw')
+                fde.append(fde_)
 
             ade_sum = evaluate_helper(ade, seq_start_end)
             fde_sum = evaluate_helper(fde, seq_start_end)
