@@ -13,7 +13,7 @@ def Conv1d(in_channels, out_channels, kernel_size, padding, dropout=0):
     return nn.utils.weight_norm(m)
 
 class TrajEstimatorThreshold(nn.Module):
-    def __init__(self, obs_len, pred_len, embedding_dim=16, encoder_h_dim=16, num_layers=3, dropout=0.0, threshold=0.5):
+    def __init__(self, obs_len, pred_len, embedding_dim=16, encoder_h_dim=16, num_layers=3, dropout=0.0, threshold=0):
         super(TrajEstimatorThreshold, self).__init__()
         #params
         self.obs_len = obs_len
@@ -54,7 +54,6 @@ class TrajEstimatorThreshold(nn.Module):
         final_dist = np.fromiter((minkowski_distance(x[0], x[-1]) for x in obs_traj), float)
         mask = final_dist < self.threshold
         self.total_trajs_under_threshold += sum(mask)
-        obs_traj = obs_traj.permute(1, 0, 2)
 
         obs_traj_embedding = self.spatial_embedding(obs_traj_rel.view(-1, 2))
         obs_traj_embedding = obs_traj_embedding.view(-1, batch_size, self.embedding_dim
@@ -63,9 +62,6 @@ class TrajEstimatorThreshold(nn.Module):
         pred_traj_fake_rel = self.hidden2pos(state).reshape(batch_size, self.pred_len, 2).permute(1, 0, 2)
 
         if not self.training:
-            obs_traj = obs_traj.permute(1, 0, 2)
-            final_dist = np.fromiter((minkowski_distance(x[0], x[-1]) for x in obs_traj), float)
-            # mean_disp = torch.from_numpy(np.fromiter((cdist(x, x).diagonal(offset=1).mean() for x in view_obs), float)).cuda().view(batch_size, -1)
             pred_traj_fake_rel = pred_traj_fake_rel.permute(1,0,2)
             mask = final_dist < self.threshold
             for index, elem in enumerate(mask):
@@ -74,6 +70,9 @@ class TrajEstimatorThreshold(nn.Module):
                     #set everything to 0
                     pred_traj_fake_rel[index] = pred_traj_fake_rel[index] != pred_traj_fake_rel[index]
             pred_traj_fake_rel = pred_traj_fake_rel.permute(1,0,2)
+
+        obs_traj = obs_traj.permute(1, 0, 2)
+
         return pred_traj_fake_rel
 
 
