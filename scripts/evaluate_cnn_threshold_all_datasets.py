@@ -17,21 +17,23 @@ if __name__ == "__main__":
     thresholds = [0, 0.5, 1, 1.5]
     args = parser.parse_args()
     for threshold in thresholds:
+        print("Using threshold {}".format(threshold))
         results = []
+        args.threshold = threshold
         for dataset in datasets:
-            print("Evaluating {}".format(dataset))
+            print("\tEvaluating {}".format(dataset))
             args.model_path = "save/" + dataset + "_50epoch_with_model.pt"
             if os.path.isfile(args.model_path):
                 ade50, fde50 = main(args)
             else:
-                print("File not found : {}, please check that you trained a model on dataset {}".format(args.model_path, dataset))
+                print("\tFile not found : {}, please check that you trained a model on dataset {}".format(args.model_path, dataset))
                 ade50, fde50 = math.nan, math.nan
 
             args.model_path = "save/" + dataset + "_100epoch_with_model.pt"
             if os.path.isfile(args.model_path):
                 ade100, fde100 = main(args)
             else:
-                print("File not found : {}, please check that you trained a model on dataset {}".format(args.model_path, dataset))
+                print("\tFile not found : {}, please check that you trained a model on dataset {}".format(args.model_path, dataset))
                 ade100, fde100 = math.nan, math.nan
 
             results.append([threshold, dataset, ade50, fde50, ade100, fde100])
@@ -43,4 +45,6 @@ if __name__ == "__main__":
         final = final.append(temp_df)
 
     final = final.round(decimals=2)
-    final.to_csv("ade_fde_cnn_all_threshold.csv", index=False)
+    save_file_path = "ade_fde_cnn_all_threshold.csv"
+    final.to_csv(save_file_path, index=False)
+    print("Results saved to {}".format(save_file_path))

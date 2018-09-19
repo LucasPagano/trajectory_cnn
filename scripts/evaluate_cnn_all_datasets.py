@@ -39,4 +39,6 @@ if __name__ == "__main__":
     avg.loc["Dataset"] = "AVG"
     final = df.append(avg, ignore_index=True)
     final = final.round(decimals=2)
-    final.to_csv("ade_fde_cnn_all.csv", index=False)
+    save_file_path = "ade_fde_cnn_all.csv"
+    final.to_csv(save_file_path, index=False)
+    print("Results saved to {}".format(save_file_path))
