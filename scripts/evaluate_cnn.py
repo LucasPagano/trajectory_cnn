@@ -1,12 +1,15 @@
 import argparse
 import os
 import pathlib
+import time
+import numpy as np
 import pickle
 
 import torch
 from attrdict import AttrDict
 
-from cnn.model_cnn_moving_threshold import TrajEstimator
+from cnn.model_cnn import TrajEstimator
+from cnn.model_cnn_moving_threshold import TrajEstimatorThreshold
 from sgan.data.loader import data_loader
 from sgan.losses import displacement_error, final_displacement_error
 from sgan.utils import relative_to_abs, get_dset_path
@@ -15,19 +18,40 @@ parser = argparse.ArgumentParser()
 parser.add_argument('--model_path', default="save/eth_50epoch_with_model.pt", type=str)
 parser.add_argument('--num_samples', default=20, type=int)
 parser.add_argument('--dset_type', default='test', type=str)
+parser.add_argument('--new_moving_threshold', default=False, type=bool)
+parser.add_argument('--threshold', default=0, type=int)
 
-import time
-import numpy as np
+args = parser.parse_args()
 
 def get_generator(checkpoint):
-    args_ = AttrDict(checkpoint['args'])
-    generator = TrajEstimator(
-        obs_len=args_.obs_len,
-        pred_len=args_.pred_len,
-        embedding_dim=args_.embedding_dim,
-        encoder_h_dim=args_.encoder_h_dim_g,
-        num_layers=args_.num_layers,
-        dropout=args_.dropout)
+    _args = AttrDict(checkpoint['args'])
+    if args.new_moving_threshold:
+        generator = TrajEstimatorThreshold(
+            obs_len=_args.obs_len,
+            pred_len=_args.pred_len,
+            embedding_dim=_args.embedding_dim,
+            encoder_h_dim=_args.encoder_h_dim_g,
+            threshold=args.threshold,
+            num_layers=_args.num_layers,
+            dropout=_args.dropout)
+
+    elif _args.moving_threshold != 0:
+        generator = TrajEstimatorThreshold(
+            obs_len=_args.obs_len,
+            pred_len=_args.pred_len,
+            embedding_dim=_args.embedding_dim,
+            encoder_h_dim=_args.encoder_h_dim_g,
+            threshold=_args.moving_threshold,
+            num_layers=_args.num_layers,
+            dropout=_args.dropout)
+    else:
+        generator = TrajEstimator(
+            obs_len=_args.obs_len,
+            pred_len=_args.pred_len,
+            embedding_dim=_args.embedding_dim,
+            encoder_h_dim=_args.encoder_h_dim_g,
+            num_layers=_args.num_layers,
+            dropout=_args.dropout)
     generator.load_state_dict(checkpoint['g_best_state'])
     generator.cuda()
     generator.eval()
@@ -47,7 +71,7 @@ def evaluate_helper(error, seq_start_end):
     return sum_
 
 
-def evaluate(args, loader, generator, num_samples):
+def evaluate(args, loader, generator):
     trajs = []
     ade_outer, fde_outer = [], []
     total_traj = 0
@@ -58,26 +82,22 @@ def evaluate(args, loader, generator, num_samples):
             (obs_traj, pred_traj_gt, obs_traj_rel, pred_traj_gt_rel,
              non_linear_ped, loss_mask, seq_start_end) = batch
 
-            ade, fde = [], []
             total_traj += pred_traj_gt.size(1)
 
-            for _ in range(num_samples):
-                start = time.time()
-                pred_traj_fake_rel = generator(obs_traj, obs_traj_rel, seq_start_end)
-                end = time.time()
-                times.append(end - start)
-                pred_traj_fake = relative_to_abs(pred_traj_fake_rel, obs_traj[-1])
+            start = time.time()
+            pred_traj_fake_rel = generator(obs_traj, obs_traj_rel, seq_start_end)
 
-                trajs.append([obs_traj.cpu().numpy(), pred_traj_fake.cpu().numpy(), pred_traj_gt.cpu().numpy(), seq_start_end.cpu().numpy()])
-                ade.append(displacement_error(pred_traj_fake, pred_traj_gt, mode='raw'))
+            end = time.time()
+            times.append(end - start)
+            pred_traj_fake = relative_to_abs(pred_traj_fake_rel, obs_traj[-1])
 
-                fde.append(final_displacement_error(pred_traj_fake[-1], pred_traj_gt[-1], mode='raw'))
+            trajs.append([obs_traj.cpu().numpy(), pred_traj_fake.cpu().numpy(), pred_traj_gt.cpu().numpy(), seq_start_end.cpu().numpy()])
+            ade_traj = displacement_error(pred_traj_fake, pred_traj_gt, mode='sum')
 
-            ade_sum = evaluate_helper(ade, seq_start_end)
-            fde_sum = evaluate_helper(fde, seq_start_end)
+            fde_traj = final_displacement_error(pred_traj_fake[-1], pred_traj_gt[-1], mode='sum')
 
-            ade_outer.append(ade_sum)
-            fde_outer.append(fde_sum)
+            ade_outer.append(ade_traj)
+            fde_outer.append(fde_traj)
         ade = sum(ade_outer) / (total_traj * args.pred_len)
         fde = sum(fde_outer) / total_traj
         return ade, fde, trajs, times
@@ -99,9 +119,10 @@ def main(args):
         path = get_dset_path(_args.dataset_name, args.dset_type)
 
         generator = get_generator(checkpoint)
+
         _, loader = data_loader(_args, path)
 
-        ade, fde, trajs, times = evaluate(_args, loader, generator, args.num_samples)
+        ade, fde, trajs, times = evaluate(_args, loader, generator)
 
         print(np.mean(times))
         print('Dataset: {}, Pred Len: {}, ADE: {:.2f}, FDE: {:.2f}'.format(
@@ -116,5 +137,4 @@ def main(args):
     return ade.item(), fde.item()
 
 if __name__ == '__main__':
-    args = parser.parse_args()
     main(args)
