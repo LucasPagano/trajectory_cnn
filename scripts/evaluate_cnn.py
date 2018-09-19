@@ -18,20 +18,18 @@ parser = argparse.ArgumentParser()
 parser.add_argument('--model_path', default="save/eth_50epoch_with_model.pt", type=str)
 parser.add_argument('--num_samples', default=20, type=int)
 parser.add_argument('--dset_type', default='test', type=str)
-parser.add_argument('--new_moving_threshold', default=False, type=bool)
+parser.add_argument('--force_new_moving_threshold', default=False, type=bool)
 parser.add_argument('--threshold', default=0, type=int)
 
-args = parser.parse_args()
-
-def get_generator(checkpoint):
+def get_generator(checkpoint, args_):
     _args = AttrDict(checkpoint['args'])
-    if args.new_moving_threshold:
+    if args_.force_new_moving_threshold:
         generator = TrajEstimatorThreshold(
             obs_len=_args.obs_len,
             pred_len=_args.pred_len,
             embedding_dim=_args.embedding_dim,
             encoder_h_dim=_args.encoder_h_dim_g,
-            threshold=args.threshold,
+            threshold=args_.threshold,
             num_layers=_args.num_layers,
             dropout=_args.dropout)
 
@@ -75,7 +73,6 @@ def evaluate(args, loader, generator):
     trajs = []
     ade_outer, fde_outer = [], []
     total_traj = 0
-    times = []
     with torch.no_grad():
         for batch in loader:
             batch = [tensor.cuda() for tensor in batch]
@@ -84,11 +81,7 @@ def evaluate(args, loader, generator):
 
             total_traj += pred_traj_gt.size(1)
 
-            start = time.time()
             pred_traj_fake_rel = generator(obs_traj, obs_traj_rel, seq_start_end)
-
-            end = time.time()
-            times.append(end - start)
             pred_traj_fake = relative_to_abs(pred_traj_fake_rel, obs_traj[-1])
 
             trajs.append([obs_traj.cpu().numpy(), pred_traj_fake.cpu().numpy(), pred_traj_gt.cpu().numpy(), seq_start_end.cpu().numpy()])
@@ -100,7 +93,7 @@ def evaluate(args, loader, generator):
             fde_outer.append(fde_traj)
         ade = sum(ade_outer) / (total_traj * args.pred_len)
         fde = sum(fde_outer) / total_traj
-        return ade, fde, trajs, times
+        return ade, fde, trajs
 
 
 def main(args):
@@ -118,13 +111,12 @@ def main(args):
         _args = AttrDict(checkpoint['args'])
         path = get_dset_path(_args.dataset_name, args.dset_type)
 
-        generator = get_generator(checkpoint)
+        generator = get_generator(checkpoint, args_=args)
 
         _, loader = data_loader(_args, path)
 
-        ade, fde, trajs, times = evaluate(_args, loader, generator)
+        ade, fde, trajs = evaluate(_args, loader, generator)
 
-        print(np.mean(times))
         print('Dataset: {}, Pred Len: {}, ADE: {:.2f}, FDE: {:.2f}'.format(
             _args.dataset_name, _args.pred_len, ade, fde))
         if _args.dataset_name.split("/")[0] == "split_moving":
@@ -137,4 +129,5 @@ def main(args):
     return ade.item(), fde.item()
 
 if __name__ == '__main__':
+    args = parser.parse_args()
     main(args)
