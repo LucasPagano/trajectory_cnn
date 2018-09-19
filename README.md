@@ -8,7 +8,7 @@ Our model consists of three key components: Generator (G), Pooling Module (PM) a
   <img src='images/model.png' width='1000px'>
 </div>
 
-### Cnn
+### CNN
 Cnn used for trajectory prediction, you can find the exact specifications <a href=https://arxiv.org/abs/1809.00696>here</a>.
 
 ## Setup
