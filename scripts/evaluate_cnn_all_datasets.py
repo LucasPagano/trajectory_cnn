@@ -22,12 +22,6 @@ if __name__ == "__main__":
         for dataset in datasets:
             print("Evaluating {}".format(dataset))
             args.model_path = "save/" + dataset + "_50epoch_with_model.pt"
-            args.threshold = threshold
-            ade50, fde50 = main(args)
-            results.append([threshold, dataset, ade50, fde50])
-
-            print("Evaluating {}".format(dataset))
-            args.model_path = "save/" + dataset + "_50epoch_with_model.pt"
             if os.path.isfile(args.model_path):
                 ade50, fde50 = main(args)
             else:
