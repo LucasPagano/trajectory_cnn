@@ -1,15 +1,15 @@
 This repo is built off of the SGAN repository found <a href=https://github.com/agrimgupta92/sgan/tree/master/>here</a>.
 
 ## Model
+### CNN
+Cnn used for trajectory prediction, you can find the exact specifications <a href=https://arxiv.org/abs/1809.00696>here</a>.
+
 ### Sgan
-Our model consists of three key components: Generator (G), Pooling Module (PM) and Discriminator (D). G is based on encoder-decoder framework where we link the hidden states of encoder and decoder via PM. G takes as input trajectories of all people involved in a scene and outputs corresponding predicted trajectories. D inputs the entire sequence comprising both input trajectory and future prediction and classifies them as “real/fake”.
+Sgan model consists of three key components: Generator (G), Pooling Module (PM) and Discriminator (D). G is based on encoder-decoder framework where we link the hidden states of encoder and decoder via PM. G takes as input trajectories of all people involved in a scene and outputs corresponding predicted trajectories. D inputs the entire sequence comprising both input trajectory and future prediction and classifies them as “real/fake”.
 
 <div align='center'>
   <img src='images/model.png' width='1000px'>
 </div>
-
-### CNN
-Cnn used for trajectory prediction, you can find the exact specifications <a href=https://arxiv.org/abs/1809.00696>here</a>.
 
 ## Setup
 All code was developed and tested on Ubuntu 16.04 with Python 3.5 and PyTorch 0.4.
