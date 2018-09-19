@@ -422,7 +422,7 @@ class TrajectoryGenerator(nn.Module):
                 grid_size=grid_size
             )
 
-        if self.noise_dim[0] == 0:
+        if self.noise_dim is None or self.noise_dim[0] == 0:
             self.noise_dim = None
         else:
             self.noise_first_dim = noise_dim[0]

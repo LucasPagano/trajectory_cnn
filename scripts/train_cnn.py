@@ -27,7 +27,6 @@ logging.basicConfig(level=logging.INFO, format=FORMAT, stream=sys.stdout)
 logger = logging.getLogger(__name__)
 
 # Dataset options
-parser.add_argument('--moving_threshold', default='1', type=int)
 parser.add_argument('--dataset_name', default='eth', type=str)
 parser.add_argument('--delim', default="tab")
 parser.add_argument('--loader_num_workers', default=0, type=int)
@@ -40,6 +39,7 @@ parser.add_argument('--batch_size', default=32, type=int)
 parser.add_argument('--num_epochs', default=1, type=int)
 
 # Model Options
+parser.add_argument('--moving_threshold', default=0, type=int)
 parser.add_argument('--embedding_dim', default=32, type=int)
 parser.add_argument('--num_layers', default=4, type=int)
 parser.add_argument('--dropout', default=0, type=float)
@@ -91,10 +91,8 @@ def main(args):
     os.environ["CUDA_VISIBLE_DEVICES"] = args.gpu_num
     train_path = get_dset_path(args.dataset_name, 'train')
     val_path = get_dset_path(args.dataset_name, 'val')
-    if args.dataset_name.split("/")[0] == "split_moving":
-        checkpoint_path = os.path.join(args.output_dir, '%s_with_model.pt' % args.checkpoint_name)
-        save_dir = "/".join(checkpoint_path.split("/")[:-1])
-        pathlib.Path(save_dir).mkdir(parents=True, exist_ok=True)
+    checkpoint_path = os.path.join(args.output_dir, '%s_with_model.pt' % args.checkpoint_name)
+    pathlib.Path(checkpoint_path).parent.mkdir(parents=True, exist_ok=True)
 
     long_dtype, float_dtype = get_dtypes(args)
 
@@ -260,33 +258,16 @@ def main(args):
                 # optimizer state
                 checkpoint['g_state'] = generator.state_dict()
                 checkpoint['g_optim_state'] = optimizer_g.state_dict()
-                checkpoint_path = os.path.join(
-                    args.output_dir, '%s_with_model.pt' % args.checkpoint_name
-                )
                 logger.info('Saving checkpoint to {}'.format(checkpoint_path))
                 torch.save(checkpoint, checkpoint_path)
                 logger.info('Done.')
-
-                # Save a checkpoint with no model weights by making a shallow
-                # copy of the checkpoint excluding some items
-                # checkpoint_path = os.path.join(
-                #     args.output_dir, '%s_no_model.pt' % args.checkpoint_name)
-                # logger.info('Saving checkpoint to {}'.format(checkpoint_path))
-                # key_blacklist = [
-                #     'g_state', 'g_best_state', 'g_best_nl_state',
-                #     'g_optim_state'
-                # ]
-                # small_checkpoint = {}
-                # for k, v in checkpoint.items():
-                #     if k not in key_blacklist:
-                #         small_checkpoint[k] = v
-                # torch.save(small_checkpoint, checkpoint_path)
-            logger.info('Done.')
-            logger.info("Non-moving trajectories : {}%, threshold : {}".format(round((float(generator.total_trajs_under_threshold) / generator.total_trajs)*100), generator.threshold))            # 
-	    
+                
             t += 1
             if t >= args.num_iterations:
+                if args.moving_threshold:
+                    logger.info("Non-moving trajectories : {}%, threshold : {}".format(round((float(generator.total_trajs_under_threshold) / generator.total_trajs) * 100), generator.threshold))
                 break
+
 
 def generator_step(args, batch, generator, optimizer_g, epoch):
     batch = [tensor.cuda() for tensor in batch]

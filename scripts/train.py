@@ -28,27 +28,27 @@ logger = logging.getLogger(__name__)
 
 # Dataset options
 parser.add_argument('--dataset_name', default='zara1', type=str)
-parser.add_argument('--delim', default=' ')
-parser.add_argument('--loader_num_workers', default=4, type=int)
+parser.add_argument('--delim', default="tab")
+parser.add_argument('--loader_num_workers', default=0, type=int)
 parser.add_argument('--obs_len', default=8, type=int)
-parser.add_argument('--pred_len', default=8, type=int)
+parser.add_argument('--pred_len', default=12, type=int)
 parser.add_argument('--skip', default=1, type=int)
 
 # Optimization
-parser.add_argument('--batch_size', default=64, type=int)
+parser.add_argument('--batch_size', default=32, type=int)
 parser.add_argument('--num_iterations', default=10000, type=int)
 parser.add_argument('--num_epochs', default=200, type=int)
 
 # Model Options
-parser.add_argument('--embedding_dim', default=64, type=int)
+parser.add_argument('--embedding_dim', default=16, type=int)
 parser.add_argument('--num_layers', default=1, type=int)
 parser.add_argument('--dropout', default=0, type=float)
 parser.add_argument('--batch_norm', default=0, type=bool_flag)
-parser.add_argument('--mlp_dim', default=1024, type=int)
+parser.add_argument('--mlp_dim', default=64, type=int)
 
 # Generator Options
-parser.add_argument('--encoder_h_dim_g', default=64, type=int)
-parser.add_argument('--decoder_h_dim_g', default=128, type=int)
+parser.add_argument('--encoder_h_dim_g', default=32, type=int)
+parser.add_argument('--decoder_h_dim_g', default=32, type=int)
 parser.add_argument('--noise_dim', default=None, type=int_tuple)
 parser.add_argument('--noise_type', default='gaussian')
 parser.add_argument('--noise_mix_type', default='ped')
@@ -61,7 +61,7 @@ parser.add_argument('--pooling_type', default='pool_net')
 parser.add_argument('--pool_every_timestep', default=1, type=bool_flag)
 
 # Pool Net Option
-parser.add_argument('--bottleneck_dim', default=1024, type=int)
+parser.add_argument('--bottleneck_dim', default=32, type=int)
 
 # Social Pooling Options
 parser.add_argument('--neighborhood_size', default=2.0, type=float)
@@ -76,7 +76,7 @@ parser.add_argument('--clipping_threshold_d', default=0, type=float)
 
 # Loss Options
 parser.add_argument('--l2_loss_weight', default=0, type=float)
-parser.add_argument('--best_k', default=1, type=int)
+parser.add_argument('--best_k', default=10, type=int)
 
 # Output
 parser.add_argument('--output_dir', default=os.getcwd())
@@ -85,7 +85,7 @@ parser.add_argument('--checkpoint_every', default=100, type=int)
 parser.add_argument('--checkpoint_name', default='checkpoint')
 parser.add_argument('--checkpoint_start_from', default=None)
 parser.add_argument('--restore_from_checkpoint', default=1, type=int)
-parser.add_argument('--num_samples_check', default=5000, type=int)
+parser.add_argument('--num_samples_check', default=500, type=int)
 
 # Misc
 parser.add_argument('--use_gpu', default=1, type=int)
@@ -455,9 +455,7 @@ def generator_step(
     return losses
 
 
-def check_accuracy(
-    args, loader, generator, discriminator, d_loss_fn, limit=False
-):
+def check_accuracy(args, loader, generator, discriminator, d_loss_fn, limit=False):
     d_losses = []
     metrics = {}
     g_l2_losses_abs, g_l2_losses_rel = ([],) * 2
