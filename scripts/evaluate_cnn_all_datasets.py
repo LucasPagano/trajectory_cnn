@@ -12,7 +12,7 @@ parser.add_argument('--threshold', default=0, type=int)
 
 if __name__ == "__main__":
 
-    columns = ["Threshold", "Dataset", "ADE", "FDE"]
+    columns = ["Threshold", "Dataset", "ADE50", "FDE50", "ADE100", "FDE100"]
     final = pd.DataFrame(columns=columns)
     datasets = ["eth", "hotel", "univ", "zara1", "zara2"]
     thresholds = [0, 0.5, 1, 1.5]
@@ -35,7 +35,7 @@ if __name__ == "__main__":
                 print("File not found : {}, please check that you trained a model on dataset {}".format(args.model_path, dataset))
                 ade100, fde100 = math.nan, math.nan
 
-            results.append([dataset, ade50, fde50, ade100, fde100])
+            results.append([threshold, dataset, ade50, fde50, ade100, fde100])
 
         temp_df = pd.DataFrame(results, columns=columns)
         avg = temp_df.mean()
