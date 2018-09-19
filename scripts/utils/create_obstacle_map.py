@@ -6,6 +6,7 @@ Date : 29th November 2016
 '''
 
 import numpy as np
+import os
 import pickle
 import matplotlib.pyplot as plt
 from sgan.utils import get_dset_path
@@ -40,7 +41,7 @@ def convert_to_obstacle_map(img):
 
 def main():
     data_dirs = ['eth', 'hotel','zara1', 'zara2','univ']
-    path_to_data_dirs = "/".join(get_dset_path("eth", "train").split("/")[:-2])
+    path_to_data_dirs = os.path.dirname(os.path.dirname(get_dset_path("eth", "train")))
     data_dirs = [path_to_data_dirs + "/" + data_dir for data_dir in data_dirs]
 
     for x in data_dirs:
