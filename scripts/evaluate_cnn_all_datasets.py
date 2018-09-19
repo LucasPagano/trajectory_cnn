@@ -12,36 +12,31 @@ parser.add_argument('--threshold', default=0, type=int)
 
 if __name__ == "__main__":
 
-    columns = ["Threshold", "Dataset", "ADE50", "FDE50", "ADE100", "FDE100"]
-    final = pd.DataFrame(columns=columns)
+    columns = ["Dataset", "ADE50", "FDE50", "ADE100", "FDE100"]
     datasets = ["eth", "hotel", "univ", "zara1", "zara2"]
-    thresholds = [0, 0.5, 1, 1.5]
     args = parser.parse_args()
-    for threshold in thresholds:
-        results = []
-        for dataset in datasets:
-            print("Evaluating {}".format(dataset))
-            args.model_path = "save/" + dataset + "_50epoch_with_model.pt"
-            if os.path.isfile(args.model_path):
-                ade50, fde50 = main(args)
-            else:
-                print("File not found : {}, please check that you trained a model on dataset {}".format(args.model_path, dataset))
-                ade50, fde50 = math.nan, math.nan
+    results = []
+    for dataset in datasets:
+        print("Evaluating {}".format(dataset))
+        args.model_path = "save/" + dataset + "_50epoch_with_model.pt"
+        if os.path.isfile(args.model_path):
+            ade50, fde50 = main(args)
+        else:
+            print("File not found : {}, please check that you trained a model on dataset {}".format(args.model_path, dataset))
+            ade50, fde50 = math.nan, math.nan
 
-            args.model_path = "save/" + dataset + "_100epoch_with_model.pt"
-            if os.path.isfile(args.model_path):
-                ade100, fde100 = main(args)
-            else:
-                print("File not found : {}, please check that you trained a model on dataset {}".format(args.model_path, dataset))
-                ade100, fde100 = math.nan, math.nan
+        args.model_path = "save/" + dataset + "_100epoch_with_model.pt"
+        if os.path.isfile(args.model_path):
+            ade100, fde100 = main(args)
+        else:
+            print("File not found : {}, please check that you trained a model on dataset {}".format(args.model_path, dataset))
+            ade100, fde100 = math.nan, math.nan
 
-            results.append([threshold, dataset, ade50, fde50, ade100, fde100])
+        results.append([dataset, ade50, fde50, ade100, fde100])
 
-        temp_df = pd.DataFrame(results, columns=columns)
-        avg = temp_df.mean()
-        avg.loc["Dataset"] = "AVG"
-        temp_df = temp_df.append(avg, ignore_index=True)
-        final = final.append(temp_df)
-
+    df = pd.DataFrame(results, columns=columns)
+    avg = df.mean()
+    avg.loc["Dataset"] = "AVG"
+    final = df.append(avg, ignore_index=True)
     final = final.round(decimals=2)
-    final.to_csv("ade_fde_cnn_all_threshold.csv", index=False)
+    final.to_csv("ade_fde_cnn_all.csv", index=False)
