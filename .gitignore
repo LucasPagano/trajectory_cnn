@@ -1,6 +1,11 @@
+scripts/tensorboard/
+visualization
+env/
 datasets/
 models/
 *.pt
 *.ipynb_checkpoints*
 *__pycache__*
 *.pkl
+*.avi
+*.idea*
