@@ -17,8 +17,9 @@ def split(dataset_path):
     for dir_ in os.listdir(dataset_path):
         if dir_ in acceptable_dirs:
             print("\t\t{}".format(dir_))
-            move_dir = os.path.join(dataset_path, "moving", dir_)
-            not_move_dir = os.path.join(dataset_path, "not_moving", dir_)
+
+            move_dir = os.path.join(output_dir, os.path.basename(dataset_path), "moving", dir_)
+            not_move_dir = os.path.join(output_dir, os.path.basename(dataset_path), "not_moving", dir_)
             pathlib.Path(move_dir).mkdir(parents=True, exist_ok=True)
             pathlib.Path(not_move_dir).mkdir(parents=True, exist_ok=True)
             for file in os.listdir(os.path.join(dataset_path, dir_)):
@@ -40,14 +41,15 @@ def split(dataset_path):
                         peds_in_seq = raw_seq.pedID.unique()
 
                         for ped_id in peds_in_seq:
-                            obs_ped_seq = raw_seq.loc[raw_seq.pedID == ped_id]
+                            ped_seq = raw_seq.loc[raw_seq.pedID == ped_id]
                             # seq has to have at least seq_len length
-                            if len(obs_ped_seq.frameID) == seq_len:
-                                dist = distance(obs_ped_seq[["x", "y"]])
+                            if len(ped_seq.frameID) == seq_len:
+                                obs_seq = ped_seq.iloc[:obs_len, :]
+                                dist = distance(obs_seq[["x", "y"]])
                                 if dist < distance_threshold:
-                                    not_move_df = not_move_df.append(obs_ped_seq)
+                                    not_move_df = not_move_df.append(ped_seq)
                                 else:
-                                    move_df = move_df.append(obs_ped_seq)
+                                    move_df = move_df.append(ped_seq)
                     move_df.drop_duplicates().to_csv(move_file, header=False, index=False, sep='\t')
                     not_move_df.drop_duplicates().to_csv(not_move_file, header=False, index=False, sep='\t')
 
@@ -57,11 +59,15 @@ def split(dataset_path):
 if __name__ == "__main__":
     obs_len = 8
     pred_len = 12
-    seq_len = obs_len + pred_len
+    # step between each frame
     step = 10
+    datasets_dir = "../../datasets/"
+    output_dir = "../../datasets/split_moving"
     distance_threshold = 0.5
-    data_dir = "../../datasets/split_moving"
+
+    seq_len = obs_len + pred_len
+
     print("Processing dataset :")
-    for dset in os.listdir(data_dir):
+    for dset in os.listdir(datasets_dir):
         print("\t{}".format(dset))
-        split(os.path.join(data_dir, dset))
+        split(os.path.join(datasets_dir, dset))
