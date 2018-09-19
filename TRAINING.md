@@ -10,14 +10,20 @@ bash scripts/download_data.sh
 This will create the directory `datasets/<dataset_name>` with train/ val/ and test/ splits. All the datasets are pre-processed to be in world coordinates i.e. in meters. We support five datasets ETH, ZARA1, ZARA2, HOTEL and UNIV. We use leave-one-out approach, train on 4 sets and test on the remaining set. We observe the trajectory for 8 times steps (3.2 seconds) and show prediction results for 8 (3.2 seconds) and 12 (4.8 seconds) time steps.
 
 ## Step 2: Train a model
-
-Now you can train a new model by running the script:
+###Sgan
+You can train a new model by running the script:
 
 ```bash
 python scripts/train.py
 ```
+###Cnn
+You can train a new model by running
+```bash
+python scripts/train_cnn.py
+```
+To train on all datasets and get evaluation results, use the script `automated_run_cnn_all_datasets.sh`. This will run `automated_run_traj_cnn.sh` on every dataset. 
 
-By default this will train a model on Zara1, periodically saving checkpoint files `checkpoint_with_model.pt` and `checkpoint_no_model.pt` to the current working directory. The training script has a number of command-line flags that you can use to configure the model architecture, hyperparameters, and input / output settings:
+The training scripts have a number of command-line flags that you can use to configure the model architecture, hyperparameters, and input / output settings:
 ### Optimization
 
 - `--batch_size`: How many sequences to use in each minibatch during training. Default is 64.
@@ -34,13 +40,14 @@ By default this will train a model on Zara1, periodically saving checkpoint file
 - `--skip`: Number of frames to skip while making the dataset. For e.g. if Sequence<sub>1</sub> in the dataset is from Frame<sub>1</sub> - Frame<sub>N</sub> and skip = 2. Then Sequence<sub>2</sub> will be from Frame<sub>3</sub> - Frame<sub>N+2</sub>. Default is 1.
 
 ### Model options
+####Sgan
 Our model consists of three components 1) Generator 2) Pooling Module 3) Discriminator. These flags control the architecture hyperparameters for both generator and discriminator.
-- `--moving_threshold`: Predict non-moving pedestrians to stand still.
 - `--embedding_dim`: Integer giving the dimension for the embedding layer for input (x, y) coordinates. Default is 64.
 - `--num_layers`: Number of layers in LSTM. We only support num_layers = 1.
 - `--dropout`: Float value specifying the amount of dropout. Default is 0 (no dropout).
 - `--batch_norm`: Boolean flag indicating if MLP has batch norm. Default is False.
 - `--mlp_dim`: Integer giving the dimensions of the MLP. Default is 1024.
+- `--moving_threshold`: Threshold under which non-moving pedestrians will be predicted to stand still. Default is 0.
 We use the same mlp options across all three components of the model.
 
 **Generator Options**: The generator takes as input all the trajectories for a given sequence and jointly predicts socially acceptable trajectories. These flags control architecture hyperparameters specific to the generator:
@@ -66,6 +73,11 @@ We use the same mlp options across all three components of the model.
 - `--d_learning_rate`: Learning rate for the discriminator. Default is 5e-4.
 - `--d_steps`: An iteration consists of d_steps forward backward pass on the generator. Default is 2.
 - `--clipping_threshold_d`: Float value indicating the threshold at which the gradients should be clipped. Default is 0.
+
+####Cnn
+- `--embedding_dim`: Integer giving the dimension for the embedding layer for input (x, y) coordinates. Default is 64.
+- `--moving_threshold`: Threshold under which non-moving pedestrians will be predicted to stand still. Default is 0.
+- `--num_layers`: Number of layers in CNN. Default is 4.
 
 ### Output Options
 These flags control outputs from the training script:
