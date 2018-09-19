@@ -1,16 +1,14 @@
-# Social GAN
-
-This repo contains is built off of the SGAN repository found <a href=https://github.com/agrimgupta92/sgan/tree/master/>here</a>.
+This repo is built off of the SGAN repository found <a href=https://github.com/agrimgupta92/sgan/tree/master/>here</a>.
 
 ## Model
-###Sgan
+### Sgan
 Our model consists of three key components: Generator (G), Pooling Module (PM) and Discriminator (D). G is based on encoder-decoder framework where we link the hidden states of encoder and decoder via PM. G takes as input trajectories of all people involved in a scene and outputs corresponding predicted trajectories. D inputs the entire sequence comprising both input trajectory and future prediction and classifies them as “real/fake”.
 
 <div align='center'>
   <img src='images/model.png' width='1000px'>
 </div>
 
-#Cnn
+### Cnn
 Cnn used for trajectory prediction, you can find the exact specifications <a href=https://arxiv.org/abs/1809.00696>here</a>.
 
 ## Setup
@@ -36,7 +34,7 @@ You can download pretrained sgan models by running the script `bash scripts/down
 Please refer to [Model Zoo](MODEL_ZOO.md) for results.
 
 ## Running Models
-###Sgan
+### Sgan
 You can use the script `scripts/evaluate_model.py` to easily run any of the pretrained models on any of the datsets. For example you can replicate the Table 1 results for all datasets for SGAN-20V-20 like this:
 
 ```bash
@@ -44,7 +42,7 @@ python scripts/evaluate_model.py \
   --model_path models/sgan-models
 ```
 
-###Cnn
+### Cnn
 You can use the script `scripts/evaluate_cnn.py` to run any of the cnn models.
 Since the moving threshold is only active during eval time, you can change it by using the arguments `--force_new_moving_threshold` and `--threshold` if you want to change from the threshold specified during training.
 
