@@ -1,6 +1,6 @@
-import numpy as np
 import os
 import sys
+import numpy as np
 import cv2 as cv
 import pandas as pd
 from attrdict import AttrDict
@@ -50,14 +50,20 @@ def get_generator_cnn(checkpoint):
     generator.eval()
     return generator
 
-def get_generator_cnn_moving(checkpoint):
+def get_generator_cnn_threshold(checkpoint):
     args = AttrDict(checkpoint['args'])
+    if not hasattr(args, "threshold"):
+        threshold = 0.5
+    else:
+        threshold=args.threshold
+
     generator = TrajEstimatorThreshold(
         obs_len=args.obs_len,
         pred_len=args.pred_len,
         embedding_dim=args.embedding_dim,
         encoder_h_dim=args.encoder_h_dim_g,
         num_layers=args.num_layers,
+        threshold=threshold,
         dropout=args.dropout)
     generator.load_state_dict(checkpoint['g_best_state'])
     generator.cuda()
@@ -185,6 +191,8 @@ def get_trajs(frame, step=10):
                 ped_id = id_list[i]
                 trajs_[ped_id][key] = pred_abs_reorder[i]
         return trajs_
+    else:
+        return None
 
 
 def get_paths(dset_):
@@ -192,7 +200,7 @@ def get_paths(dset_):
 
     if dset_.split("/")[0] == "split_moving":
         dset = dset_.split("/")[1]
-        model_path_us = os.path.join("scripts/save/", (dset_ + "_100epoch_with_model.pt"))
+        model_path_us = os.path.join("scripts/save/", (dset_ + "_50epoch_with_model.pt"))
         model_path_sgan = "models/sgan-p-models/" + dset + "_12_model.pt"
         if model_path_sgan.split("/")[1] == "sgan-p-models":
             out_vid_path = "visualization/" + dset + "_" + dset_.split("/")[-1] + "_sgan-p.mp4"
@@ -251,10 +259,10 @@ def get_paths(dset_):
 if __name__ == "__main__":
     #paths are relative from sgan dir
     os.chdir("../../")
-    dataset = "eth"
+    dataset = "hotel"
     obs_len = 8
     pred_len = 12
-    color_dict = {"obs": (0, 0, 0), "pred_cnn": (250, 250, 0), "pred_cnn_moving": (250, 250, 250), "pred_gt": (0, 250, 0), "pred_sgan": (0,0,250)}
+    color_dict = {"obs": (0, 0, 0), "pred_cnn": (250, 250, 0), "pred_cnn_threshold": (250, 250, 250), "pred_gt": (0, 250, 0), "pred_sgan": (0,0,250)}
 
     paths = get_paths(dataset)
 
@@ -266,9 +274,9 @@ if __name__ == "__main__":
     models = {}
     checkpoint_cnn = torch.load(paths["model_us"])
     models["cnn"] = get_generator_cnn(checkpoint_cnn)
-    models["cnn_moving"] = get_generator_cnn_moving(checkpoint_cnn)
+    models["cnn_threshold"] = get_generator_cnn_threshold(checkpoint_cnn)
     checkpoint_sgan =  torch.load(paths["model_sgan"])
-    models["sgan"] = get_generator_sgan(checkpoint_sgan )
+    models["sgan"] = get_generator_sgan(checkpoint_sgan)
 
     print("Loading data.")
     data = pd.read_csv(paths["test_dataset"], sep="\t", header=None)
