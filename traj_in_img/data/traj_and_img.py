@@ -67,7 +67,7 @@ def trajs_to_map(obs_map_and_shape, obs_traj, pred_traj, step=12):
 
     #remove duplicates
     #unique sorts, we have to recreate array using indexes
-    obs_stop = (obs_len-1)*step
+    obs_stop = obs_len*step
     traj_pixval_obs = traj_pixval[:, :obs_stop]
     traj_pixval_pred = traj_pixval[:, obs_stop:]
     _, pixval_obs_index = np.unique(traj_pixval_obs, axis=1, return_index=True)
@@ -75,7 +75,7 @@ def trajs_to_map(obs_map_and_shape, obs_traj, pred_traj, step=12):
     _, pixval_pred_index = np.unique(traj_pixval_pred, axis=1, return_index=True)
     traj_pixval_pred = traj_pixval_pred[:, sorted(pixval_pred_index)]
     #we want it to start from 2 so the rescaling doesn't darken the image too much
-    traj_pixval_pred[-1, :] -= 7
+    traj_pixval_pred[-1, :] -= 8
 
     #remove predictions or observations that go out of image
     obs_mask = traj_pixval_obs[:-1, :] < boundaries
